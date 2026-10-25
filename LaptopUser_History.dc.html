@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>History on laptop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F3EE}
+button,input{font-family:inherit}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <nav aria-label="Main" style="flex:1 1 220px;max-width:100%;box-sizing:border-box;background:#14213D;color:#FFFFFF;padding:24px 14px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px">
+      <span style="width:36px;height:36px;border-radius:10px;background:#0F766E;display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h10l3 3v13H6z"></path><path d="M9 10h7M9 14h7M9 18h4"></path></svg>
+      </span>
+      <span style="font-size:17px;font-weight:800">Executive Log</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <a href="LaptopUser_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>My logs</a>
+      <a href="LaptopUser_Contacts.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+      <a href="LaptopUser_Followups.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+      <a href="LaptopUser_History.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 0;border-top:1px solid #2A3A5C">
+      <span style="width:36px;height:36px;border-radius:18px;background:#E8E4F5;color:#3F2F8F;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">SA</span>
+      <div style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700">Sara Ahmed</span><span style="font-size:12px;color:#C9D1DE">Your logs and shared ones</span></div>
+    </div>
+  </nav>
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Your logs and shared ones, past and upcoming</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">History</h1>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <div style="position:relative;flex:1 1 300px">
+          <label for="hq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search all dates</label>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:14px;top:13px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="hq" placeholder="Search all dates: title, person, company" style="width:100%;height:44px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px 0 42px;font-size:14px;background:#FFFFFF;color:#14213D">
+        </div>
+        <a href="LaptopUser_AddLog.dc.html" style="height:44px;padding:0 18px 0 14px;border-radius:12px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add log</a>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px;display:flex;align-items:center;gap:10px">
+      <button onClick="{{prev}}" aria-label="Previous day" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </button>
+      <div style="flex:1;min-width:0;display:flex;gap:6px">
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+          <button onClick="{{d.pick}}" aria-label="{{d.aria}}" aria-pressed="{{d.on}}" style="flex:1;min-width:0;height:66px;border-radius:14px;border:1px solid {{d.border}};background:{{d.bg}};color:{{d.fg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;cursor:pointer">
+            <span style="font-size:11.5px;font-weight:600">{{d.dow}}</span>
+            <span style="font-size:17px;font-weight:800;text-decoration:{{d.deco}};text-underline-offset:3px">{{d.num}}</span>
+            <span style="font-size:11px;font-weight:600;color:{{d.countFg}}">{{d.countLabel}}</span>
+          </button>
+        </sc-for>
+      </div>
+      <button onClick="{{next}}" aria-label="Next day" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:20px;font-weight:800">{{dateLabel}}</span>
+        <span style="font-size:13px;font-weight:700;color:{{relColor}}">{{relLabel}}</span>
+      </div>
+      <div style="flex:0 1 auto;display:flex;align-items:center;gap:8px;font-size:13px;color:#0B5C55;font-weight:600;align-self:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 018 0v3"></path></svg><span>Only your own logs and logs others shared with you</span></div>
+      </div>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{types}}" as="t" hint-placeholder-count="4">
+          <button onClick="{{t.pick}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid {{t.border}};background:{{t.bg}};color:{{t.fg}};font-weight:600;font-size:13px;cursor:pointer">{{t.label}}</button>
+        </sc-for>
+      </div>
+      <button onClick="{{goToday}}" style="min-height:44px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:13px;padding:0 4px;cursor:pointer">Jump to today</button>
+    </div>
+
+    <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
+      <div style="min-width:760px;display:flex;flex-direction:column">
+        <div style="display:flex;gap:14px;padding:10px 18px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+          <span style="width:52px;flex:none">TIME</span>
+          <span style="width:80px;flex:none">TYPE</span>
+          <span style="flex:2;min-width:0">TITLE</span>
+          <span style="flex:1.5;min-width:0">PEOPLE</span>
+          <span style="width:150px;flex:none">LOGGED BY</span>
+          <span style="width:150px;flex:none;text-align:right">STATUS</span>
+        </div>
+        <sc-for list="{{logs}}" as="log" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid #EFEBE2;min-height:44px">
+            <span style="width:52px;flex:none;font-size:13px;font-weight:700;color:#5B6472">{{log.time}}</span>
+            <span style="width:80px;flex:none;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">{{log.type}}</span>
+            <a href="LaptopUser_Today.dc.html" style="flex:2;min-width:0;font-size:14.5px;font-weight:700;color:#14213D">{{log.title}}</a>
+            <span style="flex:1.5;min-width:0;font-size:13px;color:#5B6472;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{log.people}}</span>
+            <span style="width:150px;flex:none;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#3D4654">
+              <span style="width:26px;height:26px;border-radius:13px;background:{{log.avBg}};color:{{log.avFg}};font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{log.ini}}</span>{{log.full}}</span>
+            <span style="width:150px;flex:none;display:flex;justify-content:flex-end;align-items:center;gap:8px">
+              <sc-if value="{{log.canMark}}" hint-placeholder-val="{{false}}">
+                <button onClick="{{log.markDone}}" style="height:34px;padding:0 12px;border-radius:10px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:12.5px;cursor:pointer">Mark done</button>
+              </sc-if>
+              <span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{log.badgeBg}};color:{{log.badgeFg}}">{{log.status}}</span>
+            </span>
+          </div>
+        </sc-for>
+        <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+          <div style="padding:28px 18px;display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center">
+            <span style="font-size:15px;font-weight:700">{{emptyTitle}}</span>
+            <span style="font-size:13px;color:#5B6472">{{emptyHint}}</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 0, scope: 'Everyone', type: 'All', marked: {} };
+  }
+  renderVals() {
+    const st = this.state;
+    const sel = st.sel;
+    const scope = st.scope;
+    const done = { status: 'Done', badgeBg: '#DDF1EE', badgeFg: '#0B5C55' };
+    const plan = { status: 'Planned', badgeBg: '#FDF0DC', badgeFg: '#8A4B08' };
+    const av = {
+      Admin: { avBg: '#14213D', avFg: '#FFFFFF', ini: 'AD', full: 'Admin' },
+      Sara: { avBg: '#E8E4F5', avFg: '#3F2F8F', ini: 'SA', full: 'Sara Ahmed' },
+      Rahul: { avBg: '#FDE7E1', avFg: '#9A3412', ini: 'RM', full: 'Rahul Menon' }
+    };
+    const L = (time, type, title, people, owner, s, sh) => ({ time, type, title, people, owner, sh: !!sh, ...(s === 'D' ? done : plan), ...av[owner] });
+    const data = {
+      '-6': [L('09:00', 'MEETING', 'Weekly leadership sync', 'Layla Haddad, Omar Rashid', 'Sara', 'D'), L('14:00', 'EMAIL', 'Press statement approved', 'Priya Nair', 'Rahul', 'D', 'S')],
+      '-5': [L('11:00', 'CALL', 'Auditor check-in', 'Samir Qadri', 'Rahul', 'D')],
+      '-4': [L('10:00', 'MEETING', 'Bank relationship review', 'Rania Obeid', 'Sara', 'D'), L('13:30', 'TRAVEL', 'Riyadh trip hotel confirmed', 'Travel desk', 'Rahul', 'D')],
+      '-1': [L('09:30', 'MEETING', 'Strategy offsite planning', 'Omar Rashid', 'Sara', 'D'), L('11:00', 'CALL', 'Ministry liaison call', 'Mariam Al Ketbi', 'Rahul', 'D'), L('15:00', 'EMAIL', 'Board agenda circulated', 'Layla Haddad', 'Sara', 'D'), L('17:00', 'TASK', 'Reviewed quarterly numbers', 'Finance team', 'Admin', 'D')],
+      '0': [L('09:00', 'MEETING', 'Board prep with CFO', 'Layla Haddad, Omar Rashid', 'Sara', 'D'), L('10:30', 'CALL', 'Investor update call', 'Daniel Wright · Northgate Capital', 'Sara', 'D'), L('11:15', 'TASK', 'Visa renewal documents submitted', 'Immigration desk', 'Rahul', 'D'), L('12:00', 'EMAIL', 'Term sheet response sent', 'Priya Nair', 'Rahul', 'D', 'S'), L('13:00', 'CALL', 'Quick call with the Chairman', 'Chairman’s office', 'Admin', 'D'), L('14:00', 'MEETING', 'Vendor contract review', 'Karim Fadel · Gulf Logistics', 'Sara', 'P'), L('16:30', 'TRAVEL', 'Airport transfer, flight EK 204', 'Driver: Sajid', 'Rahul', 'P')],
+      '1': [L('09:00', 'MEETING', 'Quarterly review with CFO', 'Layla Haddad', 'Sara', 'P'), L('11:30', 'CALL', 'Ministry briefing call', 'Mariam Al Ketbi', 'Rahul', 'P', 'S'), L('15:00', 'TRAVEL', 'Flight to Riyadh', 'Driver: Sajid', 'Rahul', 'P')],
+      '2': [L('10:00', 'MEETING', 'Board meeting', 'Board members', 'Sara', 'P'), L('13:00', 'CALL', 'Chairman catch-up', 'Chairman’s office', 'Admin', 'P')],
+      '4': [L('12:30', 'MEETING', 'Investor lunch', 'Daniel Wright · Northgate Capital', 'Sara', 'P')]
+    };
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const at = (o) => new Date(2026, 9, 20 + o);
+    const rel = (o) => o === 0 ? 'Today' : o === -1 ? 'Yesterday' : o === 1 ? 'Tomorrow' : o < 0 ? (-o) + ' days ago' : 'In ' + o + ' days';
+    const forDay = (o) => (data[String(o)] || []);
+    const mine = (l) => l.owner === 'Sara' || l.sh;
+    const days = [-3, -2, -1, 0, 1, 2, 3].map((k) => {
+      const o = sel + k;
+      const d = at(o);
+      const on = k === 0;
+      const n = forDay(o).filter(mine).length;
+      return {
+        dow: DOW[d.getDay()], num: d.getDate(), on,
+        aria: LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ', ' + n + ' logs',
+        bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#E6E2D8',
+        deco: o === 0 ? 'underline' : 'none',
+        countLabel: n === 0 ? '–' : n + (n === 1 ? ' log' : ' logs'),
+        countFg: on ? '#FFFFFF' : (o > 0 ? '#8A4B08' : '#5B6472'),
+        pick: () => this.setState({ sel: o })
+      };
+    });
+    const dayAll = forDay(sel);
+    const scopes = [['Everyone', 'Everyone'], ['Sara', 'Sara Ahmed'], ['Rahul', 'Rahul Menon'], ['Admin', 'Admin']].map(([key, label]) => {
+      const on = key === scope;
+      return {
+        label, on, count: dayAll.filter((l) => key === 'Everyone' || l.owner === key).length,
+        bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0B5C55' : '#3D4654', shadow: on ? '0 1px 3px rgba(20,33,61,0.18)' : 'none',
+        pick: () => this.setState({ scope: key })
+      };
+    });
+    const types = ['All', 'Meetings', 'Calls', 'Email'].map((t) => {
+      const on = t === st.type;
+      return { label: t, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB', pick: () => this.setState({ type: t }) };
+    });
+    const typeKey = { Meetings: 'MEETING', Calls: 'CALL', Email: 'EMAIL' };
+    const logs = dayAll.filter(mine).filter((l) => st.type === 'All' || l.type === typeKey[st.type]).map((l) => {
+      const id = l.time + l.title + sel;
+      const b = l.status === 'Planned' && st.marked[id] ? { ...l, ...done } : l;
+      return { ...b, canMark: b.status === 'Planned' && sel <= 0, markDone: () => this.setState({ marked: { ...st.marked, [id]: true } }) };
+    });
+    const d0 = at(sel);
+    const future = sel > 0;
+    return {
+      days, scopes, types, logs,
+      dateLabel: LONG[d0.getDay()] + ', ' + d0.getDate() + ' ' + MON[d0.getMonth()],
+      relLabel: rel(sel) + ' · ' + logs.length + (logs.length === 1 ? ' log' : ' logs'),
+      relColor: future ? '#8A4B08' : '#0B5C55',
+      prev: () => this.setState({ sel: sel - 1 }),
+      next: () => this.setState({ sel: sel + 1 }),
+      goToday: () => this.setState({ sel: 0 }),
+      isEmpty: logs.length === 0,
+      emptyTitle: future ? 'Nothing scheduled yet' : 'No logs on this day',
+      emptyHint: future ? 'Use Add log to plan a meeting or call ahead of time.' : 'Missed something? Use Add log to back-fill it with the right date.'
+    };
+  }
+}
+</script>
+</body>
+</html>

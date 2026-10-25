@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My Follow-ups</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none;color:inherit}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 12px;display:flex;flex-direction:column;gap:4px">
+    <span style="font-size:13px;color:#5B6472;font-weight:500">{{roleLine}}</span>
+    <span style="font-size:26px;font-weight:800;letter-spacing:-0.5px">My follow-ups</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 20px">
+    <div style="background:#FDE7E1;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column">
+      <span style="font-size:22px;font-weight:800;color:#9A3412">{{overdueCount}}</span><span style="font-size:12px;color:#9A3412;font-weight:600">Overdue</span>
+    </div>
+    <div style="background:#FDF0DC;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column">
+      <span style="font-size:22px;font-weight:800;color:#8A4B08">{{todayCount}}</span><span style="font-size:12px;color:#8A4B08;font-weight:600">Due today</span>
+    </div>
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column">
+      <span style="font-size:22px;font-weight:800">{{openCount}}</span><span style="font-size:12px;color:#5B6472;font-weight:500">Open</span>
+    </div>
+  </div>
+
+  <div style="margin:14px 20px 0;background:#E4E7EC;border-radius:12px;padding:3px;display:flex">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+      <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="flex:1;height:44px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13px">{{t.label}}</button>
+    </sc-for>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:10px 20px 20px;display:flex;flex-direction:column;gap:8px">
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#DDF1EE;border-radius:14px;padding:6px 6px 6px 12px;display:flex;align-items:center;gap:8px">
+        <span style="flex:1;font-size:13px;color:#0B5C55;font-weight:600;line-height:1.4"><b>Added to the log:</b> {{banner}}</span>
+        <a href="User_History.dc.html" style="min-height:40px;padding:0 12px;border-radius:10px;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px;display:flex;align-items:center">View</a>
+      </div>
+    </sc-if>
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+      <sc-if value="{{r.isHeader}}" hint-placeholder-val="{{false}}">
+        <span style="font-size:12px;font-weight:700;color:{{r.color}};letter-spacing:0.6px;padding-top:6px">{{r.text}}</span>
+      </sc-if>
+      <sc-if value="{{r.isRow}}" hint-placeholder-val="{{true}}">
+        <div style="display:flex;align-items:flex-start;gap:4px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:4px 12px 10px 4px">
+          <button onClick="{{r.toggle}}" aria-label="{{r.aria}}" style="width:44px;height:44px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;flex:none;padding:0">
+            <span style="width:24px;height:24px;border-radius:12px;border:2px solid #0F766E;background:{{r.boxBg}};display:flex;align-items:center;justify-content:center">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{r.tick}}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>
+            </span>
+          </button>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding-top:11px">
+            <span style="font-size:15px;font-weight:700;line-height:1.3;text-decoration:{{r.deco}}">{{r.title}}</span>
+            <a href="User_LogDetail.dc.html" style="font-size:12.5px;color:#5B6472;line-height:1.4;min-height:20px">From: {{r.source}} · {{r.who}}</a>
+            <sc-if value="{{r.hasNote}}" hint-placeholder-val="{{false}}">
+              <span style="font-size:12.5px;color:#14213D;background:#F5F3EE;border-radius:8px;padding:6px 8px;line-height:1.4">{{r.noteText}}</span>
+            </sc-if>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{r.chipBg}};color:{{r.chipFg}}">{{r.chip}}</span>
+              <sc-if value="{{r.showOwner}}" hint-placeholder-val="{{true}}">
+                <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:#5B6472;font-weight:600">
+                  <span style="min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:{{r.avBg}};color:{{r.avFg}};font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center">{{r.ini}}</span>
+                  {{r.full}}
+                </span>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </sc-for>
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+      <div style="background:#FFFFFF;border:1px dashed #D9D5CB;border-radius:16px;padding:24px 18px;display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center">
+        <span style="font-size:15px;font-weight:700">{{emptyTitle}}</span>
+        <span style="font-size:12.5px;color:#5B6472;line-height:1.4">{{emptyHint}}</span>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(20,33,61,0.45);display:flex;flex-direction:column;justify-content:flex-end;z-index:5">
+      <div role="dialog" aria-label="Complete follow-up" style="background:#FFFFFF;border-radius:24px 24px 0 0;padding:20px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:18px;font-weight:800">Complete follow-up</span>
+          <button onClick="{{cancelSheet}}" aria-label="Close" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div style="background:#F5F3EE;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:14.5px;font-weight:700">{{sheetTitle}}</span>
+          <span style="font-size:12px;color:#5B6472">From: {{sheetFrom}}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="fuNote" style="font-size:12px;font-weight:700;color:#5B6472">What happened? (required)</label>
+          <textarea id="fuNote" value="{{note}}" onChange="{{typed}}" placeholder="e.g. Sent version 3 of the SLA. Karim will reply by Monday." style="height:96px;box-sizing:border-box;border:2px solid #0F766E;border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#14213D;resize:none"></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;font-weight:700;color:#5B6472">How was it done?</span>
+          <div style="display:flex;gap:6px">
+            <sc-for list="{{ltypes}}" as="t" hint-placeholder-count="4">
+              <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="flex:1;height:40px;border-radius:10px;border:1px solid {{t.border}};background:{{t.bg}};color:{{t.fg}};font-weight:700;font-size:13px">{{t.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+        <span style="font-size:12px;color:#5B6472;line-height:1.4">Saved as a new log for today, linked to the original log and its contacts.</span>
+        <button onClick="{{save}}" disabled="{{saveDisabled}}" style="height:52px;border-radius:14px;border:none;background:{{saveBg}};color:#FFFFFF;font-weight:700;font-size:15px">Complete and add to log</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 8px 8px;box-sizing:border-box">
+    <a href="{{todayHref}}" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Today</a>
+    <a href="User_Contacts.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+    <a href="{{followHref}}" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+    <a href="{{historyHref}}" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"me":{"editor":"enum","options":["Sara","Rahul"],"default":"Sara","section":"Preview"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'Open', scope: 'Everyone', completed: {}, closing: null, note: '', ltype: 'Task', notes: {}, banner: '' };
+  }
+  renderVals() {
+    const role = this.props.me ?? 'Sara';
+    const isAdmin = role === 'Admin';
+    const scope = isAdmin ? this.state.scope : role;
+    const av = {
+      Admin: { avBg: '#14213D', avFg: '#FFFFFF', ini: 'AD', full: 'Admin' },
+      Sara: { avBg: '#E8E4F5', avFg: '#3F2F8F', ini: 'SA', full: 'Sara Ahmed' },
+      Rahul: { avBg: '#FDE7E1', avFg: '#9A3412', ini: 'RM', full: 'Rahul Menon' }
+    };
+    // due = days from today (20 Oct); negative = overdue
+    const open = [
+      { id: 'f4', title: 'Share audit queries with the CFO', source: 'Auditor check-in', who: 'Samir Qadri', owner: 'Rahul', due: -3 },
+      { id: 'f3', title: 'Confirm Ministry meeting minutes', source: 'Ministry liaison call', who: 'Mariam Al Ketbi', owner: 'Rahul', due: -2 },
+      { id: 'f2', title: 'Reply to Northgate on term sheet comments', source: 'Term sheet response sent', who: 'Priya Nair', owner: 'Rahul', due: 0 },
+      { id: 'f6', title: 'Confirm driver for airport pickup', source: 'Airport transfer', who: 'Driver: Sajid', owner: 'Rahul', due: 1 },
+      { id: 'f5', title: 'Prepare board pack for 22 Oct', source: 'Board agenda circulated', who: 'Layla Haddad', owner: 'Sara', due: 2 },
+      { id: 'f1', title: 'Send revised SLA terms to Karim', source: 'Vendor contract review', who: 'Karim Fadel', owner: 'Sara', due: 4 }
+    ];
+    const doneList = [
+      { id: 'c1', title: 'Send NDA to Gulf Logistics', source: 'Vendor kickoff call', who: 'Amal Mansoor', owner: 'Sara', stamp: 'Completed 19 Oct', note: 'NDA sent. Signed copy came back the same day.' },
+      { id: 'c2', title: 'Update visa tracker', source: 'Visa renewal documents submitted', who: 'Immigration desk', owner: 'Rahul', stamp: 'Completed 18 Oct', note: 'Tracker updated with the new expiry dates.' }
+    ];
+    const done = this.state.completed;
+    const tab = this.state.tab;
+    const inScope = (f) => scope === 'Everyone' || f.owner === scope;
+    const dateOf = (n) => new Date(2026, 9, 20 + n).getDate() + ' Oct';
+    const stillOpen = open.filter((f) => !done[f.id]);
+    const finished = doneList.concat(open.filter((f) => done[f.id]).map((f) => ({ ...f, stamp: 'Completed today', note: this.state.notes[f.id] })));
+
+    const scoped = stillOpen.filter(inScope);
+    const rows = [];
+    if (tab === 'Open') {
+      const groups = [
+        { text: 'OVERDUE', color: '#9A3412', items: scoped.filter((f) => f.due < 0) },
+        { text: 'DUE TODAY', color: '#8A4B08', items: scoped.filter((f) => f.due === 0) },
+        { text: 'UPCOMING', color: '#5B6472', items: scoped.filter((f) => f.due > 0) }
+      ];
+      groups.forEach((g) => {
+        if (!g.items.length) return;
+        rows.push({ isHeader: true, isRow: false, text: g.text + ' · ' + g.items.length, color: g.color });
+        g.items.forEach((f) => {
+          const chip = f.due < 0 ? (-f.due) + (f.due === -1 ? ' day overdue' : ' days overdue') : f.due === 0 ? 'Due today' : 'Due ' + dateOf(f.due);
+          const c = f.due < 0 ? { bg: '#FDE7E1', fg: '#9A3412' } : f.due === 0 ? { bg: '#FDF0DC', fg: '#8A4B08' } : { bg: '#EFEBE2', fg: '#14213D' };
+          rows.push({
+            isHeader: false, isRow: true, showOwner: isAdmin, title: f.title, source: f.source, who: f.who, owner: f.owner, ...av[f.owner],
+            chip, chipBg: c.bg, chipFg: c.fg, deco: 'none', boxBg: '#FFFFFF', tick: 'transparent',
+            aria: 'Complete: ' + f.title,
+            hasNote: false, noteText: '',
+            toggle: () => this.setState({ closing: f.id, note: '', ltype: 'Task' })
+          });
+        });
+      });
+    } else {
+      finished.filter(inScope).forEach((f) => {
+        rows.push({
+          isHeader: false, isRow: true, showOwner: isAdmin, title: f.title, source: f.source, who: f.who, owner: f.owner, ...av[f.owner],
+          chip: f.stamp, chipBg: '#DDF1EE', chipFg: '#0B5C55', deco: 'line-through', boxBg: '#0F766E', tick: '#FFFFFF',
+          aria: 'Reopen: ' + f.title, hasNote: !!f.note, noteText: f.note || '',
+          toggle: () => { if (done[f.id]) { const n = { ...done }; delete n[f.id]; this.setState({ completed: n }); } }
+        });
+      });
+    }
+    const tabs = [
+      { label: 'Open · ' + stillOpen.filter(inScope).length, key: 'Open' },
+      { label: 'Completed · ' + finished.filter(inScope).length, key: 'Completed' }
+    ].map((t) => ({
+      label: t.label, on: tab === t.key,
+      bg: tab === t.key ? '#FFFFFF' : 'transparent', weight: tab === t.key ? 800 : 600,
+      pick: () => this.setState({ tab: t.key })
+    }));
+    const scopeDefs = [
+      { key: 'Everyone', label: 'Everyone', initials: 'ALL' },
+      { key: 'Sara', label: 'Sara', initials: 'Sara' },
+      { key: 'Rahul', label: 'Rahul', initials: 'Rahul' },
+      { key: 'Admin', label: 'My own', initials: 'ME' }
+    ];
+    const scopes = scopeDefs.map((s) => {
+      const on = s.key === scope;
+      const a = av[s.key] || { avBg: '#DDF1EE', avFg: '#0B5C55' };
+      return {
+        label: s.label, initials: s.initials,
+        count: stillOpen.filter((f) => s.key === 'Everyone' || f.owner === s.key).length,
+        bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB',
+        avBg: on ? '#FFFFFF' : a.avBg, avFg: on ? '#0B5C55' : a.avFg,
+        pick: () => this.setState({ scope: s.key })
+      };
+    });
+
+    const closingF = open.find((f) => f.id === this.state.closing);
+    const noteOk = (this.state.note || '').trim().length > 0;
+    const ltypes = ['Call', 'Email', 'Meeting', 'Task'].map((t) => {
+      const on = this.state.ltype === t;
+      return { label: t, on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB', pick: () => this.setState({ ltype: t }) };
+    });
+    const sheet = {
+      sheetOpen: !!closingF, sheetTitle: closingF ? closingF.title : '', sheetFrom: closingF ? closingF.source + ' · ' + closingF.who : '',
+      note: this.state.note || '', typed: (e) => this.setState({ note: e.target.value }), ltypes,
+      saveDisabled: !noteOk, saveBg: noteOk ? '#0F766E' : '#9FB8B5',
+      save: () => {
+        if (!noteOk) return;
+        const id = this.state.closing;
+        this.setState({ completed: { ...this.state.completed, [id]: true }, notes: { ...this.state.notes, [id]: this.state.note.trim() }, closing: null, note: '', banner: closingF.title });
+      },
+      cancelSheet: () => this.setState({ closing: null, note: '' }),
+      hasBanner: !!this.state.banner, banner: this.state.banner || '', closeBanner: () => this.setState({ banner: '' })
+    };
+    return {
+      ...sheet,
+      isAdmin, rows, tabs, scopes,
+      roleLine: isAdmin ? 'Signed in as Admin · whole team' : 'Signed in as ' + role + ' · assigned to you',
+      overdueCount: scoped.filter((f) => f.due < 0).length,
+      todayCount: scoped.filter((f) => f.due === 0).length,
+      openCount: scoped.length,
+      todayHref: 'User_Today.dc.html',
+      historyHref: 'User_History.dc.html',
+      followHref: 'User_Followups.dc.html',
+      isEmpty: rows.length === 0,
+      emptyTitle: tab === 'Open' ? 'All caught up' : 'Nothing completed yet',
+      emptyHint: tab === 'Open' ? 'No open follow-ups here. New ones appear when a log is saved with “Needs follow-up”.' : 'Completed follow-ups will be listed here.'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bills on laptop</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F3EE}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <nav aria-label="Main" style="flex:1 1 220px;max-width:100%;box-sizing:border-box;background:#14213D;color:#FFFFFF;padding:24px 14px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px">
+      <span style="width:36px;height:36px;border-radius:10px;background:#0F766E;display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h10l3 3v13H6z"></path><path d="M9 10h7M9 14h7M9 18h4"></path></svg>
+      </span>
+      <span style="font-size:17px;font-weight:800">Executive Log</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <a href="Laptop_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Today</a>
+      <a href="Laptop_Contacts.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+      <a href="Laptop_Followups.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+      <a href="Laptop_History.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+      <a href="Laptop_IDs.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="2"></rect><circle cx="12" cy="11.5" r="3.5"></circle><path d="M12 8v1.2M12 13.8V15M8.5 11.5h1.2M14.3 11.5h1.2M6 19v2M18 19v2"></path></svg>Document Vault</a>
+      <a href="Laptop_Staff.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><path d="M16 4.6a3.5 3.5 0 010 6.8M18 14.8c1.8.8 3 2.6 3.5 5.2"></path></svg>Staff</a>
+      <a href="Laptop_Vehicles.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l2.2-5.2A2 2 0 018 5.5h8a2 2 0 011.8 1.3L20 12"></path><rect x="3" y="12" width="18" height="5" rx="1.5"></rect><path d="M6 17v2.5M18 17v2.5"></path><circle cx="7.5" cy="14.5" r="1"></circle><circle cx="16.5" cy="14.5" r="1"></circle></svg>Vehicles</a>
+      <a href="Laptop_Bills.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg>Bills</a>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 0;border-top:1px solid #2A3A5C">
+      <span style="width:36px;height:36px;border-radius:18px;background:#FFFFFF;color:#14213D;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">AD</span>
+      <div style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700">Admin</span><span style="font-size:12px;color:#C9D1DE">Sees the whole team</span></div>
+    </div>
+  </nav>
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Electricity, water, internet, mobiles and car lease</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Bills</h1>
+      </div>
+      <button style="height:44px;padding:0 18px 0 14px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add bill</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+      <div style="background:#FDE7E1;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#9A3412">{{overdue}}</span><span style="font-size:13px;font-weight:700;color:#9A3412">Overdue</span></div>
+      <div style="background:#FDF0DC;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#8A4B08">{{week}}</span><span style="font-size:13px;font-weight:700;color:#8A4B08">Due in the next 7 days</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#14213D">{{unpaidTotal}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Unpaid total</span></div>
+      <div style="background:#DDF1EE;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#0B5C55">{{paidMonth}}</span><span style="font-size:13px;font-weight:700;color:#0B5C55">Paid this month</span></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="Bills" style="flex:3 1 480px;min-width:0;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px;align-self:flex-start">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+            <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:38px;padding:0 18px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13.5px">{{t.label}}</button>
+          </sc-for>
+        </div>
+        <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
+          <div style="min-width:620px;display:flex;flex-direction:column">
+            <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+              <span style="flex:1.8;min-width:0">ACCOUNT</span><span style="width:90px;flex:none">MONTH</span><span style="width:80px;flex:none">DUE</span><span style="width:100px;flex:none;text-align:right">AMOUNT</span><span style="width:120px;flex:none;text-align:right">STATUS</span>
+            </div>
+            <sc-for list="{{list}}" as="b" hint-placeholder-count="4">
+              <button onClick="{{b.pick}}" aria-pressed="{{b.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{b.rowBg}};box-shadow:{{b.mark}};padding:10px 16px;display:flex;align-items:center;gap:12px;color:#14213D">
+                <span style="flex:1.8;min-width:0;display:flex;align-items:center;gap:10px">
+                  <span style="width:36px;height:36px;border-radius:10px;background:#EEF0F3;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{b.ini}}</span>
+                  <span style="display:flex;flex-direction:column;min-width:0"><span style="font-size:14px;font-weight:700">{{b.acc}}</span><span style="font-size:12px;color:#5B6472">{{b.type}}</span></span>
+                </span>
+                <span style="width:90px;flex:none;font-size:13px">{{b.month}}</span>
+                <span style="width:80px;flex:none;font-size:13px;color:#3D4654">{{b.dueText}}</span>
+                <span style="width:100px;flex:none;font-size:14px;font-weight:800;text-align:right">{{b.amountText}}</span>
+                <span style="width:120px;flex:none;display:flex;justify-content:flex-end"><span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{b.stBg}};color:{{b.stFg}}">{{b.status}}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+      <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+        <aside aria-label="Bill detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:2px"><h2 style="margin:0;font-size:21px;font-weight:800">{{s.acc}}</h2><span style="font-size:13px;color:#5B6472">{{s.provider}} · account {{s.number}}</span></div>
+          <div style="background:{{s.stBg}};border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:700;color:{{s.stFg}}">{{s.month}} bill</span><span style="font-size:24px;font-weight:800;color:{{s.stFg}}">{{s.amountText}}</span></span>
+            <span style="font-size:13px;font-weight:800;color:{{s.stFg}}">{{s.status}}</span>
+          </div>
+          <sc-if value="{{s.isUnpaid}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{s.markPaid}}" style="height:46px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:14px">Mark paid today</button>
+          </sc-if>
+          <span style="border:1px solid #E6E2D8;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 11h6M9 15h6"></path></svg>Bill_{{s.month}}.pdf</span>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">PAST BILLS FOR THIS ACCOUNT</span>
+            <sc-for list="{{history}}" as="h" hint-placeholder-count="2">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #EFEBE2;font-size:13px">
+                <span style="font-weight:700">{{h.month}}</span><span>{{h.amountText}}</span><span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{h.stBg}};color:{{h.stFg}}">{{h.status}}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{noHistory}}" hint-placeholder-val="{{false}}">
+              <span style="font-size:13px;color:#5B6472">No earlier bills saved.</span>
+            </sc-if>
+          </div>
+        </aside>
+      </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { tab: 'Unpaid', sel: 'b2', paidNow: {} }; }
+  renderVals() {
+    const today = new Date(2026, 9, 20);
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const D = (y, m, dd) => new Date(y, m - 1, dd);
+    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
+    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
+    const daysTo = (x) => Math.round((x - today) / 86400000);
+    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const expChip = (x) => {
+      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
+      const n = daysTo(x);
+      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
+      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    };
+    const accounts = {
+      a1: { acc: 'DEWA – Villa', type: 'Electricity and water', provider: 'DEWA', number: '20••••••5517', ini: 'EW' },
+      a2: { acc: 'du – Internet and TV', type: 'Internet and TV', provider: 'du', number: '0400••••88', ini: 'IN' },
+      a3: { acc: 'Empower – Chiller', type: 'Chiller', provider: 'Empower', number: 'EMP-••••-311', ini: 'CH' },
+      a4: { acc: 'Car lease – Nissan Patrol', type: 'Car lease', provider: 'Al Futtaim Leasing', number: 'LS-••••-902', ini: 'CL' },
+      a5: { acc: 'Etisalat – Mobiles', type: 'Mobile', provider: 'Etisalat', number: '05••••••40', ini: 'MB' }
+    };
+    const rawBills = [
+      { id: 'b1', a: 'a2', month: 'Oct 2026', amount: 399, due: D(2026, 10, 18), paid: null },
+      { id: 'b2', a: 'a1', month: 'Oct 2026', amount: 1840, due: D(2026, 10, 22), paid: null },
+      { id: 'b3', a: 'a3', month: 'Oct 2026', amount: 720, due: D(2026, 10, 28), paid: null },
+      { id: 'b4', a: 'a4', month: 'Nov 2026', amount: 3200, due: D(2026, 11, 1), paid: null },
+      { id: 'b5', a: 'a5', month: 'Oct 2026', amount: 650, due: D(2026, 10, 15), paid: D(2026, 10, 14) },
+      { id: 'b6', a: 'a4', month: 'Oct 2026', amount: 3200, due: D(2026, 10, 1), paid: D(2026, 10, 1) },
+      { id: 'b7', a: 'a1', month: 'Sep 2026', amount: 2105, due: D(2026, 9, 22), paid: D(2026, 9, 20) }
+    ];
+    const bills = rawBills.map((b) => {
+      const paid = b.paid || (this.state.paidNow[b.id] ? today : null);
+      const n = daysTo(b.due);
+      const t = paid ? tone.ok : n < 0 ? tone.bad : n <= 7 ? tone.warn : tone.none;
+      return {
+        ...b, ...accounts[b.a], paidOn: paid, isPaid: !!paid, isUnpaid: !paid, amountText: aed(b.amount), dueText: short(b.due),
+        status: paid ? 'Paid ' + short(paid) : n < 0 ? 'Overdue ' + (-n) + 'd' : n === 0 ? 'Due today' : 'Due in ' + n + 'd',
+        stBg: t[0], stFg: t[1], days: n,
+        markPaid: () => this.setState({ paidNow: { ...this.state.paidNow, [b.id]: true } })
+      };
+    });
+    const st = this.state;
+    const unpaid = bills.filter((b) => b.isUnpaid).sort((a, b) => a.days - b.days);
+    const paid = bills.filter((b) => b.isPaid).sort((a, b) => b.paidOn - a.paidOn);
+    const tabs = [['Unpaid', 'Unpaid · ' + unpaid.length], ['Paid', 'Paid · ' + paid.length]].map(([k, label]) => ({
+      label, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const list = (st.tab === 'Unpaid' ? unpaid : paid).map((b) => {
+      const on = b.id === st.sel;
+      return { ...b, on, rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none', pick: () => this.setState({ sel: b.id }) };
+    });
+    const s = list.find((b) => b.on) || list[0] || bills.find((b) => b.id === st.sel);
+    const history = s ? bills.filter((b) => b.a === s.a && b.id !== s.id) : [];
+    return {
+      tabs, list, s, hasSel: !!s, history, noHistory: history.length === 0,
+      overdue: unpaid.filter((b) => b.days < 0).length,
+      week: unpaid.filter((b) => b.days >= 0 && b.days <= 7).length,
+      unpaidTotal: aed(unpaid.reduce((n, b) => n + b.amount, 0)),
+      paidMonth: aed(paid.filter((b) => b.paidOn.getMonth() === 9).reduce((n, b) => n + b.amount, 0))
+    };
+  }
+}
+</script>
+</body>
+</html>

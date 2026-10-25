@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vehicle</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+  <div style="padding:28px 20px 8px;display:flex;align-items:center;justify-content:space-between">
+    <a href="Admin_Vehicles.dc.html" aria-label="Back to Vehicles" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <button style="height:44px;padding:0 18px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;font-weight:700;font-size:13px;color:#14213D">Edit</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:4px 20px 20px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:56px;height:56px;border-radius:14px;background:#EEF0F3;display:flex;align-items:center;justify-content:center;flex:none"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l2.2-5.2A2 2 0 018 5.5h8a2 2 0 011.8 1.3L20 12"></path><rect x="3" y="12" width="18" height="5" rx="1.5"></rect><path d="M6 17v2.5M18 17v2.5"></path><circle cx="7.5" cy="14.5" r="1"></circle><circle cx="16.5" cy="14.5" r="1"></circle></svg></span>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-size:22px;font-weight:800;letter-spacing:-0.3px">{{v.name}}</span>
+        <span style="font-size:13px;color:#5B6472">{{v.plate}}</span>
+        <span style="align-self:flex-start;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{v.ownBg}};color:{{v.ownFg}}">{{v.own}}</span>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:4px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:52px;border-bottom:1px solid #EFEBE2">
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;color:#5B6472;font-weight:600">Registration expires</span><span style="font-size:14px;font-weight:700">{{v.regText}}</span></span>
+        <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{v.regChip.chipBg}};color:{{v.regChip.chipFg}}">{{v.regChip.chip}}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:52px;border-bottom:1px solid #EFEBE2">
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;color:#5B6472;font-weight:600">Insurance expires</span><span style="font-size:14px;font-weight:700">{{v.insText}}</span></span>
+        <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{v.insChip.chipBg}};color:{{v.insChip.chipFg}}">{{v.insChip.chip}}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:52px">
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;color:#5B6472;font-weight:600">Driver</span><span style="font-size:14px;font-weight:700">{{driver}}</span></span>
+        <button onClick="{{assign}}" style="height:36px;padding:0 12px;border-radius:10px;border:1px solid #D9D5CB;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:12.5px">{{assignLabel}}</button>
+      </div>
+    </div>
+
+    <div style="background:#F0EDF9;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:12px;font-weight:700;color:#3F2F8F;letter-spacing:0.6px">LEASE</span>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;color:#5B6472;font-weight:600">Monthly payment</span><span style="font-size:15px;font-weight:800">{{v.leaseText}}</span></span>
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;color:#5B6472;font-weight:600">Lease ends</span><span style="font-size:15px;font-weight:800">{{v.leaseEndText}}</span></span>
+      </div>
+      <sc-for list="{{payments}}" as="b" hint-placeholder-count="2">
+        <div style="background:#FFFFFF;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px">
+          <span style="flex:1;display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700">{{b.month}} · {{b.amountText}}</span><span style="font-size:12px;color:#5B6472">Due {{b.dueText}}</span></span>
+          <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{b.stBg}};color:{{b.stFg}}">{{b.status}}</span>
+        </div>
+      </sc-for>
+      <a href="Admin_Bills.dc.html" style="min-height:40px;display:flex;align-items:center;font-size:13px;font-weight:700;color:#3F2F8F">Lease payments live in Bills</a>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="vnotes" style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">NOTES</label>
+      <textarea id="vnotes" style="height:64px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:10px 14px;font-size:14px;background:#FFFFFF;color:#14213D;resize:none">Service due at 60,000 km. Spare key in the office safe.</textarea>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { assigned: false, paidNow: {} }; }
+  renderVals() {
+    const today = new Date(2026, 9, 20);
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const D = (y, m, dd) => new Date(y, m - 1, dd);
+    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
+    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
+    const daysTo = (x) => Math.round((x - today) / 86400000);
+    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const expChip = (x) => {
+      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
+      const n = daysTo(x);
+      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
+      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    };
+    const vehicles = [
+      { id: 'v1', name: 'Toyota Land Cruiser', plate: 'Dubai A 12345', own: 'Owned', driver: 'Ravi Kumar', reg: D(2026, 11, 14), ins: D(2026, 11, 14), leaseEnd: null, lease: 0 },
+      { id: 'v2', name: 'Nissan Patrol', plate: 'Dubai K 55821', own: 'Leased', driver: '', reg: D(2027, 3, 3), ins: D(2027, 3, 3), leaseEnd: D(2027, 8, 31), lease: 3200 },
+      { id: 'v3', name: 'Mercedes-Benz S 500', plate: 'Dubai P 70771', own: 'Owned', driver: 'CEO', reg: D(2027, 6, 20), ins: D(2027, 6, 20), leaseEnd: null, lease: 0 }
+    ].map((v) => {
+      const r = expChip(v.reg), i = expChip(v.ins);
+      const worst = r.days <= i.days ? { ...r, what: 'Registration' } : { ...i, what: 'Insurance' };
+      return {
+        ...v, regText: fmt(v.reg), insText: fmt(v.ins), regChip: r, insChip: i,
+        driverText: v.driver || 'No driver assigned', isLeased: v.own === 'Leased',
+        leaseText: v.lease ? aed(v.lease) + ' / month' : '', leaseEndText: v.leaseEnd ? fmt(v.leaseEnd) : '',
+        chip: worst.days <= 90 ? worst.what + ' ' + worst.chip.toLowerCase() : 'All valid', chipBg: worst.chipBg, chipFg: worst.chipFg,
+        ownBg: v.own === 'Leased' ? '#E8E4F5' : '#EEF0F3', ownFg: v.own === 'Leased' ? '#3F2F8F' : '#3D4654'
+      };
+    });
+    const accounts = {
+      a1: { acc: 'DEWA – Villa', type: 'Electricity and water', provider: 'DEWA', number: '20••••••5517', ini: 'EW' },
+      a2: { acc: 'du – Internet and TV', type: 'Internet and TV', provider: 'du', number: '0400••••88', ini: 'IN' },
+      a3: { acc: 'Empower – Chiller', type: 'Chiller', provider: 'Empower', number: 'EMP-••••-311', ini: 'CH' },
+      a4: { acc: 'Car lease – Nissan Patrol', type: 'Car lease', provider: 'Al Futtaim Leasing', number: 'LS-••••-902', ini: 'CL' },
+      a5: { acc: 'Etisalat – Mobiles', type: 'Mobile', provider: 'Etisalat', number: '05••••••40', ini: 'MB' }
+    };
+    const rawBills = [
+      { id: 'b1', a: 'a2', month: 'Oct 2026', amount: 399, due: D(2026, 10, 18), paid: null },
+      { id: 'b2', a: 'a1', month: 'Oct 2026', amount: 1840, due: D(2026, 10, 22), paid: null },
+      { id: 'b3', a: 'a3', month: 'Oct 2026', amount: 720, due: D(2026, 10, 28), paid: null },
+      { id: 'b4', a: 'a4', month: 'Nov 2026', amount: 3200, due: D(2026, 11, 1), paid: null },
+      { id: 'b5', a: 'a5', month: 'Oct 2026', amount: 650, due: D(2026, 10, 15), paid: D(2026, 10, 14) },
+      { id: 'b6', a: 'a4', month: 'Oct 2026', amount: 3200, due: D(2026, 10, 1), paid: D(2026, 10, 1) },
+      { id: 'b7', a: 'a1', month: 'Sep 2026', amount: 2105, due: D(2026, 9, 22), paid: D(2026, 9, 20) }
+    ];
+    const bills = rawBills.map((b) => {
+      const paid = b.paid || (this.state.paidNow[b.id] ? today : null);
+      const n = daysTo(b.due);
+      const t = paid ? tone.ok : n < 0 ? tone.bad : n <= 7 ? tone.warn : tone.none;
+      return {
+        ...b, ...accounts[b.a], paidOn: paid, isPaid: !!paid, isUnpaid: !paid, amountText: aed(b.amount), dueText: short(b.due),
+        status: paid ? 'Paid ' + short(paid) : n < 0 ? 'Overdue ' + (-n) + 'd' : n === 0 ? 'Due today' : 'Due in ' + n + 'd',
+        stBg: t[0], stFg: t[1], days: n,
+        markPaid: () => this.setState({ paidNow: { ...this.state.paidNow, [b.id]: true } })
+      };
+    });
+    const st = this.state;
+    return {
+      v: vehicles[1],
+      payments: bills.filter((b) => b.a === 'a4'),
+      driver: st.assigned ? 'Ravi Kumar' : 'No driver assigned',
+      assignLabel: st.assigned ? 'Change' : 'Assign',
+      assign: () => this.setState({ assigned: !st.assigned })
+    };
+  }
+}
+</script>
+</body>
+</html>

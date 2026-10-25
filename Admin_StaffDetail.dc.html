@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff member</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+  <div style="padding:28px 20px 8px;display:flex;align-items:center;justify-content:space-between">
+    <a href="Admin_Staff.dc.html" aria-label="Back to Staff" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <button style="height:44px;padding:0 18px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;font-weight:700;font-size:13px;color:#14213D">Edit</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:4px 20px 20px;display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="width:60px;height:60px;border-radius:30px;background:{{p.avBg}};color:{{p.avFg}};font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{p.ini}}</span>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-size:22px;font-weight:800;letter-spacing:-0.3px">{{p.name}}</span>
+        <span style="font-size:13px;color:#5B6472">{{p.role}} · since {{p.joined}}</span>
+        <span style="align-self:flex-start;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{activeBg}};color:{{activeFg}}">{{activeLabel}}</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+      <button style="height:48px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"></path></svg>Call</button>
+      <a href="Admin_ContactSummary.dc.html" style="height:48px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;box-sizing:border-box">Contact &amp; logs</a>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:4px 14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;min-height:50px;border-bottom:1px solid #EFEBE2"><span style="font-size:13px;color:#5B6472;font-weight:600">Mobile</span><span style="font-size:14px;font-weight:700">{{p.mobile}}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;min-height:50px;border-bottom:1px solid #EFEBE2"><span style="font-size:13px;color:#5B6472;font-weight:600">Monthly salary</span><span style="font-size:14px;font-weight:700">{{p.salaryText}}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;min-height:50px"><span style="font-size:13px;color:#5B6472;font-weight:600">Vehicle</span><a href="Admin_VehicleDetail.dc.html" style="font-size:14px;font-weight:700;color:#0B5C55">{{p.vehicle}}</a></div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">DOCUMENTS IN THE VAULT</span>
+        <a href="Admin_AddDocument.dc.html" style="min-height:36px;display:flex;align-items:center;font-size:13px;font-weight:700;color:#0B5C55">+ Add</a>
+      </div>
+      <sc-for list="{{p.docs}}" as="x" hint-placeholder-count="2">
+        <a href="Admin_IDDetail.dc.html" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;color:#14213D">
+          <span style="flex:1;display:flex;flex-direction:column"><span style="font-size:14.5px;font-weight:700">{{x.type}}</span><span style="font-size:12px;color:#5B6472">Expires {{x.expiry}}</span></span>
+          <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{x.chipBg}};color:{{x.chipFg}}">{{x.chip}}</span>
+        </a>
+      </sc-for>
+      <div style="background:#FDE7E1;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:13px;font-weight:700;color:#9A3412;line-height:1.4">His residence visa and Emirates ID expired 11 days ago. He shouldn't drive until they're renewed.</span>
+        <sc-if value="{{notStarted}}" hint-placeholder-val="{{true}}">
+          <button onClick="{{start}}" style="height:44px;border-radius:12px;border:none;background:#9A3412;color:#FFFFFF;font-weight:700;font-size:14px">Start visa renewal</button>
+        </sc-if>
+        <sc-if value="{{started}}" hint-placeholder-val="{{false}}">
+          <span style="font-size:13px;font-weight:700;color:#0B5C55;background:#FFFFFF;border-radius:10px;padding:10px 12px">Follow-up created for Rahul Menon, due 27 Oct.</span>
+        </sc-if>
+      </div>
+    </div>
+
+    <button onClick="{{toggleActive}}" style="height:48px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:14px">{{activeAction}}</button>
+    <span style="font-size:12px;color:#5B6472;text-align:center;line-height:1.4">Inactive staff disappear from lists but keep their history.</span>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { active: true, started: false }; }
+  renderVals() {
+    const today = new Date(2026, 9, 20);
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const D = (y, m, dd) => new Date(y, m - 1, dd);
+    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
+    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
+    const daysTo = (x) => Math.round((x - today) / 86400000);
+    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const expChip = (x) => {
+      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
+      const n = daysTo(x);
+      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
+      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    };
+    const staff = [
+      { id: 's1', ini: 'RK', name: 'Ravi Kumar', role: 'Driver', joined: 'Mar 2023', salary: 3500, mobile: '+971 50 118 4412', vehicle: 'Toyota Land Cruiser', avBg: '#FDF0DC', avFg: '#8A4B08',
+        docs: [{ type: 'Residence visa', exp: D(2026, 10, 9) }, { type: 'Emirates ID', exp: D(2026, 10, 9) }] },
+      { id: 's2', ini: 'MS', name: 'Maria Santos', role: 'Helper', joined: 'Aug 2025', salary: 2500, mobile: '+971 52 340 7781', vehicle: '', avBg: '#E3EAF7', avFg: '#1E3A8A',
+        docs: [{ type: 'Residence visa', exp: D(2027, 1, 5) }, { type: 'Passport', exp: D(2030, 6, 30) }] },
+      { id: 's3', ini: 'JM', name: 'Joseph Mathew', role: 'Worker', joined: 'Jun 2025', salary: 2800, mobile: '+971 55 902 3309', vehicle: '', avBg: '#DDF1EE', avFg: '#0B5C55', docs: [] },
+      { id: 's4', ini: 'AH', name: 'Ahmed Hassan', role: 'Worker', joined: 'Jan 2026', salary: 2600, mobile: '+971 56 207 1290', vehicle: '', avBg: '#E8E4F5', avFg: '#3F2F8F', docs: [] }
+    ].map((p) => {
+      const docs = p.docs.map((x) => ({ ...x, ...expChip(x.exp), expiry: fmt(x.exp) }));
+      const worst = docs.slice().sort((a, b) => a.days - b.days)[0];
+      const st = worst ? { chip: worst.days < 0 ? 'Visa expired' : worst.days <= 90 ? 'Doc due soon' : 'Docs valid', chipBg: worst.chipBg, chipFg: worst.chipFg }
+        : { chip: 'No documents', chipBg: tone.none[0], chipFg: tone.none[1] };
+      return { ...p, docs, hasDocs: docs.length > 0, noDocs: docs.length === 0, hasVehicle: !!p.vehicle, salaryText: aed(p.salary), ...st };
+    });
+    const st = this.state;
+    return {
+      p: staff[0], started: st.started, notStarted: !st.started,
+      start: () => this.setState({ started: true }),
+      activeLabel: st.active ? 'Active' : 'Inactive', activeBg: st.active ? '#DDF1EE' : '#EEF0F3', activeFg: st.active ? '#0B5C55' : '#3D4654',
+      activeAction: st.active ? 'Mark as left' : 'Mark as active again',
+      toggleActive: () => this.setState({ active: !st.active })
+    };
+  }
+}
+</script>
+</body>
+</html>

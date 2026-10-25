@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My Logs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button{font-family:inherit;cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 12px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Today · Tuesday 20 October</span>
+        <span style="font-size:26px;font-weight:800;letter-spacing:-0.5px">My logs</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button aria-label="Search" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        </button>
+        <span aria-label="Signed in as {{meFull}}" style="width:44px;height:44px;border-radius:22px;background:{{avBg}};color:{{avFg}};font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">{{meIni}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 20px">
+    <div style="background:#FFFFFF;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;border:1px solid #E6E2D8">
+      <span style="font-size:22px;font-weight:800">{{doneCount}}</span><span style="font-size:12px;color:#5B6472;font-weight:500">Logged</span>
+    </div>
+    <div style="background:#FFFFFF;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;border:1px solid #E6E2D8">
+      <span style="font-size:22px;font-weight:800">{{planCount}}</span><span style="font-size:12px;color:#5B6472;font-weight:500">Upcoming</span>
+    </div>
+    <div style="background:#FDF0DC;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column">
+      <span style="font-size:22px;font-weight:800;color:#8A4B08">{{followCount}}</span><span style="font-size:12px;color:#8A4B08;font-weight:600">Follow-up</span>
+    </div>
+  </div>
+
+  <div style="margin:14px 20px 0;background:#E4E7EC;border-radius:12px;padding:3px;display:flex">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+      <button onClick="{{t.pick}}" style="flex:1;height:38px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13px">{{t.label}}</button>
+    </sc-for>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:14px 20px 90px;display:flex;flex-direction:column;gap:10px">
+    <sc-for list="{{logs}}" as="log" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;gap:6px">
+      <a href="User_LogDetail.dc.html" style="display:flex;gap:12px;align-items:stretch;color:inherit">
+        <div style="width:44px;padding-top:14px;font-size:12px;font-weight:700;color:#5B6472;flex:none">{{log.time}}</div>
+        <div style="flex:1;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">{{log.type}}</span>
+            <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{log.badgeBg}};color:{{log.badgeFg}}">{{log.status}}</span>
+          </div>
+          <span style="font-size:15px;font-weight:700;line-height:1.3">{{log.title}}</span>
+          <span style="font-size:12.5px;color:#5B6472;line-height:1.4">{{log.people}}</span>
+        </div>
+      </a>
+      <sc-if value="{{log.canMark}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{log.markDone}}" style="margin-left:56px;height:44px;border-radius:12px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:14px">Mark done</button>
+      </sc-if>
+      </div>
+    </sc-for>
+    <a href="User_History.dc.html" style="min-height:44px;display:flex;align-items:center;justify-content:center;color:#0B5C55;font-weight:700;font-size:13px">Past and upcoming logs are in History</a>
+    <div style="display:flex;align-items:center;gap:6px;justify-content:center;padding-top:6px;font-size:12px;color:#5B6472;font-weight:600">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 018 0v3"></path></svg>
+      <span>Only you, the Admin and people you share with can see these</span>
+    </div>
+  </div>
+
+  <a href="User_AddLog.dc.html" aria-label="Add log" style="position:absolute;right:20px;bottom:96px;height:56px;padding:0 22px 0 18px;border-radius:28px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;box-shadow:0 8px 20px rgba(15,118,110,0.35)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+    Add log
+  </a>
+
+  <div style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 8px 8px;box-sizing:border-box">
+    <a href="User_Today.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>My logs</a>
+    <a href="User_Contacts.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+    <a href="User_Followups.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+    <a href="User_History.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"me":{"editor":"enum","options":["Sara","Rahul"],"default":"Sara","section":"Preview"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'All', marked: {} };
+  }
+  renderVals() {
+    const me = this.props.me ?? 'Sara';
+    const done = { status: 'Done', badgeBg: '#DDF1EE', badgeFg: '#0B5C55' };
+    const plan = { status: 'Planned', badgeBg: '#FDF0DC', badgeFg: '#8A4B08' };
+    const all = [
+      { time: '09:00', type: 'MEETING', title: 'Board prep with CFO', people: 'Layla Haddad, Omar Rashid', owner: 'Sara', follow: false, ...done },
+      { time: '10:30', type: 'CALL', title: 'Investor update call', people: 'Daniel Wright · Northgate Capital', owner: 'Sara', follow: false, ...done },
+      { time: '11:15', type: 'TASK', title: 'Visa renewal documents submitted', people: 'Immigration desk', owner: 'Rahul', follow: false, ...done },
+      { time: '12:00', type: 'EMAIL', title: 'Term sheet response sent', people: 'Priya Nair', owner: 'Rahul', follow: true, ...done },
+      { time: '14:00', type: 'MEETING', title: 'Vendor contract review', people: 'Karim Fadel · Gulf Logistics', owner: 'Sara', follow: true, ...plan },
+      { time: '16:30', type: 'TRAVEL', title: 'Airport transfer, flight EK 204', people: 'Driver: Sajid', owner: 'Rahul', follow: false, ...plan }
+    ];    const mine = all.filter((l) => l.owner === me).map((l) => {
+      const id = l.time + l.title;
+      const b = l.status === 'Planned' && this.state.marked[id] ? { ...l, ...done } : l;
+      return { ...b, canMark: b.status === 'Planned', markDone: () => this.setState({ marked: { ...this.state.marked, [id]: true } }) };
+    });
+    const tab = this.state.tab;
+    const tabs = ['All', 'Upcoming', 'Done'].map((label) => ({
+      label,
+      bg: tab === label ? '#FFFFFF' : 'transparent',
+      weight: tab === label ? 800 : 600,
+      pick: () => this.setState({ tab: label })
+    }));
+    const shown = mine.filter((l) => tab === 'All' || (tab === 'Upcoming' ? l.status === 'Planned' : l.status === 'Done'));
+    const pa = me === 'Sara';
+    return {
+      me, tabs, logs: shown,
+      meIni: pa ? 'SA' : 'RM', meFull: pa ? 'Sara Ahmed' : 'Rahul Menon',
+      avBg: pa ? '#E8E4F5' : '#FDE7E1', avFg: pa ? '#3F2F8F' : '#9A3412',
+      doneCount: mine.filter((l) => l.status === 'Done').length,
+      planCount: mine.filter((l) => l.status === 'Planned').length,
+      followCount: mine.filter((l) => l.follow).length
+    };
+  }
+}
+</script>
+</body>
+</html>

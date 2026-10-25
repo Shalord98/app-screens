@@ -1,0 +1,520 @@
+{
+  "v": 3,
+  "attachments": {},
+  "createdOnFiles": {
+    "at": "2026-10-20T07:40:00Z",
+    "v": 1
+  },
+  "title": "Executive Log App Screens",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [
+    {
+      "id": "admin",
+      "name": "Admin view"
+    },
+    {
+      "id": "user",
+      "name": "Individual view"
+    },
+    {
+      "id": "laptop",
+      "name": "Laptop · Admin"
+    },
+    {
+      "id": "laptop_user",
+      "name": "Laptop · Individual"
+    }
+  ],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 1 Today"
+    },
+    "Admin_AddLog.dc.html": {
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 2 Add Log"
+    },
+    "Admin_Contacts.dc.html": {
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 3 Contacts"
+    },
+    "Admin_ContactSummary.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 4 Contact Summary"
+    },
+    "Admin_NewContact.dc.html": {
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 5 New Contact"
+    },
+    "Admin_LogDetail.dc.html": {
+      "x": 2350,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 6 Log Detail"
+    },
+    "Admin_History.dc.html": {
+      "x": 2820,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 7 History"
+    },
+    "Admin_Followups.dc.html": {
+      "x": 3290,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 8 Follow-ups"
+    },
+    "Admin_EditContact.dc.html": {
+      "x": 3760,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 9 Edit Contact"
+    },
+    "User_EditContact.dc.html": {
+      "x": 3760,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 9 Edit Contact"
+    },
+    "User_Today.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 1 My Logs"
+    },
+    "User_AddLog.dc.html": {
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 2 Add Log"
+    },
+    "User_Contacts.dc.html": {
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 3 Contacts"
+    },
+    "User_ContactSummary.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 4 Contact Summary"
+    },
+    "User_NewContact.dc.html": {
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 5 New Contact"
+    },
+    "User_LogDetail.dc.html": {
+      "x": 2350,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 6 Log Detail"
+    },
+    "User_History.dc.html": {
+      "x": 2820,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 7 History"
+    },
+    "User_Followups.dc.html": {
+      "x": 3290,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "user",
+      "is_interactive": true,
+      "title": "Individual · 8 Follow-ups"
+    },
+    "Laptop_Today.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 1 Today + log detail"
+    },
+    "Laptop_AddLog.dc.html": {
+      "x": 1446,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 2 Add Log"
+    },
+    "Laptop_Contacts.dc.html": {
+      "x": 2892,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 3 Contacts + summary"
+    },
+    "Laptop_History.dc.html": {
+      "x": 4338,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 4 History"
+    },
+    "Laptop_Followups.dc.html": {
+      "x": 5784,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 5 Follow-ups"
+    },
+    "Admin_IDs.dc.html": {
+      "x": 4230,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 10 Document Vault"
+    },
+    "Admin_IDDetail.dc.html": {
+      "x": 4700,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 11 Vault document"
+    },
+    "Laptop_IDs.dc.html": {
+      "x": 7230,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop · 6 Document Vault + document"
+    },
+    "LaptopUser_Today.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop_user",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop Individual · 1 My logs + log detail"
+    },
+    "LaptopUser_AddLog.dc.html": {
+      "x": 1446,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop_user",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop Individual · 2 Add Log"
+    },
+    "LaptopUser_Contacts.dc.html": {
+      "x": 2892,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop_user",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop Individual · 3 Contacts + summary"
+    },
+    "LaptopUser_History.dc.html": {
+      "x": 4338,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop_user",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop Individual · 4 History"
+    },
+    "LaptopUser_Followups.dc.html": {
+      "x": 5784,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop_user",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Laptop Individual · 5 Follow-ups"
+    },
+    "Admin_AddDocument.dc.html": {
+      "x": 5170,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 12 Add document"
+    },
+    "Admin_More.dc.html": {
+      "x": 5640,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 13 More",
+      "radius": 28
+    },
+    "Admin_Staff.dc.html": {
+      "x": 6110,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 14 Staff",
+      "radius": 28
+    },
+    "Admin_StaffDetail.dc.html": {
+      "x": 6580,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 15 Staff member",
+      "radius": 28
+    },
+    "Admin_Vehicles.dc.html": {
+      "x": 7050,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 16 Vehicles",
+      "radius": 28
+    },
+    "Admin_VehicleDetail.dc.html": {
+      "x": 7520,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 17 Vehicle",
+      "radius": 28
+    },
+    "Admin_Bills.dc.html": {
+      "x": 7990,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "admin",
+      "is_interactive": true,
+      "title": "Admin · 18 Bills",
+      "radius": 28
+    },
+    "Laptop_Staff.dc.html": {
+      "x": 8676,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "is_interactive": true,
+      "title": "Laptop · 7 Staff",
+      "expand": "fill"
+    },
+    "Laptop_Vehicles.dc.html": {
+      "x": 10122,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "is_interactive": true,
+      "title": "Laptop · 8 Vehicles",
+      "expand": "fill"
+    },
+    "Laptop_Bills.dc.html": {
+      "x": 11568,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "laptop",
+      "is_interactive": true,
+      "title": "Laptop · 9 Bills",
+      "expand": "fill"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Admin_AddLog.dc.html",
+    "Admin_Contacts.dc.html",
+    "Admin_ContactSummary.dc.html",
+    "Admin_NewContact.dc.html",
+    "Admin_LogDetail.dc.html",
+    "Admin_History.dc.html",
+    "Admin_Followups.dc.html",
+    "User_Today.dc.html",
+    "User_AddLog.dc.html",
+    "User_Contacts.dc.html",
+    "User_ContactSummary.dc.html",
+    "User_NewContact.dc.html",
+    "User_LogDetail.dc.html",
+    "User_History.dc.html",
+    "User_Followups.dc.html",
+    "Admin_EditContact.dc.html",
+    "User_EditContact.dc.html",
+    "Laptop_Today.dc.html",
+    "Laptop_AddLog.dc.html",
+    "Laptop_Contacts.dc.html",
+    "Laptop_History.dc.html",
+    "Laptop_Followups.dc.html",
+    "Admin_IDs.dc.html",
+    "Admin_IDDetail.dc.html",
+    "Laptop_IDs.dc.html",
+    "LaptopUser_Today.dc.html",
+    "LaptopUser_AddLog.dc.html",
+    "LaptopUser_Contacts.dc.html",
+    "LaptopUser_History.dc.html",
+    "LaptopUser_Followups.dc.html",
+    "Admin_AddDocument.dc.html",
+    "Admin_More.dc.html",
+    "Admin_Staff.dc.html",
+    "Admin_StaffDetail.dc.html",
+    "Admin_Vehicles.dc.html",
+    "Admin_VehicleDetail.dc.html",
+    "Admin_Bills.dc.html",
+    "Laptop_Staff.dc.html",
+    "Laptop_Vehicles.dc.html",
+    "Laptop_Bills.dc.html"
+  ],
+  "notes": {
+    "ta": {
+      "kind": "title1",
+      "maxW": 8380,
+      "text": "Admin view: sees the whole team",
+      "x": 0,
+      "y": -260,
+      "page": "admin"
+    },
+    "tu": {
+      "kind": "title1",
+      "maxW": 5090,
+      "text": "Individual view: each employee sees their own logs",
+      "x": 0,
+      "y": -260,
+      "page": "user"
+    },
+    "tl": {
+      "kind": "title1",
+      "maxW": 12934,
+      "text": "Laptop view (Admin): same app, wider layout",
+      "x": 0,
+      "y": -260,
+      "page": "laptop"
+    },
+    "tlu": {
+      "kind": "title1",
+      "maxW": 8600,
+      "text": "Laptop view (Individual): your logs and shared ones",
+      "x": 0,
+      "y": -260,
+      "page": "laptop_user"
+    }
+  },
+  "designSystems": []
+}

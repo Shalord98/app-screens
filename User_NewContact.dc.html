@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New Contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 10px;display:flex;align-items:center;justify-content:space-between;flex:none">
+    <a href="User_AddLog.dc.html" aria-label="Close" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <span style="font-size:18px;font-weight:800">New contact</span>
+    <span style="width:44px"></span>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:4px 20px 16px;display:flex;flex-direction:column;gap:14px">
+
+    <div style="background:#DDF1EE;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:10px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4M12 16h.01"></path></svg>
+      <span style="font-size:12.5px;line-height:1.4;color:#0B5C55;font-weight:600">Adding for the log <b>Vendor contract review</b>. After saving, this person is added as a participant.</span>
+    </div>
+
+    <sc-if value="{{showDup}}" hint-placeholder-val="{{true}}">
+      <div style="background:#FDF0DC;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#8A4B08">POSSIBLE DUPLICATE</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="width:36px;height:36px;border-radius:18px;background:#FDE7E1;color:#9A3412;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none">AB</span>
+          <div style="display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700">Ameer Baig</span><span style="font-size:12px;color:#3D4654">Legal Counsel · Baig &amp; Partners</span></div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <a href="User_AddLog.dc.html" style="flex:1;height:44px;border-radius:12px;background:#8A4B08;color:#FFFFFF;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">Use this contact</a>
+          <button onClick="{{dismissDup}}" style="flex:1;height:44px;border-radius:12px;border:1px solid #8A4B08;background:#FFFFFF;color:#8A4B08;font-weight:700;font-size:13px">Different person</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="nm" style="font-size:12px;font-weight:700;color:#5B6472">Full name *</label>
+      <input id="nm" value="Ameen Saleh" style="height:48px;box-sizing:border-box;border:2px solid #0F766E;border-radius:12px;padding:0 14px;font-size:15px;font-weight:600;background:#FFFFFF;color:#14213D">
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="org" style="font-size:12px;font-weight:700;color:#5B6472">Organization</label>
+        <input id="org" value="Gulf Logistics" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D;min-width:0">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="jt" style="font-size:12px;font-weight:700;color:#5B6472">Job title</label>
+        <input id="jt" placeholder="e.g. Operations Manager" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D;min-width:0">
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="ph" style="font-size:12px;font-weight:700;color:#5B6472">Mobile</label>
+      <div style="display:flex;gap:8px">
+        <span style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;font-weight:700;background:#FFFFFF;display:flex;align-items:center;flex:none">+971</span>
+        <input id="ph" placeholder="50 123 4567" style="flex:1;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="em" style="font-size:12px;font-weight:700;color:#5B6472">Email</label>
+      <input id="em" placeholder="name@company.com" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472">Tags</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{tags}}" as="t" hint-placeholder-count="5">
+          <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:44px;padding:0 16px;border-radius:22px;border:1px solid {{t.border}};background:{{t.bg}};color:{{t.fg}};font-weight:700;font-size:13px">{{t.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="nt" style="font-size:12px;font-weight:700;color:#5B6472">Notes</label>
+      <textarea id="nt" placeholder="How you know them, preferences, assistant’s name…" style="height:72px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:10px 14px;font-size:14px;background:#FFFFFF;color:#14213D;resize:none"></textarea>
+    </div>
+  </div>
+
+  <div style="padding:12px 20px 28px;display:flex;gap:10px;background:#F5F3EE;border-top:1px solid #E6E2D8;flex:none">
+    <a href="User_ContactSummary.dc.html" style="flex:1;height:52px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">Save only</a>
+    <a href="User_AddLog.dc.html" style="flex:1.4;height:52px;border-radius:14px;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">Save and add to log</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tags: { Vendor: true }, dup: true };
+  }
+  renderVals() {
+    const sel = this.state.tags;
+    const tags = ['Investor', 'Government', 'Vendor', 'Legal', 'Internal', 'Key account'].map((label) => {
+      const on = !!sel[label];
+      return {
+        label, on,
+        bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB',
+        pick: () => this.setState({ tags: { ...sel, [label]: !on } })
+      };
+    });
+    return {
+      tags, showDup: this.state.dup,
+      dismissDup: () => this.setState({ dup: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

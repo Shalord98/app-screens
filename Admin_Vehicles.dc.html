@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vehicles</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+  <div style="padding:28px 20px 12px;display:flex;justify-content:space-between;align-items:center">
+    <div style="display:flex;align-items:center;gap:10px">
+      <a href="Admin_More.dc.html" aria-label="Back to More" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:1px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">{{summary}}</span>
+        <span style="font-size:24px;font-weight:800;letter-spacing:-0.5px">Vehicles</span>
+      </div>
+    </div>
+    <button aria-label="Add vehicle" style="width:44px;height:44px;border-radius:22px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;justify-content:center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+    </button>
+  </div>
+  <div style="display:flex;gap:8px;padding:0 20px 4px">
+    <sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+      <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:13px">{{f.label}}</button>
+    </sc-for>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:12px 20px 20px;display:flex;flex-direction:column;gap:12px">
+    <sc-for list="{{list}}" as="v" hint-placeholder-count="3">
+      <a href="Admin_VehicleDetail.dc.html" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;color:#14213D">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="width:46px;height:46px;border-radius:12px;background:#EEF0F3;color:#14213D;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l2.2-5.2A2 2 0 018 5.5h8a2 2 0 011.8 1.3L20 12"></path><rect x="3" y="12" width="18" height="5" rx="1.5"></rect><path d="M6 17v2.5M18 17v2.5"></path><circle cx="7.5" cy="14.5" r="1"></circle><circle cx="16.5" cy="14.5" r="1"></circle></svg></span>
+          <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:15.5px;font-weight:800">{{v.name}}</span>
+            <span style="font-size:12.5px;color:#5B6472">{{v.plate}} · {{v.driverText}}</span>
+          </span>
+          <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{v.ownBg}};color:{{v.ownFg}}">{{v.own}}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;border-top:1px solid #EFEBE2">
+          <span style="font-size:12px;color:#5B6472">Registration {{v.regText}}</span>
+          <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{v.chipBg}};color:{{v.chipFg}}">{{v.chip}}</span>
+        </div>
+        <sc-if value="{{v.isLeased}}" hint-placeholder-val="{{false}}">
+          <span style="font-size:12.5px;font-weight:700;color:#3F2F8F">Lease {{v.leaseText}} · next payment 1 Nov</span>
+        </sc-if>
+      </a>
+    </sc-for>
+  </div>
+  <div style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 8px 8px;box-sizing:border-box">
+    <a href="Main.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Today</a>
+    <a href="Admin_Contacts.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+    <a href="Admin_Followups.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+    <a href="Admin_History.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+    <a href="Admin_More.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg>More</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { f: 'All' }; }
+  renderVals() {
+    const today = new Date(2026, 9, 20);
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const D = (y, m, dd) => new Date(y, m - 1, dd);
+    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
+    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
+    const daysTo = (x) => Math.round((x - today) / 86400000);
+    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const expChip = (x) => {
+      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
+      const n = daysTo(x);
+      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
+      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    };
+    const vehicles = [
+      { id: 'v1', name: 'Toyota Land Cruiser', plate: 'Dubai A 12345', own: 'Owned', driver: 'Ravi Kumar', reg: D(2026, 11, 14), ins: D(2026, 11, 14), leaseEnd: null, lease: 0 },
+      { id: 'v2', name: 'Nissan Patrol', plate: 'Dubai K 55821', own: 'Leased', driver: '', reg: D(2027, 3, 3), ins: D(2027, 3, 3), leaseEnd: D(2027, 8, 31), lease: 3200 },
+      { id: 'v3', name: 'Mercedes-Benz S 500', plate: 'Dubai P 70771', own: 'Owned', driver: 'CEO', reg: D(2027, 6, 20), ins: D(2027, 6, 20), leaseEnd: null, lease: 0 }
+    ].map((v) => {
+      const r = expChip(v.reg), i = expChip(v.ins);
+      const worst = r.days <= i.days ? { ...r, what: 'Registration' } : { ...i, what: 'Insurance' };
+      return {
+        ...v, regText: fmt(v.reg), insText: fmt(v.ins), regChip: r, insChip: i,
+        driverText: v.driver || 'No driver assigned', isLeased: v.own === 'Leased',
+        leaseText: v.lease ? aed(v.lease) + ' / month' : '', leaseEndText: v.leaseEnd ? fmt(v.leaseEnd) : '',
+        chip: worst.days <= 90 ? worst.what + ' ' + worst.chip.toLowerCase() : 'All valid', chipBg: worst.chipBg, chipFg: worst.chipFg,
+        ownBg: v.own === 'Leased' ? '#E8E4F5' : '#EEF0F3', ownFg: v.own === 'Leased' ? '#3F2F8F' : '#3D4654'
+      };
+    });
+    const chipOf = (on) => ({ bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
+    const st = this.state;
+    const filters = ['All', 'Owned', 'Leased'].map((k) => ({ label: k, on: st.f === k, ...chipOf(st.f === k), pick: () => this.setState({ f: k }) }));
+    const list = vehicles.filter((v) => st.f === 'All' || v.own === st.f);
+    return { filters, list, summary: vehicles.length + ' cars · 2 owned, 1 leased' };
+  }
+}
+</script>
+</body>
+</html>

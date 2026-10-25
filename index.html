@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>App Screens</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column of screen groups, each a wrapping grid of numbered screen links. */
+:root {
+  --bg: #F5F3EE; --surface: #FFFFFF; --ink: #14213D; --muted: #5B6472; --line: #E6E2D8;
+  --accent: #0F766E; --accent-ink: #0B5C55; --tint: #DDF1EE; --blue: #E3EAF7; --blue-ink: #1E3A8A;
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10192E; --surface: #18233B; --ink: #EEF1F6; --muted: #A6AFBD; --line: #2A3753;
+  --accent: #3BB3A6; --accent-ink: #7ED6CB; --tint: #163B3B; --blue: #1F2E52; --blue-ink: #B9C9F0; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10192E; --surface: #18233B; --ink: #EEF1F6; --muted: #A6AFBD; --line: #2A3753;
+  --accent: #3BB3A6; --accent-ink: #7ED6CB; --tint: #163B3B; --blue: #1F2E52; --blue-ink: #B9C9F0; color-scheme: dark }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); margin: 0; }
+#dc-home { max-width: 1120px; margin: 0 auto; padding-block: 32px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 32px; }
+#dc-home header { display: flex; flex-direction: column; gap: 8px; max-width: 65ch; }
+#dc-home .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+#dc-home h1 { margin: 0; font-size: clamp(28px, 4vw, 38px); font-weight: 800; letter-spacing: -.02em; text-wrap: balance; }
+#dc-home header p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
+#dc-home section { display: flex; flex-direction: column; gap: 6px; }
+#dc-home .sec-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+#dc-home h2 { margin: 0; font-size: 20px; font-weight: 800; }
+#dc-home .blurb { margin: 0 0 8px; font-size: 14px; color: var(--muted); }
+#dc-home .tag { font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 10px; }
+#dc-home .ph { background: var(--blue); color: var(--blue-ink); } #dc-home .lp { background: var(--tint); color: var(--accent-ink); }
+#dc-home .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+#dc-home .card { min-height: 52px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; }
+#dc-home .card:hover { border-color: var(--accent); }
+#dc-home .card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+#dc-home .num { width: 26px; height: 26px; flex: none; border-radius: 8px; background: var(--tint); color: var(--accent-ink); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+#dc-home .name { font-size: 14.5px; font-weight: 700; min-width: 0; }
+</style>
+</head>
+<body>
+<main id="dc-home">
+  <header>
+    <span class="eyebrow">Design preview · sample data</span>
+    <h1>App Screens</h1>
+    <p>41 clickable screens for logging meetings, calls and follow-ups. Pick any screen below. Inside a screen, the tabs, filters and buttons work, and the menu links move between screens. Tap Add log, a contact or any menu item to move through the app as a real user would. “All screens” at the bottom left brings you back here. The names and figures are examples, and changes reset when you reload.</p>
+  </header>
+  <section aria-labelledby="h-admin">
+    <div class="sec-head"><h2 id="h-admin">Admin view</h2><span class="tag ph">Phone · 390 × 844</span></div>
+    <p class="blurb">Phone app for the Admin, who sees every team member’s logs.</p>
+    <ol class="grid">
+        <li><a class="card" href="Main.dc.html"><span class="num">1</span><span class="name">Today</span></a></li>
+        <li><a class="card" href="Admin_AddLog.dc.html"><span class="num">2</span><span class="name">Add Log</span></a></li>
+        <li><a class="card" href="Admin_Contacts.dc.html"><span class="num">3</span><span class="name">Contacts</span></a></li>
+        <li><a class="card" href="Admin_ContactSummary.dc.html"><span class="num">4</span><span class="name">Contact Summary</span></a></li>
+        <li><a class="card" href="Admin_NewContact.dc.html"><span class="num">5</span><span class="name">New Contact</span></a></li>
+        <li><a class="card" href="Admin_LogDetail.dc.html"><span class="num">6</span><span class="name">Log Detail</span></a></li>
+        <li><a class="card" href="Admin_History.dc.html"><span class="num">7</span><span class="name">History</span></a></li>
+        <li><a class="card" href="Admin_Followups.dc.html"><span class="num">8</span><span class="name">Follow-ups</span></a></li>
+        <li><a class="card" href="Admin_EditContact.dc.html"><span class="num">9</span><span class="name">Edit Contact</span></a></li>
+        <li><a class="card" href="Admin_IDs.dc.html"><span class="num">10</span><span class="name">Document Vault</span></a></li>
+        <li><a class="card" href="Admin_IDDetail.dc.html"><span class="num">11</span><span class="name">Vault document</span></a></li>
+        <li><a class="card" href="Admin_AddDocument.dc.html"><span class="num">12</span><span class="name">Add document</span></a></li>
+        <li><a class="card" href="Admin_More.dc.html"><span class="num">13</span><span class="name">More</span></a></li>
+        <li><a class="card" href="Admin_Staff.dc.html"><span class="num">14</span><span class="name">Staff</span></a></li>
+        <li><a class="card" href="Admin_StaffDetail.dc.html"><span class="num">15</span><span class="name">Staff member</span></a></li>
+        <li><a class="card" href="Admin_Vehicles.dc.html"><span class="num">16</span><span class="name">Vehicles</span></a></li>
+        <li><a class="card" href="Admin_VehicleDetail.dc.html"><span class="num">17</span><span class="name">Vehicle</span></a></li>
+        <li><a class="card" href="Admin_Bills.dc.html"><span class="num">18</span><span class="name">Bills</span></a></li>
+    </ol>
+  </section>
+  <section aria-labelledby="h-user">
+    <div class="sec-head"><h2 id="h-user">Individual view</h2><span class="tag ph">Phone · 390 × 844</span></div>
+    <p class="blurb">Phone app for an employee, who sees only their own and shared logs.</p>
+    <ol class="grid">
+        <li><a class="card" href="User_Today.dc.html"><span class="num">1</span><span class="name">My Logs</span></a></li>
+        <li><a class="card" href="User_AddLog.dc.html"><span class="num">2</span><span class="name">Add Log</span></a></li>
+        <li><a class="card" href="User_Contacts.dc.html"><span class="num">3</span><span class="name">Contacts</span></a></li>
+        <li><a class="card" href="User_ContactSummary.dc.html"><span class="num">4</span><span class="name">Contact Summary</span></a></li>
+        <li><a class="card" href="User_NewContact.dc.html"><span class="num">5</span><span class="name">New Contact</span></a></li>
+        <li><a class="card" href="User_LogDetail.dc.html"><span class="num">6</span><span class="name">Log Detail</span></a></li>
+        <li><a class="card" href="User_History.dc.html"><span class="num">7</span><span class="name">History</span></a></li>
+        <li><a class="card" href="User_Followups.dc.html"><span class="num">8</span><span class="name">Follow-ups</span></a></li>
+        <li><a class="card" href="User_EditContact.dc.html"><span class="num">9</span><span class="name">Edit Contact</span></a></li>
+    </ol>
+  </section>
+  <section aria-labelledby="h-laptop">
+    <div class="sec-head"><h2 id="h-laptop">Laptop · Admin</h2><span class="tag lp">Laptop · 1366 wide</span></div>
+    <p class="blurb">The same app on a laptop, Admin view.</p>
+    <ol class="grid">
+        <li><a class="card" href="Laptop_Today.dc.html"><span class="num">1</span><span class="name">Today + log detail</span></a></li>
+        <li><a class="card" href="Laptop_AddLog.dc.html"><span class="num">2</span><span class="name">Add Log</span></a></li>
+        <li><a class="card" href="Laptop_Contacts.dc.html"><span class="num">3</span><span class="name">Contacts + summary</span></a></li>
+        <li><a class="card" href="Laptop_History.dc.html"><span class="num">4</span><span class="name">History</span></a></li>
+        <li><a class="card" href="Laptop_Followups.dc.html"><span class="num">5</span><span class="name">Follow-ups</span></a></li>
+        <li><a class="card" href="Laptop_IDs.dc.html"><span class="num">6</span><span class="name">Document Vault + document</span></a></li>
+        <li><a class="card" href="Laptop_Staff.dc.html"><span class="num">7</span><span class="name">Staff</span></a></li>
+        <li><a class="card" href="Laptop_Vehicles.dc.html"><span class="num">8</span><span class="name">Vehicles</span></a></li>
+        <li><a class="card" href="Laptop_Bills.dc.html"><span class="num">9</span><span class="name">Bills</span></a></li>
+    </ol>
+  </section>
+  <section aria-labelledby="h-laptop_user">
+    <div class="sec-head"><h2 id="h-laptop_user">Laptop · Individual</h2><span class="tag lp">Laptop · 1366 wide</span></div>
+    <p class="blurb">The same app on a laptop, employee view.</p>
+    <ol class="grid">
+        <li><a class="card" href="LaptopUser_Today.dc.html"><span class="num">1</span><span class="name">My logs + log detail</span></a></li>
+        <li><a class="card" href="LaptopUser_AddLog.dc.html"><span class="num">2</span><span class="name">Add Log</span></a></li>
+        <li><a class="card" href="LaptopUser_Contacts.dc.html"><span class="num">3</span><span class="name">Contacts + summary</span></a></li>
+        <li><a class="card" href="LaptopUser_History.dc.html"><span class="num">4</span><span class="name">History</span></a></li>
+        <li><a class="card" href="LaptopUser_Followups.dc.html"><span class="num">5</span><span class="name">Follow-ups</span></a></li>
+    </ol>
+  </section>
+</main>
+<div id="dc-screen" hidden></div>
+<script src="support.js"></script>
+</body>
+</html>

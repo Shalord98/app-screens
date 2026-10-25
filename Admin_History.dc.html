@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>History</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 10px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">{{roleLine}}</span>
+        <span style="font-size:26px;font-weight:800;letter-spacing:-0.5px">History</span>
+      </div>
+      <button aria-label="Open calendar" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>
+      </button>
+    </div>
+    <div style="position:relative">
+      <label for="hq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search all dates</label>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:14px;top:13px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="hq" placeholder="Search all dates: title, person, company" style="width:100%;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:14px;padding:0 14px 0 44px;font-size:14px;background:#FFFFFF;color:#14213D">
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;padding:0 20px 10px">
+    <button onClick="{{prev}}" aria-label="Previous day" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center">
+      <span style="font-size:16px;font-weight:800">{{dateLabel}}</span>
+      <span style="font-size:12px;font-weight:700;color:{{relColor}}">{{relLabel}}</span>
+    </div>
+    <button onClick="{{next}}" aria-label="Next day" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+    </button>
+  </div>
+
+  <div style="display:flex;gap:6px;padding:0 20px 12px">
+    <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+      <button onClick="{{d.pick}}" aria-label="{{d.aria}}" style="flex:1;min-width:0;height:62px;border-radius:14px;border:1px solid {{d.border}};background:{{d.bg}};color:{{d.fg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0">
+        <span style="font-size:11px;font-weight:600">{{d.dow}}</span>
+        <span style="font-size:16px;font-weight:800;text-decoration:{{d.deco}};text-underline-offset:3px">{{d.num}}</span>
+        <span style="width:5px;height:5px;border-radius:3px;background:{{d.dot}}"></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <sc-if value="{{isAdmin}}" hint-placeholder-val="{{true}}">
+    <div style="margin:0 20px 8px;display:flex;background:#E4E7EC;border-radius:14px;padding:3px;gap:2px">
+      <sc-for list="{{scopes}}" as="s" hint-placeholder-count="4">
+        <button onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="flex:1;min-width:0;height:56px;border-radius:11px;border:none;background:{{s.bg}};color:{{s.fg}};box-shadow:{{s.shadow}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;font-family:inherit">
+            <span style="font-size:17px;font-weight:800;line-height:1.1">{{s.count}}</span>
+            <span style="font-size:11.5px;font-weight:700;line-height:1.2;white-space:nowrap">{{s.label}}</span>
+          </button>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <div style="display:flex;gap:8px;padding:0 20px 6px;overflow:hidden">
+    <sc-for list="{{types}}" as="t" hint-placeholder-count="4">
+      <button onClick="{{t.pick}}" style="height:34px;padding:0 16px;border-radius:17px;border:1px solid {{t.border}};background:{{t.bg}};color:{{t.fg}};font-weight:600;font-size:13px;flex:none">{{t.label}}</button>
+    </sc-for>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:8px 20px 90px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">{{listTitle}}</span>
+      <button onClick="{{goToday}}" style="min-height:44px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:13px;padding:0">Jump to today</button>
+    </div>
+    <sc-for list="{{logs}}" as="log" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;gap:6px">
+      <a href="Admin_LogDetail.dc.html" style="display:flex;gap:12px;align-items:stretch;color:inherit">
+        <div style="width:44px;padding-top:14px;font-size:12px;font-weight:700;color:#5B6472;flex:none">{{log.time}}</div>
+        <div style="flex:1;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">{{log.type}}</span>
+            <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{log.badgeBg}};color:{{log.badgeFg}}">{{log.status}}</span>
+          </div>
+          <span style="font-size:15px;font-weight:700;line-height:1.3">{{log.title}}</span>
+          <span style="font-size:12.5px;color:#5B6472;line-height:1.4">{{log.people}}</span>
+          <sc-if value="{{log.showOwner}}" hint-placeholder-val="{{true}}">
+            <div style="display:flex;align-items:center;gap:6px;padding-top:6px;border-top:1px solid #EFEBE2">
+              <span style="min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:{{log.avBg}};color:{{log.avFg}};font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center">{{log.ini}}</span>
+              <span style="font-size:11.5px;color:#5B6472;font-weight:600">Logged by {{log.full}}</span>
+            </div>
+          </sc-if>
+        </div>
+      </a>
+      <sc-if value="{{log.canMark}}" hint-placeholder-val="{{false}}">
+        <button onClick="{{log.markDone}}" style="margin-left:56px;height:44px;border-radius:12px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:14px">Mark done</button>
+      </sc-if>
+      </div>
+    </sc-for>
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+      <div style="background:#FFFFFF;border:1px dashed #D9D5CB;border-radius:16px;padding:24px 18px;display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center">
+        <span style="font-size:15px;font-weight:700">{{emptyTitle}}</span>
+        <span style="font-size:12.5px;color:#5B6472;line-height:1.4">{{emptyHint}}</span>
+      </div>
+    </sc-if>
+  </div>
+
+  <a href="Admin_AddLog.dc.html" aria-label="Add log" style="position:absolute;right:20px;bottom:96px;height:56px;padding:0 22px 0 18px;border-radius:28px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;box-shadow:0 8px 20px rgba(15,118,110,0.35)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+    Add log
+  </a>
+
+  <div style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 8px 8px;box-sizing:border-box">
+    <a href="{{todayHref}}" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Today</a>
+    <a href="Admin_Contacts.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+    <a href="Admin_Followups.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+    <a href="Admin_History.dc.html" style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+    <a href="Admin_More.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg>More</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: -1, scope: 'Everyone', type: 'All', marked: {} };
+  }
+  renderVals() {
+    const role = 'Admin';
+    const isAdmin = role === 'Admin';
+    const sel = this.state.sel;
+    const scope = isAdmin ? this.state.scope : role;
+    const done = { status: 'Done', badgeBg: '#DDF1EE', badgeFg: '#0B5C55' };
+    const plan = { status: 'Planned', badgeBg: '#FDF0DC', badgeFg: '#8A4B08' };
+    const av = {
+      Admin: { avBg: '#14213D', avFg: '#FFFFFF', ini: 'AD', full: 'Admin' },
+      Sara: { avBg: '#E8E4F5', avFg: '#3F2F8F', ini: 'SA', full: 'Sara Ahmed' },
+      Rahul: { avBg: '#FDE7E1', avFg: '#9A3412', ini: 'RM', full: 'Rahul Menon' }
+    };
+    const L = (time, type, title, people, owner, st, follow) =>
+      ({ time, type, title, people, owner, follow: !!follow, ...(st === 'D' ? done : plan), ...av[owner] });
+    const data = {
+      '-6': [
+        L('09:00', 'MEETING', 'Weekly leadership sync', 'Layla Haddad, Omar Rashid', 'Sara', 'D'),
+        L('14:00', 'EMAIL', 'Press statement approved', 'Priya Nair', 'Rahul', 'D')
+      ],
+      '-5': [L('11:00', 'CALL', 'Auditor check-in', 'Samir Qadri', 'Rahul', 'D', 1)],
+      '-4': [
+        L('10:00', 'MEETING', 'Bank relationship review', 'Rania Obeid', 'Sara', 'D'),
+        L('13:30', 'TRAVEL', 'Riyadh trip hotel confirmed', 'Travel desk', 'Rahul', 'D')
+      ],
+      '-3': [],
+      '-2': [],
+      '-1': [
+        L('09:30', 'MEETING', 'Strategy offsite planning', 'Omar Rashid', 'Sara', 'D'),
+        L('11:00', 'CALL', 'Ministry liaison call', 'Mariam Al Ketbi', 'Rahul', 'D', 1),
+        L('15:00', 'EMAIL', 'Board agenda circulated', 'Layla Haddad', 'Sara', 'D'),
+        L('17:00', 'TASK', 'Reviewed quarterly numbers', 'Finance team', 'Admin', 'D')
+      ],
+      '0': [
+        L('09:00', 'MEETING', 'Board prep with CFO', 'Layla Haddad, Omar Rashid', 'Sara', 'D'),
+        L('10:30', 'CALL', 'Investor update call', 'Daniel Wright · Northgate Capital', 'Sara', 'D'),
+        L('11:15', 'TASK', 'Visa renewal documents submitted', 'Immigration desk', 'Rahul', 'D'),
+        L('12:00', 'EMAIL', 'Term sheet response sent', 'Priya Nair', 'Rahul', 'D', 1),
+        L('13:00', 'CALL', 'Quick call with the Chairman', 'Chairman’s office', 'Admin', 'D'),
+        L('14:00', 'MEETING', 'Vendor contract review', 'Karim Fadel · Gulf Logistics', 'Sara', 'P'),
+        L('16:30', 'TRAVEL', 'Airport transfer, flight EK 204', 'Driver: Sajid', 'Rahul', 'P')
+      ],
+      '1': [
+        L('09:00', 'MEETING', 'Quarterly review with CFO', 'Layla Haddad', 'Sara', 'P'),
+        L('11:30', 'CALL', 'Ministry briefing call', 'Mariam Al Ketbi', 'Rahul', 'P'),
+        L('15:00', 'TRAVEL', 'Flight to Riyadh', 'Driver: Sajid', 'Rahul', 'P')
+      ],
+      '2': [
+        L('10:00', 'MEETING', 'Board meeting', 'Board members', 'Sara', 'P', 1),
+        L('13:00', 'CALL', 'Chairman catch-up', 'Chairman’s office', 'Admin', 'P')
+      ],
+      '3': [],
+      '4': [L('12:30', 'MEETING', 'Investor lunch', 'Daniel Wright · Northgate Capital', 'Sara', 'P')]
+    };
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const LONG = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const at = (o) => new Date(2026, 9, 20 + o);
+    const rel = (o) => o === 0 ? 'Today' : o === -1 ? 'Yesterday' : o === 1 ? 'Tomorrow'
+      : o < 0 ? (-o) + ' days ago' : 'In ' + o + ' days';
+    const forDay = (o) => (data[String(o)] || []);
+    const mine = (l) => isAdmin ? (scope === 'Everyone' || l.owner === scope) : l.owner === role;
+
+    const days = [-3, -2, -1, 0, 1, 2, 3].map((k) => {
+      const o = sel + k;
+      const d = at(o);
+      const on = k === 0;
+      const n = forDay(o).filter(mine).length;
+      return {
+        dow: DOW[d.getDay()], num: d.getDate(),
+        aria: LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ', ' + n + ' logs',
+        on: on, bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0B5C55' : '#3D4654', shadow: on ? '0 1px 3px rgba(20,33,61,0.18)' : 'none',
+        deco: o === 0 ? 'underline' : 'none',
+        dot: n > 0 ? (on ? '#FFFFFF' : (o > 0 ? '#B45309' : '#0F766E')) : 'transparent',
+        pick: () => this.setState({ sel: o })
+      };
+    });
+
+    const dayAll = forDay(sel);
+    const scopeDefs = [
+      { key: 'Everyone', label: 'Everyone', initials: 'ALL' },
+      { key: 'Sara', label: 'Sara', initials: 'Sara' },
+      { key: 'Rahul', label: 'Rahul', initials: 'Rahul' },
+      { key: 'Admin', label: 'Admin', initials: 'AD' }
+    ];
+    const scopes = scopeDefs.map((s) => {
+      const on = s.key === scope;
+      const a = av[s.key] || { avBg: '#DDF1EE', avFg: '#0B5C55' };
+      return {
+        label: s.label, initials: s.initials,
+        count: dayAll.filter((l) => s.key === 'Everyone' || l.owner === s.key).length,
+        on: on, bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0B5C55' : '#3D4654', shadow: on ? '0 1px 3px rgba(20,33,61,0.18)' : 'none',
+        avBg: on ? '#FFFFFF' : a.avBg, avFg: on ? '#0B5C55' : a.avFg,
+        pick: () => this.setState({ scope: s.key })
+      };
+    });
+
+    const typeNow = this.state.type;
+    const types = ['All', 'Meetings', 'Calls', 'Email'].map((t) => {
+      const on = t === typeNow;
+      return {
+        label: t,
+        bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB',
+        pick: () => this.setState({ type: t })
+      };
+    });
+    const typeKey = { Meetings: 'MEETING', Calls: 'CALL', Email: 'EMAIL' };
+    const logs = dayAll
+      .filter(mine)
+      .filter((l) => typeNow === 'All' || l.type === typeKey[typeNow])
+      .map((l) => {
+        const id = l.time + l.title + sel;
+        const b = l.status === 'Planned' && this.state.marked[id] ? { ...l, ...done } : l;
+        return { ...b, showOwner: isAdmin, canMark: b.status === 'Planned' && sel <= 0, markDone: () => this.setState({ marked: { ...this.state.marked, [id]: true } }) };
+      });
+
+    const d0 = at(sel);
+    const future = sel > 0;
+    const title = logs.length + (logs.length === 1 ? ' LOG' : ' LOGS') + (future ? ' · UPCOMING' : sel === 0 ? ' · TODAY' : '');
+    return {
+      role, isAdmin,
+      roleLine: isAdmin ? 'Signed in as Admin · whole team' : 'Signed in as ' + role + ' · your logs only',
+      todayHref: 'Main.dc.html',
+      dateLabel: LONG[d0.getDay()] + ', ' + d0.getDate() + ' ' + MON[d0.getMonth()],
+      relLabel: rel(sel),
+      relColor: future ? '#8A4B08' : '#0B5C55',
+      days, scopes, types, logs, listTitle: title,
+      prev: () => this.setState({ sel: sel - 1 }),
+      next: () => this.setState({ sel: sel + 1 }),
+      goToday: () => this.setState({ sel: 0 }),
+      isEmpty: logs.length === 0,
+      emptyTitle: future ? 'Nothing scheduled yet' : 'No logs on this day',
+      emptyHint: future ? 'Tap Add log to plan a meeting or call ahead of time.' : 'Missed something? Use Add log to back-fill it with the right date.'
+    };
+  }
+}
+</script>
+</body>
+</html>

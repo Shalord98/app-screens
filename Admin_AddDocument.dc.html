@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add document</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 10px;display:flex;align-items:center;justify-content:space-between">
+    <a href="Admin_IDs.dc.html" aria-label="Close" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </a>
+    <span style="font-size:18px;font-weight:800">Add document</span>
+    <span style="width:44px"></span>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:6px 20px 16px;display:flex;flex-direction:column;gap:16px">
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472">Document type</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{types}}" as="t" hint-placeholder-count="7">
+          <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:38px;padding:0 14px;border-radius:19px;border:1px solid {{t.border}};background:{{t.bg}};color:{{t.fg}};font-weight:700;font-size:13px">{{t.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472">Whose document</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{holders}}" as="h" hint-placeholder-count="3">
+          <button onClick="{{h.pick}}" aria-pressed="{{h.on}}" style="height:44px;padding:0 14px 0 6px;border-radius:22px;border:1px solid {{h.border}};background:{{h.bg}};color:{{h.fg}};font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px">
+            <span style="width:30px;height:30px;border-radius:15px;background:{{h.avBg}};color:{{h.avFg}};font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center">{{h.ini}}</span>{{h.label}}</button>
+        </sc-for>
+        <a href="Admin_NewContact.dc.html" style="height:44px;padding:0 14px;border-radius:22px;border:1px dashed #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Someone else</a>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="dnum" style="font-size:12px;font-weight:700;color:#5B6472">Document number</label>
+      <input id="dnum" value="784-1995-4410286-3" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;font-weight:600;letter-spacing:0.4px;background:#FFFFFF;color:#14213D">
+      <span style="font-size:12px;color:#5B6472">Stored securely and hidden on screen until someone taps Show.</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="dissue" style="font-size:12px;font-weight:700;color:#5B6472">Issue date</label>
+        <input id="dissue" value="15 Mar 2025" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="dexp" style="font-size:12px;font-weight:700;color:#5B6472">Expiry date (required)</label>
+        <input id="dexp" value="14 Mar 2027" style="height:48px;box-sizing:border-box;border:2px solid #0F766E;border-radius:12px;padding:0 14px;font-size:14px;font-weight:700;background:#FFFFFF;color:#14213D">
+      </div>
+    </div>
+    <div style="background:#DDF1EE;border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:2px">
+      <span style="font-size:13px;font-weight:800;color:#0B5C55">Valid for 145 more days</span>
+      <span style="font-size:12px;color:#0B5C55">{{reminderLine}}</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="dby" style="font-size:12px;font-weight:700;color:#5B6472">Issued by</label>
+      <input id="dby" value="UAE (ICP)" placeholder="Authority or country" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472">Scans</span>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+        <sc-for list="{{scans}}" as="s" hint-placeholder-count="2">
+          <button onClick="{{s.toggle}}" style="height:88px;border-radius:14px;border:{{s.border}};background:{{s.bg}};color:{{s.fg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:12.5px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+            {{s.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">RENEWAL</span>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:12px;font-weight:700;color:#5B6472">Handled by</span>
+        <div style="display:flex;gap:8px">
+          <sc-for list="{{owners}}" as="o" hint-placeholder-count="3">
+            <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:700;font-size:13px">{{o.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:12px;font-weight:700;color:#5B6472">Remind before expiry</span>
+        <div style="display:flex;gap:8px">
+          <sc-for list="{{reminders}}" as="r" hint-placeholder-count="3">
+            <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="flex:1;height:44px;border-radius:12px;border:1px solid {{r.border}};background:{{r.bg}};color:{{r.fg}};font-weight:700;font-size:13px">{{r.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <label for="dnotes" style="font-size:12px;font-weight:700;color:#5B6472">Notes</label>
+      <textarea id="dnotes" placeholder="e.g. Original kept in the office safe" style="height:64px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:10px 14px;font-size:14px;background:#FFFFFF;color:#14213D;resize:none"></textarea>
+    </div>
+  </div>
+
+  <div style="padding:12px 20px 28px;display:flex;gap:10px;background:#F5F3EE;border-top:1px solid #E6E2D8">
+    <a href="Admin_IDs.dc.html" style="flex:1;height:52px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;box-sizing:border-box">Cancel</a>
+    <a href="Admin_IDs.dc.html" style="flex:2;height:52px;border-radius:14px;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">Save to vault</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { type: 'Emirates ID', holder: 'Maria', owner: 'Admin', remind: ['90', '30', '7'], scans: { front: true, back: false } };
+  }
+  renderVals() {
+    const st = this.state;
+    const chip = (on) => ({ bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB' });
+    const types = ['Passport', 'Emirates ID', 'Residence visa', 'Visit visa', 'Driving licence', 'Health card', 'Other'].map((label) => {
+      const on = st.type === label;
+      return { label, on, ...chip(on), pick: () => this.setState({ type: label }) };
+    });
+    const holders = [['CEO', 'CEO', 'CE', '#14213D', '#FFFFFF'], ['Ravi', 'Ravi Kumar', 'RK', '#FDF0DC', '#8A4B08'], ['Maria', 'Maria Santos', 'MS', '#E3EAF7', '#1E3A8A']].map(([k, label, ini, avBg, avFg]) => {
+      const on = st.holder === k;
+      return { label, ini, avBg, avFg, on, ...chip(on), pick: () => this.setState({ holder: k }) };
+    });
+    const owners = [['Admin', 'Admin'], ['Sara', 'Sara'], ['Rahul', 'Rahul']].map(([k, label]) => {
+      const on = st.owner === k;
+      return { label, on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB', pick: () => this.setState({ owner: k }) };
+    });
+    const reminders = [['90', '90 days'], ['30', '30 days'], ['7', '7 days']].map(([k, label]) => {
+      const on = st.remind.includes(k);
+      return { label, on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB',
+        pick: () => this.setState({ remind: on ? st.remind.filter((x) => x !== k) : [...st.remind, k] }) };
+    });
+    const firstOf = { '90': '14 Dec 2026', '30': '12 Feb 2027', '7': '7 Mar 2027' };
+    const first = ['90', '30', '7'].find((k) => st.remind.includes(k));
+    const scans = [['front', 'Front'], ['back', 'Back']].map(([k, side]) => {
+      const has = st.scans[k];
+      return {
+        label: has ? side + ' added ✓' : 'Add ' + side.toLowerCase(),
+        bg: has ? '#DDF1EE' : '#FFFFFF', fg: '#0B5C55', border: has ? '1px solid #0F766E' : '1px dashed #0F766E',
+        toggle: () => this.setState({ scans: { ...st.scans, [k]: !has } })
+      };
+    });
+    return {
+      types, holders, owners, reminders, scans,
+      reminderLine: first ? 'First reminder on ' + firstOf[first] + '.' : 'No reminders set. Turn one on below.'
+    };
+  }
+}
+</script>
+</body>
+</html>

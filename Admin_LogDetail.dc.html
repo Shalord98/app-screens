@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Log Detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,textarea,input{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:28px 20px 6px;display:flex;align-items:center;justify-content:space-between;flex:none">
+    <a href="Main.dc.html" aria-label="Back to today" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14213D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <button style="height:44px;padding:0 16px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;font-weight:700;font-size:13px;color:#14213D">Edit</button>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding-bottom:32px">
+
+
+    <div style="padding:10px 20px 0;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">MEETING</span>
+        <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{badgeBg}};color:{{badgeFg}}">{{status}}</span>
+      </div>
+      <span style="font-size:24px;font-weight:800;letter-spacing:-0.4px;line-height:1.2">Vendor contract review</span>
+    </div>
+
+    <div style="margin:14px 20px 0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:4px 14px;display:flex;flex-direction:column">
+      <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #EFEBE2"><span style="font-size:13px;color:#5B6472">Date</span><span style="font-size:13px;font-weight:700">Tue 20 Oct 2026</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #EFEBE2"><span style="font-size:13px;color:#5B6472">Time</span><span style="font-size:13px;font-weight:700">14:00 – 15:00</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 0"><span style="font-size:13px;color:#5B6472">Location</span><span style="font-size:13px;font-weight:700">Boardroom 2</span></div>
+    </div>
+
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">UPDATE STATUS</span>
+      <sc-if value="{{isPostponed}}" hint-placeholder-val="{{false}}">
+        <div style="background:#E3EAF7;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#1E3A8A">POSTPONED · {{pReason}}</span>
+            <span style="font-size:14px;font-weight:700;color:#14213D">Moved to Thu 22 Oct, 10:00 – 11:00</span>
+            <span style="font-size:12px;color:#3D4654">A new log was created from this one. This log stays in History as Postponed.</span>
+          </div>
+          <div style="display:flex;gap:10px">
+            <a href="Admin_LogDetail.dc.html" style="flex:1;height:44px;border-radius:12px;background:#1E3A8A;color:#FFFFFF;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center">View new log</a>
+            <button onClick="{{undoPostpone}}" style="flex:1;height:44px;border-radius:12px;border:1px solid #14213D;background:#FFFFFF;color:#14213D;font-weight:700;font-size:14px">Undo</button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{notPostponed}}" hint-placeholder-val="{{true}}">
+      <div style="background:#E4E7EC;border-radius:12px;padding:3px;display:flex">
+        <sc-for list="{{statuses}}" as="s" hint-placeholder-count="3">
+          <button onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="flex:1;height:44px;border-radius:10px;border:none;background:{{s.bg}};color:{{s.fg}};font-weight:{{s.weight}};font-size:13px">{{s.label}}</button>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{isPlanned}}" hint-placeholder-val="{{true}}">
+        <div style="background:#FFFFFF;border:1px dashed #D9D5CB;border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.5;color:#5B6472">
+          After the meeting, tap <b style="color:#14213D">Done</b> to record what was decided. If it will not happen, tap <b style="color:#14213D">Cancelled</b>. If it moves to another date, postpone it.
+        </div>
+        <button onClick="{{askPostpone}}" style="height:44px;border-radius:12px;border:1px solid #1E3A8A;background:#FFFFFF;color:#1E3A8A;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"></path></svg>
+          Postpone and create a copy
+        </button>
+      </sc-if>
+      <sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="outcome" style="font-size:12px;font-weight:700;color:#5B6472">Outcome</label>
+          <textarea id="outcome" style="height:92px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:10px 14px;font-size:14px;line-height:1.5;background:#FFFFFF;color:#14213D;resize:none">Reviewed SLA and penalty clauses. Gulf Logistics accepted the 99.5% uptime target but asked for a longer cure period. Revised draft to be sent after legal review.</textarea>
+          <span style="font-size:12px;color:#5B6472">Saved as done by Sara Ahmed · today 15:12</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{isCancelled}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="why" style="font-size:12px;font-weight:700;color:#5B6472">Reason (optional)</label>
+          <input id="why" placeholder="e.g. Vendor asked to reschedule" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+          <span style="font-size:12px;color:#5B6472">Cancelled logs stay in History, shown in grey.</span>
+        </div>
+      </sc-if>
+      </sc-if>
+    </div>
+
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">PARTICIPANTS</span>
+      <sc-for list="{{people}}" as="p" hint-placeholder-count="2">
+        <a href="Admin_ContactSummary.dc.html" style="display:flex;align-items:center;gap:12px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:8px 14px;min-height:44px">
+          <span style="width:36px;height:36px;border-radius:18px;background:{{p.bg}};color:{{p.fg}};font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none">{{p.initials}}</span>
+          <div style="flex:1;display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700">{{p.name}}</span><span style="font-size:12px;color:#5B6472">{{p.role}}</span></div>
+          <span style="font-size:11px;font-weight:700;color:#5B6472">{{p.part}}</span>
+        </a>
+      </sc-for>
+    </div>
+
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">SHARED WITH</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span style="min-height:36px;box-sizing:border-box;background:#E3EAF7;color:#1E3A8A;border-radius:18px;padding:0 12px 0 5px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px">
+          <span style="width:26px;height:26px;border-radius:13px;background:#E8E4F5;color:#3F2F8F;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center">SA</span>Sara Ahmed</span>
+        <span style="min-height:36px;box-sizing:border-box;background:#E3EAF7;color:#1E3A8A;border-radius:18px;padding:0 12px 0 5px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px">
+          <span style="width:26px;height:26px;border-radius:13px;background:#FDE7E1;color:#9A3412;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center">RM</span>Rahul Menon</span>
+      </div>
+      <span style="font-size:12px;color:#5B6472">Only these employees and the Admin can see this log.</span>
+    </div>
+
+    <div style="padding:16px 20px 0;display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">ATTACHMENTS · {{fileCount}}</span>
+      <sc-for list="{{files}}" as="f" hint-placeholder-count="2">
+        <div style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:8px 14px 8px 10px;min-height:44px">
+          <span style="width:40px;height:40px;border-radius:10px;background:{{f.bg}};color:{{f.fg}};font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{f.kind}}</span>
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{f.name}}</span><span style="font-size:12px;color:#5B6472">{{f.size}} · added by {{f.by}}</span></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg>
+        </div>
+      </sc-for>
+      <sc-if value="{{canAddFile}}" hint-placeholder-val="{{true}}">
+        <button onClick="{{addFile}}" style="height:48px;border-radius:12px;border:1px dashed #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add attachment</button>
+      </sc-if>
+    </div>
+
+    <div style="margin:16px 20px 0;background:{{fuBg}};border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:{{fuFg}}">{{fuLabel}}</span>
+        <span style="font-size:14px;font-weight:700;text-decoration:{{fuDeco}}">Send revised SLA terms to Karim</span>
+        <span style="font-size:12px;color:#3D4654">Owner: Sara Ahmed · Due 24 Oct</span>
+      </div>
+      <sc-if value="{{fuSaved}}" hint-placeholder-val="{{false}}">
+        <span style="font-size:13px;color:#14213D;background:#FFFFFF;border-radius:10px;padding:8px 10px;line-height:1.45">{{fnoteSaved}}</span>
+        <span style="font-size:12px;color:#0B5C55;font-weight:600">Added to the log as a new entry for today.</span>
+      </sc-if>
+      <sc-if value="{{fuClosing}}" hint-placeholder-val="{{false}}">
+        <label for="fuNoteLd" style="font-size:12px;font-weight:700;color:#8A4B08">What happened? (required)</label>
+        <textarea id="fuNoteLd" value="{{fnote}}" onChange="{{typedFu}}" placeholder="e.g. Sent version 3 of the SLA. Karim will reply by Monday." style="height:84px;box-sizing:border-box;border:1px solid #E5CFA6;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.45;background:#FFFFFF;color:#14213D;resize:none;font-family:inherit"></textarea>
+        <span style="font-size:12px;color:#8A4B08">Saved as a new log for today, linked to this one.</span>
+        <div style="display:flex;gap:8px">
+          <button onClick="{{cancelFu}}" style="flex:1;height:44px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:14px">Cancel</button>
+          <button onClick="{{saveFu}}" disabled="{{fuSaveDisabled}}" style="flex:2;height:44px;border-radius:12px;border:none;background:{{fuSaveBg}};color:#FFFFFF;font-weight:700;font-size:14px">Complete and add to log</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{fuShowBtn}}" hint-placeholder-val="{{true}}">
+      <button onClick="{{toggleFollow}}" style="height:44px;border-radius:12px;border:{{fuBtnBorder}};background:{{fuBtnBg}};color:{{fuBtnFg}};font-weight:700;font-size:14px">{{fuBtnLabel}}</button>
+      </sc-if>
+    </div>
+
+    <div style="padding:14px 20px 0;font-size:12px;color:#5B6472;display:flex;flex-direction:column;gap:2px">
+      <span>Logged by Sara Ahmed · 20 Oct, 15:12</span>
+      <span>Last edited by Rahul Menon · 20 Oct, 16:40</span>
+    </div>
+  </div>
+
+
+  <sc-if value="{{postponing}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:rgba(20,33,61,0.45);display:flex;flex-direction:column;justify-content:flex-end">
+      <div style="background:#FFFFFF;border-radius:22px 22px 0 0;padding:20px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:18px;font-weight:800">Postpone this meeting</span>
+          <span style="font-size:13px;color:#5B6472;line-height:1.4">A new log is created with the same title, participants, location and follow-up. This one is marked Postponed and linked to the new one.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label for="nd" style="font-size:12px;font-weight:700;color:#5B6472">New date</label>
+            <input id="nd" value="Thu 22 Oct 2026" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label for="nt" style="font-size:12px;font-weight:700;color:#5B6472">New time</label>
+            <input id="nt" value="10:00 – 11:00" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">REASON</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{pReasons}}" as="r" hint-placeholder-count="3">
+              <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height:44px;padding:0 16px;border-radius:22px;border:1px solid {{r.border}};background:{{r.bg}};color:{{r.fg}};font-weight:700;font-size:13px">{{r.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button onClick="{{cancelPostpone}}" style="flex:1;height:52px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px">Not now</button>
+          <button onClick="{{confirmPostpone}}" style="flex:1;height:52px;border-radius:14px;border:none;background:#1E3A8A;color:#FFFFFF;font-weight:700;font-size:15px">Create new log</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { status: 'Planned', followDone: false, closingFu: false, fnote: '', fnoteSaved: '', postponing: false, pReason: 'Vendor request', extraFile: false };
+  }
+  renderVals() {
+    const st = this.state;
+    const badge = {
+      Planned: { bg: '#FDF0DC', fg: '#8A4B08' },
+      Done: { bg: '#DDF1EE', fg: '#0B5C55' },
+      Cancelled: { bg: '#E4E7EC', fg: '#3D4654' },
+      Postponed: { bg: '#E3EAF7', fg: '#1E3A8A' }
+    }[st.status];
+    const pReasons = ['Vendor request', 'Admin unavailable', 'Other'].map((label) => {
+      const on = st.pReason === label;
+      return {
+        label, on,
+        bg: on ? '#1E3A8A' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#1E3A8A' : '#D9D5CB',
+        pick: () => this.setState({ pReason: label })
+      };
+    });
+    const statuses = ['Planned', 'Done', 'Cancelled'].map((label) => {
+      const on = st.status === label;
+      return {
+        label, on,
+        bg: on ? '#FFFFFF' : 'transparent', fg: '#14213D', weight: on ? 800 : 600,
+        pick: () => this.setState({ status: label })
+      };
+    });
+    const fd = st.followDone;
+    const tone = { PDF: ['#FDE7E1', '#9A3412'], DOC: ['#E3EAF7', '#1E3A8A'], IMG: ['#DDF1EE', '#0B5C55'] };
+    const base = [
+      { name: 'Vendor_SLA_draft.pdf', size: '412 KB', kind: 'PDF', by: 'Sara Ahmed' },
+      { name: 'Site_visit_photo.jpg', size: '1.8 MB', kind: 'IMG', by: 'Rahul Menon' }
+    ];
+    const files = (st.extraFile ? base.concat([{ name: 'Meeting_minutes.docx', size: '96 KB', kind: 'DOC', by: 'Sara Ahmed' }]) : base)
+      .map((f) => ({ ...f, bg: tone[f.kind][0], fg: tone[f.kind][1] }));
+    return {
+      files, fileCount: files.length, canAddFile: !st.extraFile,
+      addFile: () => this.setState({ extraFile: true }),
+      status: st.status, badgeBg: badge.bg, badgeFg: badge.fg,
+      statuses, pReasons, pReason: st.pReason,
+      isPostponed: st.status === 'Postponed', notPostponed: st.status !== 'Postponed',
+      postponing: st.postponing,
+      askPostpone: () => this.setState({ postponing: true }),
+      cancelPostpone: () => this.setState({ postponing: false }),
+      confirmPostpone: () => this.setState({ postponing: false, status: 'Postponed' }),
+      undoPostpone: () => this.setState({ status: 'Planned' }),
+      isPlanned: st.status === 'Planned', isDone: st.status === 'Done', isCancelled: st.status === 'Cancelled',
+      fuBg: fd ? '#DDF1EE' : '#FDF0DC', fuFg: fd ? '#0B5C55' : '#8A4B08',
+      fuLabel: fd ? 'FOLLOW-UP · COMPLETED BY SARA AHMED TODAY' : 'FOLLOW-UP · OPEN',
+      fuDeco: fd ? 'line-through' : 'none',
+      fuBtnLabel: fd ? 'Reopen follow-up' : 'Complete follow-up',
+      fuBtnBg: fd ? '#FFFFFF' : '#0F766E', fuBtnFg: fd ? '#14213D' : '#FFFFFF',
+      fuBtnBorder: fd ? '1px solid #14213D' : 'none',
+      toggleFollow: () => fd ? this.setState({ followDone: false, fnoteSaved: '' }) : this.setState({ closingFu: true, fnote: '' }),
+      fuClosing: !fd && st.closingFu, fuShowBtn: !(!fd && st.closingFu), fuSaved: fd && !!st.fnoteSaved, fnoteSaved: st.fnoteSaved,
+      fnote: st.fnote, typedFu: (e) => this.setState({ fnote: e.target.value }),
+      fuSaveDisabled: !(st.fnote || '').trim(), fuSaveBg: (st.fnote || '').trim() ? '#0F766E' : '#9FB8B5',
+      cancelFu: () => this.setState({ closingFu: false, fnote: '' }),
+      saveFu: () => { if ((st.fnote || '').trim()) this.setState({ followDone: true, closingFu: false, fnoteSaved: st.fnote.trim() }); },
+      people: [
+        { initials: 'KF', name: 'Karim Fadel', role: 'Gulf Logistics', part: 'Attendee', bg: '#DDF1EE', fg: '#0B5C55' },
+        { initials: 'AM', name: 'Amal Mansoor', role: 'Gulf Logistics', part: 'Attendee', bg: '#E8E4F5', fg: '#3F2F8F' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+  <div style="padding:28px 20px 12px;display:flex;justify-content:space-between;align-items:center">
+    <div style="display:flex;align-items:center;gap:10px">
+      <a href="Admin_More.dc.html" aria-label="Back to More" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </a>
+      <div style="display:flex;flex-direction:column;gap:1px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">{{summary}}</span>
+        <span style="font-size:24px;font-weight:800;letter-spacing:-0.5px">Staff</span>
+      </div>
+    </div>
+    <button aria-label="Add staff member" style="width:44px;height:44px;border-radius:22px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;justify-content:center">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+    </button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 20px">
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:8px 12px;display:flex;flex-direction:column"><span style="font-size:20px;font-weight:800">{{count}}</span><span style="font-size:11.5px;color:#5B6472;font-weight:600">Active staff</span></div>
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:8px 12px;display:flex;flex-direction:column"><span style="font-size:15px;font-weight:800;line-height:1.6">{{payroll}}</span><span style="font-size:11.5px;color:#5B6472;font-weight:600">Salaries / month</span></div>
+    <div style="background:#FDE7E1;border-radius:14px;padding:8px 12px;display:flex;flex-direction:column"><span style="font-size:20px;font-weight:800;color:#9A3412">{{docIssues}}</span><span style="font-size:11.5px;color:#9A3412;font-weight:700">Visa issues</span></div>
+  </div>
+
+  <div style="display:flex;gap:8px;padding:12px 20px 4px;overflow-x:auto">
+    <sc-for list="{{roles}}" as="r" hint-placeholder-count="4">
+      <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid {{r.border}};background:{{r.bg}};color:{{r.fg}};font-weight:600;font-size:13px;white-space:nowrap;flex:none">{{r.label}}</button>
+    </sc-for>
+  </div>
+
+  <div style="flex:1;overflow-y:auto;padding:10px 20px 20px;display:flex;flex-direction:column;gap:10px">
+    <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+      <a href="Admin_StaffDetail.dc.html" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;color:#14213D">
+        <span style="width:44px;height:44px;border-radius:22px;background:{{p.avBg}};color:{{p.avFg}};font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{p.ini}}</span>
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:15px;font-weight:700">{{p.name}}</span>
+          <span style="font-size:12.5px;color:#5B6472">{{p.role}} · since {{p.joined}}</span>
+          <span style="font-size:12.5px;font-weight:700;color:#3D4654">{{p.salaryText}} / month</span>
+        </span>
+        <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{p.chipBg}};color:{{p.chipFg}};flex:none">{{p.chip}}</span>
+      </a>
+    </sc-for>
+  </div>
+  <div style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 8px 8px;box-sizing:border-box">
+    <a href="Main.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>Today</a>
+    <a href="Admin_Contacts.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
+    <a href="Admin_Followups.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
+    <a href="Admin_History.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+    <a href="Admin_More.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg>More</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { role: 'All' }; }
+  renderVals() {
+    const today = new Date(2026, 9, 20);
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const D = (y, m, dd) => new Date(y, m - 1, dd);
+    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
+    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
+    const daysTo = (x) => Math.round((x - today) / 86400000);
+    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const expChip = (x) => {
+      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
+      const n = daysTo(x);
+      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
+      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    };
+    const staff = [
+      { id: 's1', ini: 'RK', name: 'Ravi Kumar', role: 'Driver', joined: 'Mar 2023', salary: 3500, mobile: '+971 50 118 4412', vehicle: 'Toyota Land Cruiser', avBg: '#FDF0DC', avFg: '#8A4B08',
+        docs: [{ type: 'Residence visa', exp: D(2026, 10, 9) }, { type: 'Emirates ID', exp: D(2026, 10, 9) }] },
+      { id: 's2', ini: 'MS', name: 'Maria Santos', role: 'Helper', joined: 'Aug 2025', salary: 2500, mobile: '+971 52 340 7781', vehicle: '', avBg: '#E3EAF7', avFg: '#1E3A8A',
+        docs: [{ type: 'Residence visa', exp: D(2027, 1, 5) }, { type: 'Passport', exp: D(2030, 6, 30) }] },
+      { id: 's3', ini: 'JM', name: 'Joseph Mathew', role: 'Worker', joined: 'Jun 2025', salary: 2800, mobile: '+971 55 902 3309', vehicle: '', avBg: '#DDF1EE', avFg: '#0B5C55', docs: [] },
+      { id: 's4', ini: 'AH', name: 'Ahmed Hassan', role: 'Worker', joined: 'Jan 2026', salary: 2600, mobile: '+971 56 207 1290', vehicle: '', avBg: '#E8E4F5', avFg: '#3F2F8F', docs: [] }
+    ].map((p) => {
+      const docs = p.docs.map((x) => ({ ...x, ...expChip(x.exp), expiry: fmt(x.exp) }));
+      const worst = docs.slice().sort((a, b) => a.days - b.days)[0];
+      const st = worst ? { chip: worst.days < 0 ? 'Visa expired' : worst.days <= 90 ? 'Doc due soon' : 'Docs valid', chipBg: worst.chipBg, chipFg: worst.chipFg }
+        : { chip: 'No documents', chipBg: tone.none[0], chipFg: tone.none[1] };
+      return { ...p, docs, hasDocs: docs.length > 0, noDocs: docs.length === 0, hasVehicle: !!p.vehicle, salaryText: aed(p.salary), ...st };
+    });
+    const chipOf = (on) => ({ bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
+    const st = this.state;
+    const roles = ['All', 'Driver', 'Helper', 'Worker'].map((r) => ({ label: r === 'All' ? 'Everyone' : r + 's', on: st.role === r, ...chipOf(st.role === r), pick: () => this.setState({ role: r }) }));
+    const people = staff.filter((p) => st.role === 'All' || p.role === st.role);
+    return {
+      roles, people, count: staff.length,
+      payroll: aed(staff.reduce((n, p) => n + p.salary, 0)),
+      docIssues: staff.filter((p) => p.docs.some((x) => x.days < 0)).length,
+      summary: staff.length + ' people · Admin only'
+    };
+  }
+}
+</script>
+</body>
+</html>
