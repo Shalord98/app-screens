@@ -474,7 +474,7 @@
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "title": "Finance · 3 Budget plan"
+      "title": "Finance · 2a Budget plan (from overview)"
     },
     "Finance_Expenses.dc.html": {
       "x": 5784,
@@ -484,17 +484,17 @@
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "title": "Finance · 5 Expenses + recurring"
+      "title": "Finance · 4 Expenses + recurring"
     },
     "Finance_Income.dc.html": {
-      "x": 7230,
+      "x": 4338,
       "y": 0,
       "w": 1366,
       "h": 1100,
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "title": "Finance · 6 Income"
+      "title": "Finance · 3 Income"
     },
     "FinPhone_Today.dc.html": {
       "x": 0,
@@ -542,9 +542,9 @@
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "x": 4338,
+      "x": 7230,
       "h": 1100,
-      "title": "Finance · 4 All transactions"
+      "title": "Finance · 5 All transactions"
     }
   },
   "order": [
@@ -589,16 +589,16 @@
     "Laptop_Staff.dc.html",
     "Laptop_Vehicles.dc.html",
     "Laptop_Bills.dc.html",
-    "Finance_Today.dc.html",
-    "Finance_Overview.dc.html",
-    "Finance_Budget.dc.html",
-    "Finance_Transactions.dc.html",
-    "Finance_Expenses.dc.html",
-    "Finance_Income.dc.html",
     "FinPhone_Today.dc.html",
     "FinPhone_Overview.dc.html",
     "FinPhone_Transactions.dc.html",
-    "FinPhone_AddExpense.dc.html"
+    "FinPhone_AddExpense.dc.html",
+    "Finance_Today.dc.html",
+    "Finance_Overview.dc.html",
+    "Finance_Budget.dc.html",
+    "Finance_Income.dc.html",
+    "Finance_Expenses.dc.html",
+    "Finance_Transactions.dc.html"
   ],
   "notes": {
     "ta": {

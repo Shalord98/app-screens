@@ -197,11 +197,12 @@ const SHARED = `const FIN = ${JSON.stringify(FIN)};
 const NAV = [
   ['Finance_Today.dc.html', 'To-do today', '<path d="M9 11l3 3 8-8"></path><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"></path>'],
   ['Finance_Overview.dc.html', 'Budget overview', '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path>'],
-  ['Finance_Budget.dc.html', 'Budget plan', '<rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16"></path>'],
-  ['Finance_Transactions.dc.html', 'All transactions', '<path d="M7 4v16M7 4L3 8M7 4l4 4"></path><path d="M17 20V4M17 20l-4-4M17 20l4-4"></path>'],
+  ['Finance_Income.dc.html', 'Income', '<path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path>'],
   ['Finance_Expenses.dc.html', 'Expenses', '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path>'],
-  ['Finance_Income.dc.html', 'Income', '<path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path>']
+  ['Finance_Transactions.dc.html', 'All transactions', '<path d="M7 4v16M7 4L3 8M7 4l4 4"></path><path d="M17 20V4M17 20l-4-4M17 20l4-4"></path>']
 ];
+// Pages reached from another page rather than the sidebar keep their parent highlighted.
+const NAV_PARENT = { 'Finance_Budget.dc.html': 'Finance_Overview.dc.html' };
 const link = (href, label, icon, on) =>
   `      <a href="${href}" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;${on ? 'background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700' : 'color:#C9D1DE;font-size:14px;font-weight:600'}">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon}</svg>${label}</a>`;
@@ -214,7 +215,7 @@ const nav = (active) => `  <nav aria-label="Main" style="flex:1 1 220px;max-widt
     </div>
     <span style="padding:0 12px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#8C97AA">FINANCE · 2026</span>
     <div style="display:flex;flex-wrap:wrap;gap:4px">
-${NAV.map(([h, l, i]) => link(h, l, i, h === active)).join('\n')}
+${NAV.map(([h, l, i]) => link(h, l, i, h === (NAV_PARENT[active] || active))).join('\n')}
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:4px;padding-top:12px;border-top:1px solid #2A3A5C">
 ${link('Laptop_Today.dc.html', 'Back to logs', '<path d="M15 6l-6 6 6 6"></path>', false)}
