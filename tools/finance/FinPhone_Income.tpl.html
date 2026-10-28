@@ -1,0 +1,146 @@
+<!--@HEAD Income-->
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:24px 20px 10px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <span style="font-size:13px;color:#5B6472;font-weight:500">Expected vs actually received</span>
+      <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">Income 2026</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:#DDF1EE;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column"><span style="font-size:12px;font-weight:700;color:#0B5C55">Received</span><span style="font-size:19px;font-weight:800;color:#0B5C55">{{recSoFar}}</span><span style="font-size:11.5px;color:#0B5C55">of {{expSoFar}} due so far</span></div>
+      <div style="background:#FDE7E1;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column"><span style="font-size:12px;font-weight:700;color:#9A3412">Outstanding</span><span style="font-size:19px;font-weight:800;color:#9A3412">{{outstanding}}</span><span style="font-size:11.5px;color:#9A3412">{{outLine}}</span></div>
+    </div>
+    <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="flex:1;height:38px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13px">{{t.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-scroll style="flex:1;overflow-y:auto;padding:4px 20px 24px;display:flex;flex-direction:column;gap:10px">
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;flex:none;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isSources}}" hint-placeholder-val="{{false}}">
+      <sc-for list="{{bySource}}" as="s" hint-placeholder-count="4">
+        <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
+            <span style="font-size:14px;font-weight:700">{{s.name}}</span>
+            <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{s.bg}};color:{{s.fg}};white-space:nowrap">{{s.gap}}</span>
+          </div>
+          <div style="height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{s.bar}};background:#2563EB"></span></div>
+          <span style="font-size:12px;color:#5B6472">{{s.line}}</span>
+        </div>
+      </sc-for>
+    </sc-if>
+
+    <sc-if value="{{isList}}" hint-placeholder-val="{{true}}">
+      <sc-for list="{{list}}" as="r" hint-placeholder-count="5">
+        <button onClick="{{r.pick}}" style="width:100%;text-align:left;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;color:#14213D">
+          <span style="display:flex;justify-content:space-between;gap:8px;align-items:center;width:100%">
+            <span style="font-size:12px;font-weight:700;color:#5B6472">Due {{r.due}}</span>
+            <span style="font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{r.stBg}};color:{{r.stFg}}">{{r.status}}</span>
+          </span>
+          <span style="display:flex;justify-content:space-between;gap:10px;width:100%">
+            <span style="display:flex;flex-direction:column;min-width:0"><span style="font-size:14.5px;font-weight:700">{{r.name}}</span><span style="font-size:12px;color:#5B6472">{{r.sub}}</span></span>
+            <span style="display:flex;flex-direction:column;align-items:flex-end;flex:none"><span style="font-size:14.5px;font-weight:800;font-variant-numeric:tabular-nums">{{r.mainAmt}}</span><span style="font-size:11.5px;color:#5B6472">{{r.subAmt}}</span></span>
+          </span>
+        </button>
+      </sc-for>
+    </sc-if>
+  </div>
+
+<!--@TABS FinPhone_Income.dc.html-->
+
+  <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;inset:0;background:rgba(20,33,61,0.45);display:flex;flex-direction:column;justify-content:flex-end;z-index:5">
+      <div role="dialog" aria-label="Record income" style="background:#FFFFFF;border-radius:22px 22px 0 0;padding:18px 20px 22px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{s.stBg}};color:{{s.stFg}}">{{s.status}}</span>
+          <button onClick="{{closeSheet}}" aria-label="Close" style="width:40px;height:40px;border-radius:20px;border:none;background:#EEF0F3;color:#14213D;font-size:18px">×</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <h2 style="margin:0;font-size:19px;font-weight:800;line-height:1.25">{{s.name}}</h2>
+          <span style="font-size:13px;color:#5B6472">{{s.from}} · {{s.ref}} · due {{s.dueFull}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">Expected</span><b style="font-size:16px">{{s.expText}}</b></span>
+          <span style="display:flex;flex-direction:column;background:{{s.gapBg}};border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:{{s.gapFg}}">Received</span><b style="font-size:16px;color:{{s.gapFg}}">{{s.recText}}</b></span>
+        </div>
+        <sc-if value="{{s.pending}}" hint-placeholder-val="{{true}}">
+          <label for="pRcv" style="font-size:13px;font-weight:700">Amount received (AED)</label>
+          <input id="pRcv" inputmode="decimal" value="{{draft}}" onChange="{{typed}}" style="height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:17px;font-weight:700;background:#FFFFFF;color:#14213D">
+          <span style="font-size:12.5px;color:#5B6472">{{draftNote}}</span>
+          <button onClick="{{record}}" disabled="{{recordDisabled}}" style="height:50px;border-radius:14px;border:none;background:{{recordBg}};color:#FFFFFF;font-weight:700;font-size:15px">Record as received today</button>
+        </sc-if>
+        <sc-if value="{{s.hasGap}}" hint-placeholder-val="{{false}}">
+          <span style="font-size:13px;font-weight:700;color:{{s.gapFg}}">{{s.gapLine}}</span>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'To collect', sel: null, got: {}, draft: '', banner: '' };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state;
+    const items = FIN.income.map((i) => (st.got[i.id] !== undefined ? { ...i, received: st.got[i.id], recvToday: true } : i));
+    const src = (i) => FIN.sources.find((x) => x.id === i.src);
+    const due = items.filter((i) => daysTo(i.m, i.d) <= 0);
+    const expSoFar = sum(due.map((i) => i.expected)), recDue = sum(due.map((i) => i.received || 0));
+    const statusOf = (i) => {
+      const n = daysTo(i.m, i.d);
+      if (i.received !== null) { const g = i.received - i.expected; return g === 0 ? ['In full', tone.ok] : g < 0 ? ['Short ' + num(-g), tone.warn] : ['Extra ' + num(g), tone.ok]; }
+      return n < 0 ? ['Overdue ' + (-n) + 'd', tone.bad] : n === 0 ? ['Due today', tone.warn] : ['In ' + n + ' days', n <= 7 ? tone.warn : tone.none];
+    };
+    const pend = items.filter((i) => i.received === null).sort((a, b) => daysTo(a.m, a.d) - daysTo(b.m, b.d));
+    const done = items.filter((i) => i.received !== null).sort((a, b) => (b.recvToday ? 1 : 0) - (a.recvToday ? 1 : 0) || daysTo(b.m, b.d) - daysTo(a.m, a.d));
+    const tabs = [['To collect', 'To collect · ' + pend.length], ['Received', 'Received · ' + done.length], ['By source', 'By source']].map(([k, label]) => ({
+      label, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const list = (st.tab === 'Received' ? done : pend).map((i) => {
+      const s = statusOf(i);
+      return { name: src(i).name, sub: src(i).from + ' · ' + i.ref, due: dateText(i.m, i.d), status: s[0], stBg: s[1][0], stFg: s[1][1],
+        mainAmt: aed(i.received === null ? i.expected : i.received), subAmt: i.received === null ? 'expected' : 'of ' + num(i.expected),
+        pick: () => this.setState({ sel: i.id, draft: String(i.expected) }) };
+    });
+    const bySource = FIN.sources.map((s) => {
+      const its = due.filter((i) => i.src === s.id), e = sum(its.map((i) => i.expected)), r = sum(its.map((i) => i.received || 0)), g = r - e, t = g < 0 ? tone.bad : tone.ok;
+      return { name: s.name, bar: e ? Math.min(100, (r / e) * 100).toFixed(0) + '%' : '0%', line: aed(r) + ' of ' + aed(e) + ' expected so far', gap: g === 0 ? 'In full' : g < 0 ? 'Short ' + num(-g) : 'Extra ' + num(g), bg: t[0], fg: t[1] };
+    });
+
+    const it = st.sel && items.find((i) => i.id === st.sel);
+    let s = {}, ok = false, val = 0;
+    if (it) {
+      const so = statusOf(it), g = it.received === null ? 0 : it.received - it.expected, gt = g < 0 ? tone.warn : tone.ok;
+      s = { name: src(it).name, from: src(it).from, ref: it.ref, dueFull: it.d + ' ' + MONTHS[it.m], status: so[0], stBg: so[1][0], stFg: so[1][1],
+        expText: aed(it.expected), recText: it.received === null ? 'Not yet' : aed(it.received), pending: it.received === null,
+        gapBg: it.received === null ? '#F5F3EE' : gt[0], gapFg: it.received === null ? '#5B6472' : gt[1],
+        hasGap: it.received !== null && g !== 0, gapLine: g < 0 ? 'Short by ' + aed(-g) + '.' : aed(g) + ' more than expected.' };
+      val = Number(String(st.draft).replace(/[^0-9.]/g, ''));
+      ok = String(st.draft).trim() !== '' && val > 0;
+    }
+    return {
+      tabs, list, bySource, isList: st.tab !== 'By source', isSources: st.tab === 'By source',
+      recSoFar: aed(recDue), expSoFar: aed(expSoFar), outstanding: aed(expSoFar - recDue), outLine: due.filter((i) => i.received === null).length + ' not received + short payments',
+      sheetOpen: !!it, s, closeSheet: () => this.setState({ sel: null }),
+      draft: st.draft, typed: (e) => this.setState({ draft: e.target.value }),
+      draftNote: it && ok && val !== it.expected ? (val < it.expected ? 'Partial: ' + aed(it.expected - val) + ' will show as short.' : aed(val - it.expected) + ' more than expected.') : 'Change it if a different amount came in.',
+      recordDisabled: !ok, recordBg: ok ? '#0F766E' : '#9FB8B5',
+      record: () => { if (!ok) return; this.setState({ got: { ...st.got, [it.id]: val }, sel: null, tab: 'Received', banner: 'Recorded ' + aed(val) + ' from ' + src(it).name + '.' }); },
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>

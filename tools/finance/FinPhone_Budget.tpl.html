@@ -1,0 +1,104 @@
+<!--@HEAD Budget-->
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:24px 20px 10px;display:flex;flex-direction:column;gap:2px">
+    <span style="font-size:13px;color:#5B6472;font-weight:500">Year to date · 1 Jan – 20 Oct</span>
+    <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">Budget 2026</h1>
+  </div>
+
+  <div data-scroll style="flex:1;overflow-y:auto;padding:4px 20px 24px;display:flex;flex-direction:column;gap:12px">
+    <div style="background:#14213D;color:#FFFFFF;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:8px">
+        <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:700;color:#C9D1DE">Spent so far</span><span style="font-size:26px;font-weight:800;font-variant-numeric:tabular-nums">{{spentYtd}}</span></span>
+        <span style="font-size:12px;font-weight:700;color:#C9D1DE;text-align:right">of {{budget}}</span>
+      </div>
+      <div style="position:relative;height:10px;border-radius:5px;background:#2A3A5C;overflow:hidden">
+        <span style="position:absolute;left:0;top:0;bottom:0;width:{{spentPct}};background:#3BB3A6"></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#C9D1DE;font-weight:600"><span>{{spentLine}}</span><span>{{leftLine}}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <span style="background:#1E2E50;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column"><span style="font-size:11.5px;color:#C9D1DE;font-weight:600">Variance Jan–Sep</span><b style="font-size:15px;color:{{closedFg}}">{{closedVar}}</b></span>
+        <a href="FinPhone_Income.dc.html" style="background:#1E2E50;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;color:#FFFFFF"><span style="font-size:11.5px;color:#C9D1DE;font-weight:600">Income received</span><b style="font-size:15px">{{incomeIn}}</b></a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px" role="group" aria-label="Choose month">
+      <sc-for list="{{months}}" as="mo" hint-placeholder-count="12">
+        <button onClick="{{mo.pick}}" aria-pressed="{{mo.on}}" style="flex:none;width:56px;height:62px;border-radius:14px;border:1px solid {{mo.border}};background:{{mo.bg}};color:{{mo.fg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+          <span style="font-size:13px;font-weight:800">{{mo.label}}</span>
+          <span style="font-size:10.5px;font-weight:700;color:{{mo.varFg}}">{{mo.varShort}}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <h2 style="margin:0;font-size:18px;font-weight:800">{{sel.title}}</h2>
+        <span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:{{sel.stBg}};color:{{sel.stFg}}">{{sel.status}}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">
+        <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:10px;padding:7px 9px"><span style="font-size:11px;font-weight:700;color:#5B6472">Allocated</span><b style="font-size:14px">{{sel.alloc}}</b></span>
+        <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:10px;padding:7px 9px"><span style="font-size:11px;font-weight:700;color:#5B6472">{{sel.spentLabel}}</span><b style="font-size:14px">{{sel.spent}}</b></span>
+        <span style="display:flex;flex-direction:column;background:{{sel.varBg}};border-radius:10px;padding:7px 9px"><span style="font-size:11px;font-weight:700;color:{{sel.varFg}}">Variance</span><b style="font-size:14px;color:{{sel.varFg}}">{{sel.variance}}</b></span>
+      </div>
+      <sc-for list="{{sel.cats}}" as="c" hint-placeholder-count="7">
+        <div style="display:flex;flex-direction:column;gap:5px;padding:8px 0;border-top:1px solid #EFEBE2">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-size:13.5px;font-weight:700">{{c.name}}</span>
+            <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.varShort}}</span>
+          </div>
+          <div style="height:7px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{c.bar}};background:{{c.barColor}}"></span></div>
+          <span style="font-size:12px;color:#5B6472;font-variant-numeric:tabular-nums">{{c.line}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <a href="FinPhone_Transactions.dc.html" style="min-height:44px;display:flex;align-items:center;justify-content:center;color:#0B5C55;font-weight:700;font-size:13.5px">See all transactions</a>
+  </div>
+
+<!--@TABS FinPhone_Budget.dc.html-->
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { month: 9 };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state, now = FIN.today.m;
+    const mA = (m) => sum(FIN.cats.map((c) => c.alloc[m]));
+    const mS = (m) => sum(FIN.cats.map((c) => spentOf(c, m)));
+    const months = MON.map((label, m) => {
+      const v = mA(m) - mS(m), on = m === st.month, future = m > now;
+      return { label, on, bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#E6E2D8',
+        varShort: future ? 'plan' : (v >= 0 ? '+' : '−') + kfmt(v), varFg: on ? '#FFFFFF' : future ? '#5B6472' : v < 0 ? '#9A3412' : '#0B5C55',
+        pick: () => this.setState({ month: m }) };
+    });
+    const m = st.month, a = mA(m), s = mS(m), v = a - s, future = m > now, current = m === now;
+    const status = future ? ['Planned', tone.none] : current ? ['In progress', tone.warn] : ['Closed', tone.ok];
+    const vt = future ? tone.none : varTone(v);
+    const sel = {
+      title: MONTHS[m], status: status[0], stBg: status[1][0], stFg: status[1][1],
+      alloc: num(a), spent: future ? '—' : num(s), spentLabel: current ? 'Spent so far' : 'Spent', variance: future ? '—' : (v >= 0 ? '+' : '−') + num(v), varBg: vt[0], varFg: vt[1],
+      cats: FIN.cats.map((c) => {
+        const ca = c.alloc[m], cs = spentOf(c, m), cv = ca - cs, t = future ? tone.none : varTone(cv), p = ca ? cs / ca : 0;
+        return { name: c.name, varShort: future ? 'Planned' : cv === 0 ? 'On budget' : (cv > 0 ? 'Under ' : 'Over ') + num(cv), varBg: t[0], varFg: t[1],
+          bar: Math.min(100, p * 100).toFixed(0) + '%', barColor: p > 1 ? '#C2410C' : p >= 0.8 ? '#D9902B' : '#0F766E',
+          line: future ? aed(ca) + ' allocated' : aed(cs) + ' of ' + aed(ca) + ' · ' + Math.round(p * 100) + '%' };
+      })
+    };
+    const spentYtd = sum([...Array(now + 1).keys()].map(mS));
+    const closedV = sum([...Array(now).keys()].map((i) => mA(i) - mS(i)));
+    const incDue = FIN.income.filter((i) => daysTo(i.m, i.d) <= 0);
+    return {
+      months, sel, budget: aed(FIN.budget), spentYtd: aed(spentYtd), spentPct: ((spentYtd / FIN.budget) * 100).toFixed(1) + '%',
+      spentLine: Math.round((spentYtd / FIN.budget) * 100) + '% used · 80% of year gone', leftLine: aed(FIN.budget - spentYtd) + ' left',
+      closedVar: (closedV >= 0 ? 'Under ' : 'Over ') + aed(Math.abs(closedV)), closedFg: closedV < 0 ? '#F4A58A' : '#7ED6CB',
+      incomeIn: aed(sum(incDue.map((i) => i.received || 0))) + ' of ' + kfmt(sum(incDue.map((i) => i.expected)))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!--@HEAD Spending-->
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <div style="padding:24px 20px 10px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">{{periodLabel}}</span>
+        <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">Spending</h1>
+      </div>
+      <button onClick="{{openFilters}}" aria-label="{{filterAria}}" style="height:44px;padding:0 14px;border-radius:22px;border:1px solid {{fBtnBorder}};background:{{fBtnBg}};color:{{fBtnFg}};display:flex;align-items:center;gap:6px;font-weight:700;font-size:13px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>{{filterBtn}}</button>
+    </div>
+    <div style="position:relative">
+      <label for="pq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search transactions</label>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:14px;top:13px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="pq" value="{{q}}" onChange="{{search}}" placeholder="Search payee or description" style="width:100%;height:44px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px 0 42px;font-size:14px;background:#FFFFFF;color:#14213D">
+    </div>
+    <sc-if value="{{hasActive}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
+        <sc-for list="{{active}}" as="a" hint-placeholder-count="2">
+          <button onClick="{{a.remove}}" aria-label="{{a.aria}}" style="height:32px;flex:none;padding:0 8px 0 12px;border-radius:16px;border:none;background:#14213D;color:#FFFFFF;font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:6px;white-space:nowrap">{{a.label}}<span aria-hidden="true" style="font-size:15px;line-height:1">×</span></button>
+        </sc-for>
+        <button onClick="{{clearAll}}" style="height:32px;flex:none;padding:0 10px;border-radius:16px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:12.5px">Clear all</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <div data-scroll style="flex:1;overflow-y:auto;padding:4px 20px 96px;display:flex;flex-direction:column;gap:10px">
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:12px;font-weight:700;color:#5B6472">{{sumTitle}}</span>
+        <span style="font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap">{{total}}</span>
+        <span style="font-size:12.5px;font-weight:600;color:#5B6472">{{countLine}}</span>
+      </div>
+      <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:#EEF0F3" role="img" aria-label="{{mixAria}}">
+        <sc-for list="{{mix}}" as="x" hint-placeholder-count="4">
+          <span style="width:{{x.pct}};background:{{x.color}}"></span>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 12px">
+        <sc-for list="{{mixTop}}" as="x" hint-placeholder-count="3">
+          <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3D4654"><span style="width:10px;height:10px;border-radius:3px;background:{{x.color}}"></span>{{x.label}}</span>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 2px 0">
+        <span style="font-size:12px;font-weight:800;letter-spacing:0.6px;color:#5B6472">{{g.label}}</span>
+        <span style="font-size:12px;font-weight:700;color:#5B6472;font-variant-numeric:tabular-nums">{{g.total}}</span>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;flex:none">
+        <sc-for list="{{g.rows}}" as="t" hint-placeholder-count="4">
+          <button onClick="{{t.open}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:#FFFFFF;padding:11px 14px;display:flex;align-items:center;gap:12px;color:#14213D;min-height:60px">
+            <span style="width:36px;height:36px;border-radius:10px;background:{{t.catBg}};color:{{t.catFg}};font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{t.ini}}</span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{t.desc}}</span>
+              <span style="font-size:12px;color:#5B6472;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{t.meta}}</span>
+            </span>
+            <span style="display:flex;flex-direction:column;align-items:flex-end;flex:none">
+              <span style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">{{t.amountText}}</span>
+              <span style="font-size:11px;color:#5B6472;font-weight:600">{{t.date}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-for>
+    <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+      <div style="background:#FFFFFF;border:1px dashed #D9D5CB;border-radius:14px;padding:24px;text-align:center;font-size:14px;color:#5B6472">No transactions match. Try removing a filter.</div>
+    </sc-if>
+    <sc-if value="{{hasMore}}" hint-placeholder-val="{{false}}">
+      <button onClick="{{showMore}}" style="min-height:44px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13.5px">{{moreLabel}}</button>
+    </sc-if>
+  </div>
+
+  <a href="FinPhone_AddExpense.dc.html" aria-label="Add expense" style="position:absolute;right:20px;bottom:96px;height:56px;padding:0 22px 0 18px;border-radius:28px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;box-shadow:0 8px 20px rgba(15,118,110,0.35)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Expense</a>
+
+<!--@TABS FinPhone_Transactions.dc.html-->
+
+  <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;inset:0;background:rgba(20,33,61,0.45);display:flex;flex-direction:column;justify-content:flex-end;z-index:5">
+      <div role="dialog" aria-label="Filter transactions" style="background:#FFFFFF;border-radius:22px 22px 0 0;max-height:88%;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px 8px">
+          <h2 style="margin:0;font-size:19px;font-weight:800">Filter</h2>
+          <button onClick="{{clearAll}}" style="height:36px;padding:0 10px;border-radius:10px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:13px">Clear all</button>
+        </div>
+        <div data-scroll style="overflow-y:auto;padding:4px 20px 12px;display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{sections}}" as="sec" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.6px;color:#5B6472">{{sec.title}}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{sec.opts}}" as="o" hint-placeholder-count="5">
+                  <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:36px;padding:0 12px;border-radius:18px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:12px 20px 20px;border-top:1px solid #EFEBE2">
+          <button onClick="{{closeFilters}}" style="width:100%;height:50px;border-radius:14px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px">{{showLabel}}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{detailOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position:absolute;inset:0;background:rgba(20,33,61,0.45);display:flex;flex-direction:column;justify-content:flex-end;z-index:5">
+      <div role="dialog" aria-label="Transaction detail" style="background:#FFFFFF;border-radius:22px 22px 0 0;padding:18px 20px 22px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{d.catBg}};color:{{d.catFg}}">{{d.catName}}</span>
+          <button onClick="{{closeDetail}}" aria-label="Close" style="width:40px;height:40px;border-radius:20px;border:none;background:#EEF0F3;color:#14213D;font-size:18px">×</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <h2 style="margin:0;font-size:20px;font-weight:800;line-height:1.25">{{d.desc}}</h2>
+          <span style="font-size:28px;font-weight:800;font-variant-numeric:tabular-nums">{{d.amountText}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Date</span><b>{{d.fullDate}}</b></span>
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid to</span><b>{{d.payee}}</b></span>
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">For person</span><b>{{d.person}}</b></span>
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">For</span><b>{{d.object}}</b></span>
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid with</span><b>{{d.method}}</b></span>
+          <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Type</span><b>{{d.type}}</b></span>
+        </div>
+        <span style="font-size:12.5px;font-weight:700;padding:10px 12px;border-radius:12px;background:{{d.rcBg}};color:{{d.rcFg}}">{{d.rcText}}</span>
+        <div style="display:flex;gap:8px">
+          <sc-if value="{{d.canPerson}}" hint-placeholder-val="{{true}}">
+            <button onClick="{{d.byPerson}}" style="flex:1;height:44px;border-radius:12px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px">All for {{d.personShort}}</button>
+          </sc-if>
+          <sc-if value="{{d.canObject}}" hint-placeholder-val="{{false}}">
+            <button onClick="{{d.byObject}}" style="flex:1;height:44px;border-radius:12px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px">All for {{d.object}}</button>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: '', f: { month: 'all', cat: 'all', p: 'all', o: 'all', type: 'all' }, sheet: false, open: null, limit: 40 };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state, f = st.f;
+    const all = FIN.history.concat(FIN.txns).slice().sort((a, b) => b.m - a.m || b.d - a.d);
+    const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
+    const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
+    const q = st.q.trim().toLowerCase();
+    const match = (t, skip) => (skip === 'month' || f.month === 'all' || t.m === f.month) && (skip === 'cat' || f.cat === 'all' || t.cat === f.cat)
+      && (skip === 'p' || f.p === 'all' || t.p === f.p) && (skip === 'o' || f.o === 'all' || t.o === f.o) && (skip === 'type' || f.type === 'all' || t.type === f.type)
+      && (!q || (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q));
+    const shown = all.filter((t) => match(t));
+    const setF = (patch) => this.setState({ f: { ...this.state.f, ...patch }, limit: 40 });
+
+    // Summary: total, count and category mix of what is filtered.
+    const total = sum(shown.map((t) => t.amount));
+    const byCat = FIN.cats.map((c) => ({ c, v: sum(shown.filter((t) => t.cat === c.id).map((t) => t.amount)) })).filter((x) => x.v > 0).sort((a, b) => b.v - a.v);
+    const mixColor = { staff: '#6D5BD0', util: '#3B6FD8', veh: '#D9902B', home: '#0F766E', travel: '#C2410C', gov: '#7A8494', hosp: '#B83280' };
+    const mix = byCat.map((x) => ({ pct: total ? ((x.v / total) * 100).toFixed(2) + '%' : '0%', color: mixColor[x.c.id] }));
+    const mixTop = byCat.slice(0, 4).map((x) => ({ color: mixColor[x.c.id], label: x.c.name + ' ' + Math.round((x.v / total) * 100) + '%' }));
+
+    // Group rows by month, with a "show more" limit to keep the list quick.
+    const limited = shown.slice(0, st.limit);
+    const groups = [];
+    limited.forEach((t) => {
+      let g = groups.find((x) => x.m === t.m);
+      if (!g) { g = { m: t.m, label: MONTHS[t.m].toUpperCase(), total: aed(sum(shown.filter((x) => x.m === t.m).map((x) => x.amount))), rows: [] }; groups.push(g); }
+      const who = [pName(t.p), oName(t.o)].filter(Boolean).join(' · ');
+      g.rows.push({ desc: t.desc, ini: catOf(t.cat).ini, catBg: catColor[t.cat][0], catFg: catColor[t.cat][1], amountText: num(t.amount), date: dateText(t.m, t.d),
+        meta: who ? who + ' · ' + t.payee : t.payee, open: () => this.setState({ open: t.id }) });
+    });
+
+    // Filter sheet sections. Counts show how many results each option would give.
+    const opt = (key, val, label) => {
+      const on = f[key] === val;
+      const n = val === 'all' ? null : all.filter((t) => match(t, key) && t[key === 'month' ? 'm' : key] === val).length;
+      return { label: n === null ? label : label + ' · ' + n, on, bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB', pick: () => setF({ [key]: val }) };
+    };
+    const months = [...Array(FIN.today.m + 1).keys()].reverse();
+    const sections = [
+      { title: 'PERIOD', opts: [opt('month', 'all', 'All 2026')].concat(months.map((m) => opt('month', m, MON[m]))) },
+      { title: 'CATEGORY', opts: [opt('cat', 'all', 'All')].concat(FIN.cats.map((c) => opt('cat', c.id, c.name))) },
+      { title: 'PERSON', opts: [opt('p', 'all', 'Anyone')].concat(FIN.persons.map((p) => opt('p', p.id, p.name))) },
+      { title: 'VEHICLE OR PROPERTY', opts: [opt('o', 'all', 'Anything')].concat(FIN.objects.map((o) => opt('o', o.id, o.name))) },
+      { title: 'TYPE', opts: [opt('type', 'all', 'Any'), opt('type', 'One-off', 'One-off'), opt('type', 'Recurring', 'Recurring')] }
+    ];
+    const labels = { month: (v) => MONTHS[v], cat: (v) => catOf(v).name, p: (v) => pName(v), o: (v) => oName(v), type: (v) => v };
+    const active = Object.keys(f).filter((k) => f[k] !== 'all').map((k) => ({ label: labels[k](f[k]), aria: 'Remove filter ' + labels[k](f[k]), remove: () => setF({ [k]: 'all' }) }));
+
+    const t = st.open && all.find((x) => x.id === st.open);
+    const d = t ? {
+      desc: t.desc, amountText: aed(t.amount), catName: catOf(t.cat).name, catBg: catColor[t.cat][0], catFg: catColor[t.cat][1],
+      fullDate: t.d + ' ' + MONTHS[t.m] + ' ' + FIN.year, payee: t.payee, method: t.method, type: t.type,
+      person: pName(t.p) || '—', object: oName(t.o) || '—', personShort: pName(t.p).split(' ')[0],
+      rcText: t.receipt ? 'Receipt attached · entered by ' + t.by : 'Receipt missing · entered by ' + t.by,
+      rcBg: t.receipt ? '#DDF1EE' : '#E3EAF7', rcFg: t.receipt ? '#0B5C55' : '#1E3A8A',
+      canPerson: !!t.p, canObject: !!t.o,
+      byPerson: () => this.setState({ f: { month: 'all', cat: 'all', p: t.p, o: 'all', type: 'all' }, q: '', open: null, limit: 40 }),
+      byObject: () => this.setState({ f: { month: 'all', cat: 'all', p: 'all', o: t.o, type: 'all' }, q: '', open: null, limit: 40 })
+    } : {};
+
+    const nActive = active.length;
+    const monthsCovered = f.month === 'all' ? FIN.today.m + 1 : 1;
+    return {
+      q: st.q, search: (e) => this.setState({ q: e.target.value, limit: 40 }),
+      periodLabel: f.month === 'all' ? 'All of 2026 · Jan – 20 Oct' : MONTHS[f.month] + ' ' + FIN.year,
+      filterBtn: nActive ? 'Filters · ' + nActive : 'Filters', filterAria: 'Open filters, ' + nActive + ' active',
+      fBtnBg: nActive ? '#14213D' : '#FFFFFF', fBtnFg: nActive ? '#FFFFFF' : '#14213D', fBtnBorder: nActive ? '#14213D' : '#D9D5CB',
+      active, hasActive: nActive > 0, clearAll: () => this.setState({ f: { month: 'all', cat: 'all', p: 'all', o: 'all', type: 'all' }, q: '', limit: 40 }),
+      sumTitle: nActive || q ? 'Total for this filter' : 'Total spent in 2026',
+      total: aed(total), countLine: shown.length + (shown.length === 1 ? ' transaction' : ' transactions') + (monthsCovered > 1 && shown.length ? ' · ≈ ' + aed(total / monthsCovered) + '/month' : ''),
+      mix, mixTop, mixAria: byCat.map((x) => x.c.name + ' ' + aed(x.v)).join(', '),
+      groups, isEmpty: shown.length === 0, hasMore: shown.length > st.limit,
+      moreLabel: 'Show more (' + (shown.length - st.limit) + ' older)', showMore: () => this.setState({ limit: st.limit + 60 }),
+      sheetOpen: st.sheet, openFilters: () => this.setState({ sheet: true }), closeFilters: () => this.setState({ sheet: false }),
+      sections, showLabel: 'Show ' + shown.length + (shown.length === 1 ? ' transaction' : ' transactions'),
+      detailOpen: !!t, d, closeDetail: () => this.setState({ open: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

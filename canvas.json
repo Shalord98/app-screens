@@ -29,6 +29,10 @@
     {
       "id": "finance",
       "name": "Laptop · Finance"
+    },
+    {
+      "id": "finance_phone",
+      "name": "Phone · Finance"
     }
   ],
   "boards": {
@@ -491,6 +495,56 @@
       "expand": "fill",
       "is_interactive": true,
       "title": "Finance · 5 Income"
+    },
+    "FinPhone_Today.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 1 To-do today"
+    },
+    "FinPhone_Budget.dc.html": {
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 2 Budget"
+    },
+    "FinPhone_Transactions.dc.html": {
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 3 Spending + filters"
+    },
+    "FinPhone_AddExpense.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 4 Add expense"
+    },
+    "FinPhone_Income.dc.html": {
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 5 Income"
     }
   },
   "order": [
@@ -539,7 +593,12 @@
     "Finance_Overview.dc.html",
     "Finance_Budget.dc.html",
     "Finance_Expenses.dc.html",
-    "Finance_Income.dc.html"
+    "Finance_Income.dc.html",
+    "FinPhone_Today.dc.html",
+    "FinPhone_Budget.dc.html",
+    "FinPhone_Transactions.dc.html",
+    "FinPhone_AddExpense.dc.html",
+    "FinPhone_Income.dc.html"
   ],
   "notes": {
     "ta": {
@@ -581,6 +640,14 @@
       "x": 0,
       "y": -260,
       "page": "finance"
+    },
+    "tfp": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "Finance on the phone",
+      "x": 0,
+      "y": -260,
+      "page": "finance_phone"
     }
   },
   "designSystems": []

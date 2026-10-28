@@ -40,6 +40,72 @@ const txns = [
   T('t03', 1, 'Car lease – Nissan Patrol', 'veh', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', true, 'Fatima Noor')
 ];
 
+// Who (person) and what (object) each expense was for, so transactions can be filtered by them.
+const persons = [
+  { id: 'ceo', name: 'CEO' }, { id: 'ravi', name: 'Ravi Kumar' }, { id: 'maria', name: 'Maria Santos' },
+  { id: 'joseph', name: 'Joseph Mathew' }, { id: 'ahmed', name: 'Ahmed Hassan' }
+];
+const objects = [
+  { id: 'lc', name: 'Land Cruiser' }, { id: 'patrol', name: 'Nissan Patrol' }, { id: 'merc', name: 'Mercedes S 500' },
+  { id: 'villa', name: 'Villa' }, { id: 'apt', name: 'Jumeirah apartment' }
+];
+const tags = {
+  t19: ['ceo', ''], t18: ['', 'villa'], t17: ['', 'patrol'], t16: ['', 'villa'], t15: ['', 'villa'], t14: ['', ''], t13: ['ceo', ''],
+  t12: ['', 'villa'], t11: ['', 'villa'], t10: ['', 'lc'], t09: ['ceo', ''], t08: ['ceo', ''], t07: ['ravi', ''], t06: ['ravi', ''],
+  t05: ['', 'lc'], t04: ['', 'villa'], t03: ['', 'patrol']
+};
+txns.forEach((t) => { t.p = tags[t.id][0]; t.o = tags[t.id][1]; });
+
+// Jan–Sep history: each category's monthly spend split into realistic transactions that add up exactly.
+const history = [];
+let hn = 0;
+const H = (m, d, desc, cat, payee, method, amount, type, p, o) =>
+  history.push({ id: 'h' + (++hn), m, d, desc, cat, payee, method, amount, type, receipt: true, by: 'Fatima Noor', p, o });
+const split = (total, parts) => {
+  // Split `total` by the given shares, rounded to 5, with the remainder on the last part.
+  const out = []; let left = total;
+  parts.forEach((share, i) => { const v = i === parts.length - 1 ? left : Math.round((total * share) / 5) * 5; out.push(v); left -= v; });
+  return out;
+};
+const govPeople = ['maria', 'joseph', 'ahmed', 'ceo', 'ravi', 'maria', 'joseph', 'ahmed', 'ceo'];
+const pname = (id) => persons.find((x) => x.id === id).name;
+for (let m = 0; m < 9; m++) {
+  const sp = (id) => cats.find((c) => c.id === id).spent[m];
+  // Staff: one salary per person, plus annual leave tickets in July.
+  [['ravi', 3500], ['maria', 2500], ['joseph', 2800], ['ahmed', 2600]].forEach(([p, a]) => H(m, 28, 'Salary – ' + pname(p), 'staff', 'WPS payroll', 'Bank transfer', a, 'Recurring', p, ''));
+  if (sp('staff') > 11400) H(m, 12, 'Annual leave flight – Ravi Kumar', 'staff', 'Emirates', 'Card ••4417', sp('staff') - 11400, 'One-off', 'ravi', '');
+  // Utilities: fixed bills, DEWA takes the rest.
+  const fixed = [['du – Internet and TV', 'du', 399, 18], ['Empower – Chiller', 'Empower', 720, 28], ['Etisalat – Mobiles', 'Etisalat', 650, 14], ['OSN+ subscription', 'OSN', 55, 11]];
+  fixed.forEach(([desc, payee, a, d]) => H(m, d, desc, 'util', payee, desc.startsWith('du') ? 'Card ••4417' : 'Autopay', a, 'Recurring', '', desc.startsWith('Etisalat') ? '' : 'villa'));
+  H(m, 22, 'DEWA – Villa', 'util', 'DEWA', 'Bank transfer', sp('util') - 1824, 'Recurring', '', 'villa');
+  // Vehicles: Patrol lease, then fuel and Salik.
+  H(m, 1, 'Car lease – Nissan Patrol', 'veh', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', '', 'patrol');
+  const v = split(sp('veh') - 3200, [0.4, 0.25, 0.2, 0.15]);
+  H(m, 6, 'Petrol – Land Cruiser', 'veh', 'ENOC', 'Fuel card', v[0], 'One-off', '', 'lc');
+  H(m, 13, 'Petrol – Nissan Patrol', 'veh', 'ADNOC', 'Fuel card', v[1], 'One-off', '', 'patrol');
+  H(m, 19, 'Petrol – Mercedes S 500', 'veh', 'ENOC', 'Fuel card', v[2], 'One-off', '', 'merc');
+  H(m, 9, 'Salik top-up', 'veh', 'RTA Salik', 'Card ••4417', v[3], 'One-off', '', 'lc');
+  // Household: pool, groceries, maintenance (the apartment gets an AC service in Mar and Jul).
+  const aptJob = m === 2 || m === 6 ? 600 : 0;
+  const hh = split(sp('home') - 450 - aptJob, [0.6, 0.25, 0.15]);
+  H(m, 10, 'Pool maintenance', 'home', 'BlueWave Pools', 'Petty cash', 450, 'Recurring', '', 'villa');
+  H(m, 3, 'Groceries', 'home', 'Carrefour', 'Card ••4417', hh[0], 'One-off', '', 'villa');
+  H(m, 16, 'Groceries', 'home', 'Spinneys', 'Card ••4417', hh[1], 'One-off', '', 'villa');
+  H(m, 24, 'Villa maintenance', 'home', 'FixIt Home Services', 'Bank transfer', hh[2], 'One-off', '', 'villa');
+  if (aptJob) H(m, 20, 'AC service – apartment', 'home', 'CoolTech Services', 'Bank transfer', aptJob, 'One-off', '', 'apt');
+  // Travel, government fees, hospitality.
+  const tr = split(sp('travel'), [0.45, 0.55]);
+  H(m, 7, 'Flights – CEO trip', 'travel', 'Emirates', 'Card ••4417', tr[0], 'One-off', 'ceo', '');
+  H(m, 8, 'Hotel – CEO trip', 'travel', 'Marriott Bonvoy', 'Card ••4417', tr[1], 'One-off', 'ceo', '');
+  H(m, 15, 'Visa and medical – ' + pname(govPeople[m]), 'gov', 'GDRFA Dubai', 'Card ••4417', sp('gov'), 'One-off', govPeople[m], '');
+  H(m, 21, 'Business dinner', 'hosp', 'Zuma DIFC', 'Card ••4417', sp('hosp'), 'One-off', 'ceo', '');
+}
+// Sanity check: history adds up to each category's monthly spend.
+cats.forEach((c) => c.spent.forEach((s, m) => {
+  const got = history.filter((h) => h.cat === c.id && h.m === m).reduce((a, h) => a + h.amount, 0);
+  if (got !== s || history.some((h) => h.amount <= 0)) throw new Error('history mismatch ' + c.id + ' ' + m + ' ' + got + ' vs ' + s);
+}));
+
 // Recurring payments: next due date (month index, day), amount, how it is paid.
 const R = (id, name, cat, freq, m, d, amount, method, autopay, note) => ({ id, name, cat, freq, m, d, amount, method, autopay, note });
 const recurring = [
@@ -69,7 +135,7 @@ for (let m = 0; m < 12; m++) income.push({ id: 'a' + m, src: 'allow', m, d: 25, 
 [[1, 3000, 3000, 'Jan trip'], [2, 6000, 4800, 'London trip'], [5, 5000, 5000, 'Paris trip'], [6, 8000, 6200, 'Summer trips'], [9, 4500, null, 'Riyadh – Sep claim'], [10, 7600, null, 'Riyadh – Oct claim']]
   .forEach(([m, e, r, ref], i) => income.push({ id: 'rb' + i, src: 'reimb', m, d: m === 9 ? 15 : 10, expected: e, received: r, ref }));
 
-const FIN = { year: 2026, budget: 500000, today: { m: 9, d: 20 }, cats, txns, recurring, sources, income };
+const FIN = { year: 2026, budget: 500000, today: { m: 9, d: 20 }, cats, txns, history, persons, objects, recurring, sources, income };
 
 const SHARED = `const FIN = ${JSON.stringify(FIN)};
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -120,6 +186,19 @@ ${link('Laptop_Today.dc.html', 'Back to logs', '<path d="M15 6l-6 6 6 6"></path>
     </div>
   </nav>`;
 
+// Phone bottom menu for the Finance screens.
+const TABS = [
+  ['FinPhone_Today.dc.html', 'To-do', '<path d="M9 11l3 3 8-8"></path><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"></path>'],
+  ['FinPhone_Budget.dc.html', 'Budget', '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path>'],
+  ['FinPhone_Transactions.dc.html', 'Spending', '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path>'],
+  ['FinPhone_Income.dc.html', 'Income', '<path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path>'],
+  ['Main.dc.html', 'Logs', '<rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path>']
+];
+const tabs = (active) => `  <nav aria-label="Finance" style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 6px 8px;box-sizing:border-box">
+${TABS.map(([h, l, i]) => `    <a href="${h}"${h === active ? ' aria-current="page"' : ''} style="min-width:62px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:${h === active ? '#0F766E' : '#5B6472'};font-size:11px;font-weight:${h === active ? 700 : 600}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${i}</svg>${l}</a>`).join('\n')}
+  </nav>`;
+
 const head = (title) => `<!doctype html>
 <html lang="en">
 <head>
@@ -138,6 +217,7 @@ button,input,textarea{font-family:inherit}
 button{cursor:pointer}
 button:disabled{cursor:not-allowed}
 a{text-decoration:none}
+[data-scroll]>*{flex-shrink:0}
 input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F766E;outline-offset:2px}
 </style>
 </helmet>`;
@@ -146,6 +226,7 @@ for (const f of fs.readdirSync(__dirname).filter((x) => x.endsWith('.tpl.html'))
   let s = fs.readFileSync(path.join(__dirname, f), 'utf8');
   s = s.replace(/<!--@HEAD (.+?)-->/, (_, t) => head(t));
   s = s.replace(/<!--@NAV (.+?)-->/, (_, a) => nav(a));
+  s = s.replace(/<!--@TABS (.+?)-->/, (_, a) => tabs(a));
   s = s.replace('/*@SHARED*/', SHARED);
   const out = f.replace('.tpl.html', '.dc.html');
   fs.writeFileSync(path.join(OUT, out), s);
