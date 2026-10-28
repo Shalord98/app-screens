@@ -67,7 +67,6 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
         <span style="font-size:13px;font-weight:700;color:#5B6472">Annual budget</span><span style="font-size:24px;font-weight:800">{{budget}}</span><span style="font-size:12px;color:#5B6472">{{allocLine}}</span></div>
       <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
         <span style="font-size:13px;font-weight:700;color:#5B6472">Spent so far</span><span style="font-size:24px;font-weight:800">{{spentYtd}}</span>
-        <div style="height:6px;border-radius:3px;background:#EEF0F3;overflow:hidden;margin:4px 0 2px"><span style="display:block;height:100%;width:{{spentPct}};background:#0F766E"></span></div>
         <span style="font-size:12px;color:#5B6472">{{spentLine}}</span></div>
       <div style="background:{{varBg}};border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
         <span style="font-size:13px;font-weight:700;color:{{varFg}}">Variance, Jan–Sep</span><span style="font-size:24px;font-weight:800;color:{{varFg}}">{{closedVar}}</span><span style="font-size:12px;color:{{varFg}}">{{closedVarLine}}</span></div>
@@ -78,30 +77,24 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
     </div>
 
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
-      <section aria-label="Monthly allocation and spend" style="flex:3 1 520px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px 18px 12px;display:flex;flex-direction:column;gap:12px">
-        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
-          <h2 style="margin:0;font-size:18px;font-weight:800">Allocated vs spent, by month</h2>
-          <div style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#5B6472">
-            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#D9D5CB"></span>Allocated</span>
-            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#0F766E"></span>Spent</span>
-            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#C2410C"></span>Over budget</span>
-          </div>
-        </div>
+      <section aria-label="Months" style="flex:3 1 520px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px">
+        <h2 style="margin:0;font-size:18px;font-weight:800">Month by month</h2>
         <div style="overflow-x:auto">
-          <div style="min-width:600px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end">
+          <div style="min-width:480px;display:flex;flex-direction:column">
+            <div style="display:flex;gap:12px;padding:6px 10px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+              <span style="flex:1">MONTH</span><span style="width:110px;text-align:right">ALLOCATED</span><span style="width:110px;text-align:right">SPENT</span><span style="width:140px;text-align:right">VARIANCE</span>
+            </div>
             <sc-for list="{{months}}" as="mo" hint-placeholder-count="12">
-              <button onClick="{{mo.pick}}" aria-pressed="{{mo.on}}" aria-label="{{mo.aria}}" style="border:none;border-radius:12px;background:{{mo.bg}};padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#14213D">
-                <span style="height:170px;display:flex;align-items:flex-end;gap:3px">
-                  <span style="width:12px;height:{{mo.allocH}};background:#D9D5CB;border-radius:4px 4px 0 0"></span>
-                  <span style="width:12px;height:{{mo.spentH}};background:{{mo.spentColor}};border-radius:4px 4px 0 0"></span>
-                </span>
-                <span style="font-size:12.5px;font-weight:800">{{mo.label}}</span>
-                <span style="font-size:11px;font-weight:700;color:{{mo.varFg}};white-space:nowrap">{{mo.varShort}}</span>
+              <button onClick="{{mo.pick}}" aria-pressed="{{mo.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{mo.bg}};box-shadow:{{mo.mark}};padding:9px 10px;display:flex;align-items:center;gap:12px;color:#14213D;font-size:13.5px;font-variant-numeric:tabular-nums">
+                <span style="flex:1;font-weight:700">{{mo.name}}</span>
+                <span style="width:110px;text-align:right">{{mo.allocText}}</span>
+                <span style="width:110px;text-align:right;font-weight:700">{{mo.spentText}}</span>
+                <span style="width:140px;display:flex;justify-content:flex-end"><span style="font-size:12px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{mo.pillBg}};color:{{mo.pillFg}};white-space:nowrap">{{mo.pill}}</span></span>
               </button>
             </sc-for>
           </div>
         </div>
-        <span style="font-size:12px;color:#5B6472">Figures under each month show the variance: + is under budget, − is over. October is in progress; November and December are planned only.</span>
+        <span style="font-size:12px;color:#5B6472">Click a month to see its categories. October is in progress; November and December are planned only.</span>
       </section>
 
       <aside aria-label="Month detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px">
@@ -141,7 +134,7 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
       <div style="overflow-x:auto">
         <div style="min-width:760px;display:flex;flex-direction:column">
           <div style="display:flex;gap:12px;padding:8px 4px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
-            <span style="flex:1.4">CATEGORY</span><span style="width:120px;text-align:right">YEAR ALLOCATION</span><span style="width:120px;text-align:right">ALLOCATED TO OCT</span><span style="width:110px;text-align:right">SPENT</span><span style="width:130px;text-align:right">VARIANCE</span><span style="flex:1">USED OF YEAR</span>
+            <span style="flex:1.4">CATEGORY</span><span style="width:120px;text-align:right">YEAR ALLOCATION</span><span style="width:120px;text-align:right">ALLOCATED TO OCT</span><span style="width:110px;text-align:right">SPENT</span><span style="width:130px;text-align:right">VARIANCE</span><span style="width:110px;text-align:right">USED OF YEAR</span>
           </div>
           <sc-for list="{{catRows}}" as="c" hint-placeholder-count="7">
             <div style="display:flex;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid #EFEBE2;font-size:13.5px;font-variant-numeric:tabular-nums">
@@ -153,15 +146,12 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
               <span style="width:120px;text-align:right">{{c.toDate}}</span>
               <span style="width:110px;text-align:right;font-weight:700">{{c.spent}}</span>
               <span style="width:130px;display:flex;justify-content:flex-end"><span style="font-size:12px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.variance}}</span></span>
-              <span style="flex:1;display:flex;align-items:center;gap:8px">
-                <span style="flex:1;height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{c.usedBar}};background:{{c.barColor}}"></span></span>
-                <span style="width:40px;text-align:right;font-size:12px;font-weight:700;color:#5B6472">{{c.used}}</span>
-              </span>
+              <span style="width:110px;text-align:right;font-size:13px;font-weight:700;color:#5B6472">{{c.used}}</span>
             </div>
           </sc-for>
           <div style="display:flex;gap:12px;align-items:center;padding:12px 4px 4px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">
             <span style="flex:1.4">Total</span><span style="width:120px;text-align:right">{{total.year}}</span><span style="width:120px;text-align:right">{{total.toDate}}</span><span style="width:110px;text-align:right">{{total.spent}}</span>
-            <span style="width:130px;text-align:right;color:{{total.varFg}}">{{total.variance}}</span><span style="flex:1"></span>
+            <span style="width:130px;text-align:right;color:{{total.varFg}}">{{total.variance}}</span><span style="width:110px"></span>
           </div>
         </div>
       </div>
@@ -198,17 +188,14 @@ class Component extends DCLogic {
     const now = FIN.today.m;
     const monthAlloc = (m) => sum(FIN.cats.map((c) => c.alloc[m]));
     const monthSpent = (m) => sum(FIN.cats.map((c) => spentOf(c, m)));
-    const maxV = Math.max(...MON.map((_, m) => Math.max(monthAlloc(m), monthSpent(m))));
-    const h = (v) => Math.round((v / maxV) * 160) + 'px';
     const months = MON.map((label, m) => {
       const a = monthAlloc(m), s = monthSpent(m), v = a - s, on = m === st.month;
       const future = m > now;
+      const vt = future ? tone.none : varTone(v);
       return {
-        label, on, bg: on ? '#E6F2F0' : 'transparent',
-        allocH: h(a), spentH: future ? '0px' : h(s), spentColor: s > a ? '#C2410C' : '#0F766E',
-        varShort: future ? 'plan' : (v >= 0 ? '+' : '−') + kfmt(v) + (m === now ? '*' : ''),
-        varFg: future ? '#5B6472' : v < 0 ? '#9A3412' : '#0B5C55',
-        aria: MONTHS[m] + ': allocated ' + aed(a) + (future ? ', planned' : ', spent ' + aed(s) + ', ' + varText(v)),
+        name: MONTHS[m] + (m === now ? ' (so far)' : ''), on, bg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none',
+        allocText: num(a), spentText: future ? '—' : num(s),
+        pill: future ? 'Planned' : v === 0 ? 'On budget' : (v > 0 ? 'Under ' : 'Over ') + num(v), pillBg: vt[0], pillFg: vt[1],
         pick: () => this.setState({ month: m })
       };
     });

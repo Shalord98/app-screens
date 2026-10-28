@@ -53,16 +53,7 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
         <span style="font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap">{{total}}</span>
         <span style="font-size:12.5px;font-weight:600;color:#5B6472">{{countLine}}</span>
       </div>
-      <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:#EEF0F3" role="img" aria-label="{{mixAria}}">
-        <sc-for list="{{mix}}" as="x" hint-placeholder-count="4">
-          <span style="width:{{x.pct}};background:{{x.color}}"></span>
-        </sc-for>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px 12px">
-        <sc-for list="{{mixTop}}" as="x" hint-placeholder-count="3">
-          <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#3D4654"><span style="width:10px;height:10px;border-radius:3px;background:{{x.color}}"></span>{{x.label}}</span>
-        </sc-for>
-      </div>
+      <span style="font-size:12.5px;color:#3D4654">{{mixLine}}</span>
     </div>
 
     <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
@@ -208,9 +199,6 @@ class Component extends DCLogic {
     // Summary: total, count and category mix of what is filtered.
     const total = sum(shown.map((t) => t.amount));
     const byCat = FIN.cats.map((c) => ({ c, v: sum(shown.filter((t) => t.cat === c.id).map((t) => t.amount)) })).filter((x) => x.v > 0).sort((a, b) => b.v - a.v);
-    const mixColor = { staff: '#6D5BD0', util: '#3B6FD8', veh: '#D9902B', home: '#0F766E', travel: '#C2410C', gov: '#7A8494', hosp: '#B83280' };
-    const mix = byCat.map((x) => ({ pct: total ? ((x.v / total) * 100).toFixed(2) + '%' : '0%', color: mixColor[x.c.id] }));
-    const mixTop = byCat.slice(0, 4).map((x) => ({ color: mixColor[x.c.id], label: x.c.name + ' ' + Math.round((x.v / total) * 100) + '%' }));
 
     // Group rows by month, with a "show more" limit to keep the list quick.
     const limited = shown.slice(0, st.limit);
@@ -262,7 +250,7 @@ class Component extends DCLogic {
       active, hasActive: nActive > 0, clearAll: () => this.setState({ f: { month: 'all', cat: 'all', p: 'all', o: 'all', type: 'all' }, q: '', limit: 40 }),
       sumTitle: nActive || q ? 'Total for this filter' : 'Total spent in 2026',
       total: aed(total), countLine: shown.length + (shown.length === 1 ? ' transaction' : ' transactions') + (monthsCovered > 1 && shown.length ? ' · ≈ ' + aed(total / monthsCovered) + '/month' : ''),
-      mix, mixTop, mixAria: byCat.map((x) => x.c.name + ' ' + aed(x.v)).join(', '),
+      mixLine: byCat.length > 1 ? 'Biggest: ' + byCat.slice(0, 3).map((x) => x.c.name + ' ' + Math.round((x.v / total) * 100) + '%').join(' · ') : '',
       groups, isEmpty: shown.length === 0, hasMore: shown.length > st.limit,
       moreLabel: 'Show more (' + (shown.length - st.limit) + ' older)', showMore: () => this.setState({ limit: st.limit + 60 }),
       sheetOpen: st.sheet, openFilters: () => this.setState({ sheet: true }), closeFilters: () => this.setState({ sheet: false }),

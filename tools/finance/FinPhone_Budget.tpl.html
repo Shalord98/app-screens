@@ -12,9 +12,6 @@
         <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:700;color:#C9D1DE">Spent so far</span><span style="font-size:26px;font-weight:800;font-variant-numeric:tabular-nums">{{spentYtd}}</span></span>
         <span style="font-size:12px;font-weight:700;color:#C9D1DE;text-align:right">of {{budget}}</span>
       </div>
-      <div style="position:relative;height:10px;border-radius:5px;background:#2A3A5C;overflow:hidden">
-        <span style="position:absolute;left:0;top:0;bottom:0;width:{{spentPct}};background:#3BB3A6"></span>
-      </div>
       <div style="display:flex;justify-content:space-between;font-size:12px;color:#C9D1DE;font-weight:600"><span>{{spentLine}}</span><span>{{leftLine}}</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <span style="background:#1E2E50;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column"><span style="font-size:11.5px;color:#C9D1DE;font-weight:600">Variance Jan–Sep</span><b style="font-size:15px;color:{{closedFg}}">{{closedVar}}</b></span>
@@ -47,7 +44,6 @@
             <span style="font-size:13.5px;font-weight:700">{{c.name}}</span>
             <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.varShort}}</span>
           </div>
-          <div style="height:7px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{c.bar}};background:{{c.barColor}}"></span></div>
           <span style="font-size:12px;color:#5B6472;font-variant-numeric:tabular-nums">{{c.line}}</span>
         </div>
       </sc-for>

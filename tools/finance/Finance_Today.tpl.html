@@ -89,10 +89,6 @@
             <h2 style="margin:0;font-size:18px;font-weight:800">October so far</h2>
             <span style="font-size:12px;color:#5B6472;font-weight:600">11 days left</span>
           </div>
-          <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;background:#EEF0F3" role="img" aria-label="{{barLabel}}">
-            <span style="width:{{spentPct}};background:#0F766E"></span>
-            <span style="width:{{commitPct}};background:#E9B872"></span>
-          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12.5px">
             <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Budget</span><b style="font-size:15px">{{monthBudget}}</b></span>
             <span style="display:flex;flex-direction:column"><span style="color:#0B5C55;font-weight:700">Spent</span><b style="font-size:15px">{{monthSpent}}</b></span>
@@ -107,7 +103,6 @@
           <sc-for list="{{usage}}" as="u" hint-placeholder-count="4">
             <div style="display:flex;flex-direction:column;gap:5px">
               <div style="display:flex;justify-content:space-between;gap:8px;font-size:13px"><span style="font-weight:700">{{u.name}}</span><span style="font-weight:700;color:{{u.fg}}">{{u.pctText}}</span></div>
-              <div style="height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{u.bar}};background:{{u.barColor}}"></span></div>
               <span style="font-size:12px;color:#5B6472">{{u.line}}</span>
             </div>
           </sc-for>
