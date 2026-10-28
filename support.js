@@ -209,7 +209,8 @@
     if (!SCREEN.test(file)) return;
     let text = cache[file];
     if (!text) {
-      const res = await fetch(file);
+      // Always check for a newer copy, so screens update as soon as a new version is published.
+      const res = await fetch(file, { cache: 'no-cache' });
       if (!res.ok) throw new Error('Could not load ' + file);
       text = cache[file] = await res.text();
     }
