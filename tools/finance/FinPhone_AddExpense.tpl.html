@@ -1,9 +1,16 @@
-<!--@HEAD Add expense-->
+<!--@HEAD Add expense or income-->
 <div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
 
   <div style="padding:24px 20px 10px;display:flex;flex-direction:column;gap:2px">
     <span style="font-size:13px;color:#5B6472;font-weight:500">Today, 20 Oct · Fatima Noor</span>
-    <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">Add expense</h1>
+    <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">{{title}}</h1>
+    <sc-if value="{{editing}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px;margin-top:10px" role="group" aria-label="What are you adding?">
+        <sc-for list="{{kinds}}" as="k" hint-placeholder-count="2">
+          <button onClick="{{k.pick}}" aria-pressed="{{k.on}}" style="flex:1;height:38px;border-radius:10px;border:none;background:{{k.bg}};color:{{k.fg}};font-weight:{{k.weight}};font-size:14px">{{k.label}}</button>
+        </sc-for>
+      </div>
+    </sc-if>
   </div>
 
   <sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
@@ -11,21 +18,54 @@
       <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
         <span style="width:56px;height:56px;border-radius:28px;background:#DDF1EE;color:#0B5C55;display:flex;align-items:center;justify-content:center">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg></span>
-        <h2 style="margin:0;font-size:20px;font-weight:800">Expense saved</h2>
+        <h2 style="margin:0;font-size:20px;font-weight:800">{{last.heading}}</h2>
         <span style="font-size:26px;font-weight:800;font-variant-numeric:tabular-nums">{{last.amountText}}</span>
         <span style="font-size:14px;font-weight:700">{{last.desc}}</span>
         <span style="font-size:12.5px;color:#5B6472">{{last.line}}</span>
-        <div style="width:100%;background:{{last.budgetBg}};border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;text-align:left;margin-top:6px">
-          <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:{{last.budgetFg}}">{{last.budgetTitle}}</span>
-          <span style="font-size:12.5px;font-weight:600;color:{{last.budgetFg}}">{{last.budgetLine}}</span>
-        </div>
+        <sc-if value="{{last.hasBudget}}" hint-placeholder-val="{{true}}">
+          <div style="width:100%;background:{{last.budgetBg}};border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;text-align:left;margin-top:6px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:{{last.budgetFg}}">{{last.budgetTitle}}</span>
+            <span style="font-size:12.5px;font-weight:600;color:{{last.budgetFg}}">{{last.budgetLine}}</span>
+          </div>
+        </sc-if>
       </div>
-      <button onClick="{{again}}" style="height:50px;border-radius:14px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px">Add another expense</button>
+      <button onClick="{{again}}" style="height:50px;border-radius:14px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px">{{last.againLabel}}</button>
       <a href="FinPhone_Transactions.dc.html" style="height:50px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">View recent</a>
     </div>
   </sc-if>
 
-  <sc-if value="{{editing}}" hint-placeholder-val="{{true}}">
+  <sc-if value="{{incomeMode}}" hint-placeholder-val="{{false}}">
+    <div data-scroll style="flex:1;overflow-y:auto;padding:6px 20px 16px;display:flex;flex-direction:column;gap:16px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+        <label for="nAmt" style="font-size:12px;font-weight:700;color:#5B6472">AMOUNT RECEIVED (AED)</label>
+        <input id="nAmt" inputmode="decimal" value="{{n.amount}}" onChange="{{n.setAmount}}" placeholder="0" style="width:100%;min-width:0;height:50px;box-sizing:border-box;border:none;padding:0;font-size:34px;font-weight:800;background:transparent;color:#0B5C55;font-variant-numeric:tabular-nums">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:13px;font-weight:700">Category</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{n.cats}}" as="o" hint-placeholder-count="5">
+            <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:38px;padding:0 13px;border-radius:19px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="nFrom" style="font-size:13px;font-weight:700">From</label>
+        <input id="nFrom" value="{{n.from}}" onChange="{{n.setFrom}}" placeholder="{{n.fromHint}}" style="width:100%;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;background:#FFFFFF;color:#14213D">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <label for="nRef" style="font-size:13px;font-weight:700">Note <span style="font-weight:500;color:#5B6472">(optional)</span></label>
+        <input id="nRef" value="{{n.ref}}" onChange="{{n.setRef}}" placeholder="e.g. Q4 rent cheque, March bonus" style="width:100%;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;background:#FFFFFF;color:#14213D">
+      </div>
+      <button onClick="{{n.toggleProof}}" style="min-height:52px;border:1px dashed {{n.pBorder}};border-radius:12px;background:{{n.pBg}};color:{{n.pFg}};font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{n.proofLabel}}</button>
+      <span style="font-size:12.5px;color:#5B6472;line-height:1.5">Saved as received today. To plan income that is still expected, use Income on the laptop.</span>
+    </div>
+    <div style="padding:10px 20px 18px;background:#F5F3EE;border-top:1px solid #E6E2D8">
+      <button onClick="{{n.save}}" disabled="{{n.saveDisabled}}" style="width:100%;height:52px;border-radius:14px;border:none;background:{{n.saveBg}};color:#FFFFFF;font-weight:700;font-size:16px">{{n.saveLabel}}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{expenseMode}}" hint-placeholder-val="{{true}}">
     <div data-scroll style="flex:1;overflow-y:auto;padding:6px 20px 16px;display:flex;flex-direction:column;gap:16px">
       <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
         <label for="eAmt" style="font-size:12px;font-weight:700;color:#5B6472">AMOUNT (AED)</label>
@@ -85,8 +125,9 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { form: this.blank(), last: null };
+    this.state = { kind: 'expense', form: this.blank(), inc: this.blankIncome(), last: null };
   }
+  blankIncome() { return { amount: '', src: '', from: '', ref: '', proof: false }; }
   blank() { return { amount: '', desc: '', payee: '', cat: '', p: '', o: '', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false, more: false, allCats: false }; }
   renderVals() {
     /*@SHARED*/
@@ -123,18 +164,47 @@ class Component extends DCLogic {
       rcBorder: fm.receipt ? '#0F766E' : '#9AA3AF', rcBg: fm.receipt ? '#DDF1EE' : '#FFFFFF', rcFg: fm.receipt ? '#0B5C55' : '#3D4654',
       toggleReceipt: () => setF({ receipt: !fm.receipt }),
       saveDisabled: !ok, saveBg: ok ? '#0F766E' : '#9FB8B5', saveLabel: ok ? 'Save ' + aed(amt) : !(amt > 0) ? 'Enter the amount' : !fm.desc.trim() ? 'Say what it was for' : 'Pick a category',
-      save: () => { if (ok) this.setState({ last: { ...fm, amount: amt }, form: this.blank() }); }
+      save: () => { if (ok) this.setState({ last: { ...fm, kind: 'expense', amount: amt }, form: this.blank() }); }
+    };
+    // Income: amount, category, who paid. Saved as received today.
+    const ic = st.inc;
+    const setI = (patch) => this.setState({ inc: { ...this.state.inc, ...patch } });
+    const iAmt = Number(String(ic.amount).replace(/[^0-9.]/g, ''));
+    const iOk = iAmt > 0 && !!ic.src;
+    const iSrc = FIN.sources.find((x) => x.id === ic.src);
+    const n = {
+      ...ic,
+      setAmount: (e) => setI({ amount: e.target.value }), setFrom: (e) => setI({ from: e.target.value }), setRef: (e) => setI({ ref: e.target.value }),
+      fromHint: iSrc ? iSrc.from : 'Who paid',
+      cats: FIN.sources.map((x) => ({ label: x.name, ...choice(ic.src === x.id), pick: () => setI({ src: x.id }) })),
+      proofLabel: ic.proof ? 'Proof photo added · tap to remove' : 'Photo of the cheque or bank advice',
+      pBorder: ic.proof ? '#0F766E' : '#9AA3AF', pBg: ic.proof ? '#DDF1EE' : '#FFFFFF', pFg: ic.proof ? '#0B5C55' : '#3D4654',
+      toggleProof: () => setI({ proof: !ic.proof }),
+      saveDisabled: !iOk, saveBg: iOk ? '#0F766E' : '#9FB8B5', saveLabel: iOk ? 'Save · received ' + aed(iAmt) : !(iAmt > 0) ? 'Enter the amount' : 'Pick a category',
+      save: () => { if (iOk) this.setState({ last: { ...ic, kind: 'income', amount: iAmt }, inc: this.blankIncome() }); }
     };
     let last = {};
-    if (st.last) {
+    if (st.last && st.last.kind === 'income') {
+      const l = st.last, src = FIN.sources.find((x) => x.id === l.src);
+      last = { heading: 'Income recorded', againLabel: 'Add more income', hasBudget: false, amountText: '+' + aed(l.amount), desc: l.ref.trim() || src.name,
+        line: [l.ref.trim() ? src.name : '', l.from.trim() || src.from, 'received today', l.proof ? 'proof added' : 'no proof yet'].filter(Boolean).join(' · ') };
+    } else if (st.last) {
       const l = st.last, cat = FIN.cats.find((c) => c.id === l.cat), m = FIN.today.m;
       const used = spentOf(cat, m) + l.amount, alloc = cat.alloc[m], p = used / alloc, t = p > 1 ? tone.bad : p >= 0.8 ? tone.warn : tone.ok;
       const who = [(FIN.persons.find((x) => x.id === l.p) || {}).name, (FIN.objects.find((x) => x.id === l.o) || {}).name].filter(Boolean).join(' · ');
-      last = { amountText: aed(l.amount), desc: l.desc.trim(), line: [cat.name, who, l.method, l.type === 'Recurring' ? 'repeats ' + l.freq.toLowerCase() : 'one-off', l.receipt ? 'receipt added' : 'no receipt'].filter(Boolean).join(' · '),
+      last = { heading: 'Expense saved', againLabel: 'Add another expense', hasBudget: true, amountText: aed(l.amount), desc: l.desc.trim(), line: [cat.name, who, l.method, l.type === 'Recurring' ? 'repeats ' + l.freq.toLowerCase() : 'one-off', l.receipt ? 'receipt added' : 'no receipt'].filter(Boolean).join(' · '),
         budgetTitle: cat.name.toUpperCase() + ' · OCTOBER BUDGET', budgetBg: t[0], budgetFg: t[1], budgetBar: Math.min(100, p * 100).toFixed(0) + '%',
         budgetLine: aed(used) + ' of ' + aed(alloc) + ' used (' + Math.round(p * 100) + '%)' };
     }
-    return { f, saved: !!st.last, editing: !st.last, last, again: () => this.setState({ last: null }) };
+    const kinds = [['expense', 'Expense'], ['income', 'Income']].map(([k, label]) => {
+      const on = st.kind === k;
+      return { label, on, bg: on ? '#FFFFFF' : 'transparent', fg: on ? (k === 'income' ? '#0B5C55' : '#14213D') : '#3D4654', weight: on ? 800 : 600, pick: () => this.setState({ kind: k }) };
+    });
+    return {
+      f, n, kinds, saved: !!st.last, editing: !st.last, last, again: () => this.setState({ last: null }),
+      expenseMode: !st.last && st.kind === 'expense', incomeMode: !st.last && st.kind === 'income',
+      title: st.last ? (st.last.kind === 'income' ? 'Add income' : 'Add expense') : st.kind === 'income' ? 'Add income' : 'Add expense'
+    };
   }
 }
 </script>

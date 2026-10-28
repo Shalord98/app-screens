@@ -9,6 +9,8 @@
         <span style="font-size:13px;color:#5B6472;font-weight:500">What we expect to get, and what actually came in</span>
         <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Income 2026</h1>
       </div>
+      <button onClick="{{startAdd}}" style="height:44px;padding:0 18px 0 14px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add income</button>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
@@ -25,20 +27,22 @@
       </div>
     </sc-if>
 
-    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch">
-      <section aria-label="By source" style="flex:1 1 100%;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px">
-        <h2 style="margin:0 0 4px;font-size:18px;font-weight:800">By source, so far</h2>
-        <sc-for list="{{bySource}}" as="s" hint-placeholder-count="4">
-          <div style="display:flex;flex-direction:column;gap:5px;padding:8px 0;border-bottom:1px solid #EFEBE2">
-            <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
-              <span style="font-size:13.5px;font-weight:700">{{s.name}}</span>
-              <span style="font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{s.bg}};color:{{s.fg}};white-space:nowrap">{{s.gap}}</span>
+    <sc-if value="{{showSources}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch">
+        <section aria-label="By source" style="flex:1 1 100%;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px">
+          <h2 style="margin:0 0 4px;font-size:18px;font-weight:800">By source, so far</h2>
+          <sc-for list="{{bySource}}" as="s" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:5px;padding:8px 0;border-bottom:1px solid #EFEBE2">
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
+                <span style="font-size:13.5px;font-weight:700">{{s.name}}</span>
+                <span style="font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{s.bg}};color:{{s.fg}};white-space:nowrap">{{s.gap}}</span>
+              </div>
+              <span style="font-size:12px;color:#5B6472">{{s.line}}</span>
             </div>
-            <span style="font-size:12px;color:#5B6472">{{s.line}}</span>
-          </div>
-        </sc-for>
-      </section>
-    </div>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
 
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
       <section aria-label="Receipts" style="flex:3 1 520px;min-width:0;display:flex;flex-direction:column;gap:10px">
@@ -64,6 +68,58 @@
           </div>
         </div>
       </section>
+
+      <sc-if value="{{adding}}" hint-placeholder-val="{{false}}">
+        <aside aria-label="Add income" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:2px solid #0F766E;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:20px;font-weight:800">Add income</h2>
+            <button onClick="{{cancelAdd}}" style="height:36px;padding:0 12px;border-radius:10px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Cancel</button></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700">Category</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{nf.cats}}" as="c" hint-placeholder-count="5">
+                <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height:34px;padding:0 12px;border-radius:17px;border:1px solid {{c.border}};background:{{c.bg}};color:{{c.fg}};font-weight:600;font-size:12.5px">{{c.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <label for="iAmt" style="font-size:13px;font-weight:700">Amount (AED)</label>
+              <input id="iAmt" inputmode="decimal" value="{{nf.amount}}" onChange="{{nf.setAmount}}" placeholder="0" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;font-weight:700;background:#FFFFFF;color:#14213D">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <label for="iFrom" style="font-size:13px;font-weight:700">From</label>
+              <input id="iFrom" value="{{nf.from}}" onChange="{{nf.setFrom}}" placeholder="{{nf.fromHint}}" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label for="iRef" style="font-size:13px;font-weight:700">Description / reference</label>
+            <input id="iRef" value="{{nf.ref}}" onChange="{{nf.setRef}}" placeholder="e.g. Q4 rent cheque no. 004512, March bonus" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700">Status</span>
+            <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px;align-self:flex-start">
+              <sc-for list="{{nf.whens}}" as="w" hint-placeholder-count="2">
+                <button onClick="{{w.pick}}" aria-pressed="{{w.on}}" style="height:36px;padding:0 14px;border-radius:10px;border:none;background:{{w.bg}};color:#14213D;font-weight:{{w.weight}};font-size:13px">{{w.label}}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{nf.isExpected}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-direction:column;gap:6px;max-width:220px">
+                <label for="iDue" style="font-size:12.5px;font-weight:700;color:#5B6472">Expected on</label>
+                <input id="iDue" type="date" value="{{nf.due}}" onChange="{{nf.setDue}}" style="height:42px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:10px;padding:0 10px;font-size:14px;background:#FFFFFF;color:#14213D">
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+            <span style="font-size:13px;font-weight:700;margin-right:4px">Repeats</span>
+            <sc-for list="{{nf.repeats}}" as="r" hint-placeholder-count="4">
+              <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{r.border}};background:{{r.bg}};color:{{r.fg}};font-weight:600;font-size:12.5px">{{r.label}}</button>
+            </sc-for>
+            <span style="font-size:12px;color:#5B6472;flex-basis:100%">{{nf.repeatNote}}</span>
+          </div>
+          <button onClick="{{nf.toggleProof}}" style="min-height:46px;border:1px dashed {{nf.pBorder}};border-radius:12px;background:{{nf.pBg}};color:{{nf.pFg}};font-weight:700;font-size:13.5px">{{nf.proofLabel}}</button>
+          <button onClick="{{nf.save}}" disabled="{{nf.saveDisabled}}" style="height:48px;border-radius:12px;border:none;background:{{nf.saveBg}};color:#FFFFFF;font-weight:700;font-size:15px">{{nf.saveLabel}}</button>
+        </aside>
+      </sc-if>
 
       <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
         <aside aria-label="Receipt detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
@@ -100,12 +156,15 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { tab: 'To collect', sel: 'rent9', got: {}, draft: '30000', banner: '' };
+    this.state = { tab: 'To collect', sel: 'rent9', got: {}, draft: '30000', banner: '', adding: false, added: [], n: 1, form: this.blankForm() };
+  }
+  blankForm() {
+    return { src: '', amount: '', from: '', ref: '', when: 'received', due: '', repeat: 'No', proof: false };
   }
   renderVals() {
     /*@SHARED*/
     const st = this.state;
-    const items = FIN.income.map((i) => (st.got[i.id] !== undefined ? { ...i, received: st.got[i.id], recvToday: true } : i));
+    const items = FIN.income.concat(st.added).map((i) => (st.got[i.id] !== undefined ? { ...i, received: st.got[i.id], recvToday: true } : i));
     const src = (i) => FIN.sources.find((x) => x.id === i.src);
     const due = items.filter((i) => daysTo(i.m, i.d) <= 0);
     const expSoFar = sum(due.map((i) => i.expected)), recSoFar = sum(items.filter((i) => i.received !== null).map((i) => i.received));
@@ -146,16 +205,54 @@ class Component extends DCLogic {
     const tabs = [['To collect', pend.length], ['Received', done.length]].map(([k, n]) => ({ label: k + ' · ' + n, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
     const list = (st.tab === 'To collect' ? pend : done).map((i) => {
       const on = i.id === st.sel, s = statusOf(i);
-      return { id: i.id, on, name: src(i).name, sub: src(i).from + ' · ' + i.ref, due: dateText(i.m, i.d), expText: num(i.expected), recText: i.received === null ? '—' : num(i.received),
+      return { id: i.id, on, name: src(i).name, sub: (i.from || src(i).from) + ' · ' + i.ref, due: dateText(i.m, i.d), expText: num(i.expected), recText: i.received === null ? '—' : num(i.received),
         status: s[0], stBg: s[1][0], stFg: s[1][1], rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none',
         pick: () => this.setState({ sel: i.id, draft: String(i.expected) }) };
     });
+
+    // Add income form.
+    const fm = st.form;
+    const setF = (patch) => this.setState({ form: { ...this.state.form, ...patch } });
+    const choice = (on) => ({ on, bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB' });
+    const fAmt = Number(String(fm.amount).replace(/[^0-9.]/g, ''));
+    const dueD = fm.due ? new Date(fm.due + 'T00:00:00') : null;
+    const dueOk = fm.when === 'received' || (dueD && dueD.getFullYear() === FIN.year);
+    const formOk = !!fm.src && fAmt > 0 && dueOk;
+    const step = { Monthly: 1, Quarterly: 3, Yearly: 12 }[fm.repeat] || 0;
+    const startM = fm.when === 'received' ? FIN.today.m : dueD ? dueD.getMonth() : FIN.today.m;
+    const repeatsLeft = step ? Math.floor((11 - startM) / step) : 0;
+    const srcDef = FIN.sources.find((x) => x.id === fm.src);
+    const nf = {
+      ...fm, isExpected: fm.when === 'expected',
+      setAmount: (e) => setF({ amount: e.target.value }), setFrom: (e) => setF({ from: e.target.value }), setRef: (e) => setF({ ref: e.target.value }), setDue: (e) => setF({ due: e.target.value }),
+      fromHint: srcDef ? srcDef.from : 'Who paid',
+      cats: FIN.sources.map((x) => ({ label: x.name, ...choice(fm.src === x.id), pick: () => setF({ src: x.id }) })),
+      whens: [['received', 'Received today'], ['expected', 'Expected later']].map(([k, label]) => ({ label, on: fm.when === k, bg: fm.when === k ? '#FFFFFF' : 'transparent', weight: fm.when === k ? 800 : 600, pick: () => setF({ when: k }) })),
+      repeats: ['No', 'Monthly', 'Quarterly', 'Yearly'].map((k) => ({ label: k, ...choice(fm.repeat === k), pick: () => setF({ repeat: k }) })),
+      repeatNote: step ? (repeatsLeft ? 'Also adds ' + repeatsLeft + ' expected ' + (repeatsLeft === 1 ? 'payment' : 'payments') + ' for the rest of ' + FIN.year + '.' : 'No more ' + fm.repeat.toLowerCase() + ' payments fall in ' + FIN.year + '.') : 'One payment only.',
+      proofLabel: fm.proof ? 'Proof attached (bank advice / cheque copy) · tap to remove' : 'Attach proof (bank advice or cheque copy)',
+      pBorder: fm.proof ? '#0F766E' : '#9AA3AF', pBg: fm.proof ? '#DDF1EE' : '#FFFFFF', pFg: fm.proof ? '#0B5C55' : '#3D4654',
+      toggleProof: () => setF({ proof: !fm.proof }),
+      saveDisabled: !formOk, saveBg: formOk ? '#0F766E' : '#9FB8B5',
+      saveLabel: !fm.src ? 'Pick a category' : !(fAmt > 0) ? 'Enter the amount' : !dueOk ? 'Pick the expected date' : fm.when === 'received' ? 'Save · received ' + aed(fAmt) : 'Save · expected ' + aed(fAmt),
+      save: () => {
+        if (!formOk) return;
+        const base = { src: fm.src, from: fm.from.trim(), ref: fm.ref.trim() || (fm.when === 'received' ? 'Received' : 'Expected'), expected: fAmt };
+        const first = fm.when === 'received'
+          ? { ...base, id: 'new' + st.n, m: FIN.today.m, d: FIN.today.d, received: fAmt, recvToday: true }
+          : { ...base, id: 'new' + st.n, m: dueD.getMonth(), d: dueD.getDate(), received: null };
+        const more = [...Array(repeatsLeft).keys()].map((k) => ({ ...base, id: 'new' + st.n + '-' + (k + 1), m: startM + step * (k + 1), d: first.d, received: null }));
+        this.setState({ added: [...st.added, first, ...more], n: st.n + 1, adding: false, sel: first.id, tab: fm.when === 'received' ? 'Received' : 'To collect',
+          draft: String(fAmt), form: this.blankForm(),
+          banner: (fm.when === 'received' ? 'Added ' + aed(fAmt) + ' received today' : 'Added ' + aed(fAmt) + ' expected on ' + first.d + ' ' + MONTHS[first.m]) + ' (' + srcDef.name + ')' + (more.length ? ', plus ' + more.length + (more.length === 1 ? ' more expected payment.' : ' more expected payments.') : '.') });
+      }
+    };
 
     const it = items.find((i) => i.id === st.sel);
     let s = null, ok = false, val = 0;
     if (it) {
       const so = statusOf(it), g = it.received === null ? 0 : it.received - it.expected, gt = g < 0 ? tone.warn : tone.ok;
-      s = { name: src(it).name, from: src(it).from, ref: it.ref.toUpperCase(), dueFull: it.d + ' ' + MONTHS[it.m] + ' ' + FIN.year, status: so[0], stBg: so[1][0], stFg: so[1][1],
+      s = { name: src(it).name, from: it.from || src(it).from, ref: it.ref.toUpperCase(), dueFull: it.d + ' ' + MONTHS[it.m] + ' ' + FIN.year, status: so[0], stBg: so[1][0], stFg: so[1][1],
         expText: aed(it.expected), recText: it.received === null ? 'Not yet' : aed(it.received), pending: it.received === null,
         gapBg: it.received === null ? '#F5F3EE' : gt[0], gapFg: it.received === null ? '#5B6472' : gt[1],
         hasGap: it.received !== null && g !== 0, gapLine: g < 0 ? 'Short by ' + aed(-g) + '. Follow up with ' + src(it).from.replace('Tenant: ', '') + '.' : 'Received ' + aed(g) + ' more than expected.' };
@@ -163,14 +260,15 @@ class Component extends DCLogic {
       ok = String(st.draft).trim() !== '' && val > 0;
     }
     return {
-      months, bySource, tabs, list, hasSel: !!s, s,
+      months, bySource, tabs, list, hasSel: !!s && !st.adding, s, adding: st.adding, nf, showSources: !st.adding,
+      startAdd: () => this.setState({ adding: true, form: this.blankForm() }), cancelAdd: () => this.setState({ adding: false }),
       expSoFar: aed(expSoFar), recSoFar: aed(recSoFar), recPct: Math.round((recDue / expSoFar) * 100) + '% of what was due so far',
       outstanding: aed(expSoFar - recDue), outLine: due.filter((i) => i.received === null).length + ' payments not received, plus short payments',
       restYear: aed(sum(later.map((i) => i.expected))),
       draft: st.draft, typed: (e) => this.setState({ draft: e.target.value }),
       draftNote: it && ok && val !== it.expected ? (val < it.expected ? 'Partial payment: ' + aed(it.expected - val) + ' will show as short.' : aed(val - it.expected) + ' more than expected.') : 'Change the amount if a different amount came in.',
       recordDisabled: !ok, recordBg: ok ? '#0F766E' : '#9FB8B5',
-      record: () => { if (!ok) return; this.setState({ got: { ...st.got, [it.id]: val }, banner: 'Recorded ' + aed(val) + ' from ' + src(it).name + '.', tab: 'Received' }); },
+      record: () => { if (!ok) return; this.setState({ got: { ...st.got, [it.id]: val }, banner: 'Recorded ' + aed(val) + ' from ' + src(it).name + '.', tab: 'Received', adding: false }); },
       hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
     };
   }
