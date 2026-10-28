@@ -274,6 +274,123 @@ ${TABS.map(([h, l, i]) => `    <a href="${h}"${h === active ? ' aria-current="pa
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${i}</svg>${l}</a>`).join('\n')}
   </nav>`;
 
+const STAFF_JS = String.raw`
+    // ---- Staff records (sample data) and the fields shown for each person ----
+    const STAFF = [
+      { id: 's1', empId: 'EMP-001', name: 'Ravi Kumar', preferred: 'Ravi', gender: 'Male', dob: '1988-04-12', nationality: 'Indian', marital: 'Married', email: 'ravi.kumar88@example.com', mobile: '+971 50 118 4412',
+        sponsor: 'CEO (household sponsor)', department: 'Transport', jobTitle: 'Driver', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Rahul Menon',
+        joined: '2023-03-01', probationEnd: '2023-08-31', contractStart: '2025-03-01', contractEnd: '2027-02-28', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS bank transfer', bank: 'Emirates NBD', iban: 'AE07 0260 0010 1234 5678 901', basic: 2000, housing: 800, transport: 300, otherAllow: 400, bonus: 1750, lastIncrement: '2025-03-01', nextReview: '2027-03-01',
+        leaveEnt: 30, leaveTaken: 18, sickTaken: 3, otherLeave: 0, ticketEnt: 6000, ticketPaid: 6000, ticketDue: '2027-07-01', route: 'Economy, DXB – Kochi (family)',
+        medProvider: 'Daman', medPolicy: 'DMN-77310245', medPlan: 'Basic (essential benefits)', medStart: '2026-01-01', medExpiry: '2026-12-31', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2024/7700512', visaIssue: '2024-10-10', visaExpiry: '2026-10-09', visaCost: 3850, eidNo: '784-1990-7654321-7', eidExpiry: '2026-10-09',
+        passportNo: 'Z4471209', passportExpiry: '2031-05-14', permitNo: 'MOHRE DW-558213', permitExpiry: '2026-10-09', govtCost: 1870,
+        vehicle: 'Toyota Land Cruiser (Dubai A 12345)', mobileAllow: 100, otherBenefits: 600, assets: 'SIM 050 118 4412 · ADNOC fuel card ••2231',
+        emName: 'Anjali Kumar', emRel: 'Wife', emPhone: '+91 98470 22314', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Kochi, Kerala, India',
+        docLink: 'Shared drive › Staff › Ravi Kumar', remarks: 'Visa and Emirates ID renewal submitted on 5 Oct. Waiting for the new visa.', updated: '2026-10-05', updatedBy: 'Fatima Noor' },
+      { id: 's2', empId: 'EMP-002', name: 'Maria Santos', preferred: 'Maria', gender: 'Female', dob: '1992-09-03', nationality: 'Filipino', marital: 'Single', email: 'maria.santos92@example.com', mobile: '+971 52 340 7781',
+        sponsor: 'CEO (household sponsor)', department: 'Household', jobTitle: 'Housekeeper', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Fatima Noor',
+        joined: '2025-08-10', probationEnd: '2026-02-09', contractStart: '2025-08-10', contractEnd: '2027-08-09', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1600, housing: 500, transport: 0, otherAllow: 400, bonus: 1250, lastIncrement: '', nextReview: '2026-08-10',
+        leaveEnt: 30, leaveTaken: 6, sickTaken: 2, otherLeave: 0, ticketEnt: 2200, ticketPaid: 0, ticketDue: '2026-12-15', route: 'Economy, DXB – Cebu',
+        medProvider: 'Daman', medPolicy: 'DMN-80455120', medPlan: 'Basic (essential benefits)', medStart: '2026-08-10', medExpiry: '2027-08-09', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2025/3300094', visaIssue: '2025-01-06', visaExpiry: '2027-01-05', visaCost: 3600, eidNo: '784-1992-3300094-1', eidExpiry: '2027-01-05',
+        passportNo: 'P5507703', passportExpiry: '2030-06-30', permitNo: 'MOHRE DW-602177', permitExpiry: '2027-01-05', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 052 340 7781',
+        emName: 'Rosa Santos', emRel: 'Mother', emPhone: '+63 917 555 0142', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Cebu City, Philippines',
+        docLink: 'Shared drive › Staff › Maria Santos', remarks: 'Leave planned 15 Dec – 5 Jan. Book the ticket by 15 Nov.', updated: '2026-09-20', updatedBy: 'Fatima Noor' },
+      { id: 's3', empId: 'EMP-003', name: 'Joseph Mathew', preferred: 'Joseph', gender: 'Male', dob: '1985-12-20', nationality: 'Indian', marital: 'Married', email: '', mobile: '+971 55 902 3309',
+        sponsor: 'CEO (household sponsor)', department: 'Property', jobTitle: 'Gardener and maintenance', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Rahul Menon',
+        joined: '2025-06-01', probationEnd: '2025-11-30', contractStart: '2025-06-01', contractEnd: '2027-05-31', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1800, housing: 600, transport: 200, otherAllow: 200, bonus: 1400, lastIncrement: '', nextReview: '2026-06-01',
+        leaveEnt: 30, leaveTaken: 0, sickTaken: 4, otherLeave: 2, ticketEnt: 1800, ticketPaid: 0, ticketDue: '2027-06-01', route: 'Economy, DXB – Kochi',
+        medProvider: 'Daman', medPolicy: 'DMN-78812004', medPlan: 'Basic (essential benefits)', medStart: '2026-01-01', medExpiry: '2026-12-31', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2025/2104471', visaIssue: '2025-06-01', visaExpiry: '2027-05-31', visaCost: 3600, eidNo: '784-1985-2104471-3', eidExpiry: '2027-05-31',
+        passportNo: 'U8823145', passportExpiry: '2028-02-11', permitNo: 'MOHRE DW-590034', permitExpiry: '2027-05-31', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 055 902 3309 · Garden tools set',
+        emName: 'Mary Joseph', emRel: 'Wife', emPhone: '+91 94470 81236', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Kottayam, Kerala, India',
+        docLink: 'Shared drive › Staff › Joseph Mathew', remarks: 'Salary review was due in June. Not done yet.', updated: '2026-07-02', updatedBy: 'Rahul Menon' },
+      { id: 's4', empId: 'EMP-004', name: 'Ahmed Hassan', preferred: 'Ahmed', gender: 'Male', dob: '1994-07-07', nationality: 'Egyptian', marital: 'Single', email: 'ahmed.hassan94@example.com', mobile: '+971 56 207 1290',
+        sponsor: 'CEO (household sponsor)', department: 'Household', jobTitle: 'Cleaner and maintenance', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Fatima Noor',
+        joined: '2026-01-15', probationEnd: '2026-07-14', contractStart: '2026-01-15', contractEnd: '2028-01-14', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1700, housing: 600, transport: 100, otherAllow: 200, bonus: 0, lastIncrement: '', nextReview: '2027-01-15',
+        leaveEnt: 30, leaveTaken: 0, sickTaken: 1, otherLeave: 0, ticketEnt: 1500, ticketPaid: 0, ticketDue: '2027-01-15', route: 'Economy, DXB – Cairo',
+        medProvider: 'Daman', medPolicy: 'DMN-81230977', medPlan: 'Basic (essential benefits)', medStart: '2026-01-15', medExpiry: '2027-01-14', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2026/0412986', visaIssue: '2026-01-15', visaExpiry: '2028-01-14', visaCost: 3600, eidNo: '784-1994-0412986-5', eidExpiry: '2028-01-14',
+        passportNo: 'A27719034', passportExpiry: '2026-12-02', permitNo: 'MOHRE DW-631508', permitExpiry: '2028-01-14', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 056 207 1290',
+        emName: 'Omar Hassan', emRel: 'Brother', emPhone: '+20 100 245 7781', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Giza, Egypt',
+        docLink: 'Shared drive › Staff › Ahmed Hassan', remarks: 'Passport expires 2 Dec. Renewal appointment at the Egyptian consulate needed.', updated: '2026-10-01', updatedBy: 'Fatima Noor' }
+    ];
+    const S_TODAY = new Date(2026, 9, 20);
+    const S_MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const sDate = (s) => (s ? new Date(s + 'T00:00:00') : null);
+    const sFmt = (s) => { const d = sDate(s); return d ? d.getDate() + ' ' + S_MON[d.getMonth()] + ' ' + d.getFullYear() : '—'; };
+    const sAed = (n) => 'AED ' + Math.round(n || 0).toLocaleString('en-US');
+    const sDays = (s) => Math.round((sDate(s) - S_TODAY) / 86400000);
+    const STONE = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const AVATAR = [['#FDF0DC', '#8A4B08'], ['#E3EAF7', '#1E3A8A'], ['#DDF1EE', '#0B5C55'], ['#E8E4F5', '#3F2F8F']];
+    // Everything worked out from the record rather than typed in.
+    const staffCalc = (p) => {
+      const n = (v) => Number(v) || 0;
+      const monthly = n(p.basic) + n(p.housing) + n(p.transport) + n(p.otherAllow);
+      const years = p.joined ? Math.max(0, (S_TODAY - sDate(p.joined)) / (365.25 * 86400000)) : 0;
+      const gratuityYear = (n(p.basic) / 30) * 21; // UAE: 21 days' basic pay per year for the first 5 years
+      const docs = [['Visa', p.visaExpiry], ['Emirates ID', p.eidExpiry], ['Passport', p.passportExpiry], ['Work permit', p.permitExpiry], ['Medical insurance', p.medExpiry]]
+        .filter((d) => d[1]).map(([what, date]) => ({ what, date, days: sDays(date) })).sort((a, b) => a.days - b.days);
+      const next = docs[0];
+      const alert = !next ? ['No documents', STONE.none] : next.days < 0 ? [next.what + ' expired ' + (-next.days) + 'd ago', STONE.bad]
+        : next.days <= 30 ? [next.what + ' in ' + next.days + ' days', STONE.warn] : next.days <= 90 ? [next.what + ' in ' + next.days + ' days', STONE.soon] : ['Documents valid', STONE.ok];
+      const costLines = [
+        ['Salary and allowances (12 months)', monthly * 12], ['Bonus', n(p.bonus)], ['Air ticket', n(p.ticketEnt)],
+        ['Medical insurance', n(p.medPremium)], ['Life and other insurance', n(p.lifePremium) + n(p.otherInsCost)],
+        ['Visa and government fees (per year, 2-year visa)', (n(p.visaCost) + n(p.govtCost)) / 2], ['Mobile allowance (12 months)', n(p.mobileAllow) * 12],
+        ['Other benefits', n(p.otherBenefits)], ['End-of-service gratuity for the year', gratuityYear]
+      ];
+      return {
+        monthly, annual: monthly * 12, years, yearsText: years < 1 ? Math.round(years * 12) + ' months' : years.toFixed(1) + ' years',
+        leaveBalance: n(p.leaveEnt) - n(p.leaveTaken), gratuity: gratuityYear * Math.min(years, 5) + (years > 5 ? (n(p.basic) * (years - 5)) : 0),
+        next, nextText: next ? next.what + ', ' + sFmt(next.date) : '—', alertText: alert[0], alertBg: alert[1][0], alertFg: alert[1][1], docs,
+        costLines, totalCost: costLines.reduce((a, l) => a + l[1], 0)
+      };
+    };
+    // Tabs and their fields. kind: text | date | money | num | auto (worked out, not typed).
+    const STAFF_TABS = [
+      ['personal', 'Personal', [['empId', 'Employee ID'], ['name', 'Full name'], ['preferred', 'Preferred name'], ['gender', 'Gender'], ['dob', 'Date of birth', 'date'], ['nationality', 'Nationality'],
+        ['marital', 'Marital status'], ['email', 'Personal email'], ['mobile', 'Mobile number']]],
+      ['job', 'Job', [['sponsor', 'Sponsor / employer'], ['department', 'Department'], ['jobTitle', 'Job title'], ['empType', 'Employment type'], ['location', 'Work location'], ['manager', 'Reports to'],
+        ['joined', 'Joining date', 'date'], ['probationEnd', 'Probation end date', 'date'], ['contractStart', 'Contract start', 'date'], ['contractEnd', 'Contract end', 'date'], ['status', 'Status'],
+        ['lastDay', 'Last working date', 'date'], ['exitReason', 'Exit reason']]],
+      ['pay', 'Pay', [['paidVia', 'Paid via'], ['bank', 'Bank / exchange'], ['iban', 'IBAN'], ['basic', 'Basic salary', 'money'], ['housing', 'Housing allowance', 'money'], ['transport', 'Transport allowance', 'money'],
+        ['otherAllow', 'Other fixed allowance', 'money'], ['$monthly', 'Monthly gross', 'auto'], ['$annual', 'Annual gross', 'auto'], ['bonus', 'Variable pay / bonus (year)', 'money'],
+        ['lastIncrement', 'Last increment', 'date'], ['nextReview', 'Next salary review', 'date']]],
+      ['leave', 'Leave & travel', [['leaveEnt', 'Annual leave entitlement (days)', 'num'], ['leaveTaken', 'Annual leave taken (days)', 'num'], ['$leaveBalance', 'Annual leave balance (days)', 'auto'],
+        ['sickTaken', 'Sick leave taken (days)', 'num'], ['otherLeave', 'Other leave taken (days)', 'num'], ['ticketEnt', 'Air ticket entitlement', 'money'], ['ticketPaid', 'Air ticket paid', 'money'],
+        ['ticketDue', 'Air ticket due', 'date'], ['route', 'Travel class / route']]],
+      ['insurance', 'Insurance', [['medProvider', 'Medical insurer'], ['medPolicy', 'Medical policy no.'], ['medPlan', 'Plan / category'], ['medStart', 'Medical start', 'date'], ['medExpiry', 'Medical expiry', 'date'],
+        ['dependants', 'Dependants covered', 'num'], ['medPremium', 'Medical premium (year)', 'money'], ['lifeProvider', 'Life insurer'], ['lifePolicy', 'Life policy no.'], ['lifeExpiry', 'Life expiry', 'date'],
+        ['lifePremium', 'Life premium (year)', 'money'], ['otherInsCost', 'Other medical / insurance cost', 'money']]],
+      ['visa', 'Visa & documents', [['visaType', 'Visa type'], ['uid', 'Visa / UID no.'], ['visaIssue', 'Visa issue date', 'date'], ['visaExpiry', 'Visa expiry', 'date'], ['visaCost', 'Visa cost', 'money'],
+        ['eidNo', 'Emirates ID no.'], ['eidExpiry', 'Emirates ID expiry', 'date'], ['passportNo', 'Passport no.'], ['passportExpiry', 'Passport expiry', 'date'], ['permitNo', 'Work permit no.'],
+        ['permitExpiry', 'Work permit expiry', 'date'], ['govtCost', 'Other government / PRO cost', 'money']]],
+      ['benefits', 'Benefits & assets', [['vehicle', 'Vehicle assigned'], ['mobileAllow', 'Mobile allowance (month)', 'money'], ['otherBenefits', 'Other benefits (year)', 'money'], ['assets', 'Assigned items'],
+        ['$gratuity', 'Gratuity built up so far', 'auto']]],
+      ['emergency', 'Emergency', [['emName', 'Emergency contact'], ['emRel', 'Relationship'], ['emPhone', 'Contact number'], ['address', 'Address in UAE'], ['homeAddress', 'Home country address']]],
+      ['records', 'Cost & records', [['$totalCost', 'Total annual cost', 'auto'], ['$yearsText', 'Service', 'auto'], ['$nextText', 'Next document expiry', 'auto'], ['$alertText', 'Expiry alert', 'auto'],
+        ['docLink', 'Document folder'], ['remarks', 'Remarks'], ['updated', 'Last updated', 'date'], ['updatedBy', 'Updated by']]]
+    ];
+    const staffValue = (p, c, key, kind) => {
+      if (kind === 'auto') { const v = c[key.slice(1)]; return typeof v === 'number' ? (key === '$leaveBalance' ? String(v) : sAed(v)) : String(v); }
+      const v = p[key];
+      if (v === '' || v === null || v === undefined) return '—';
+      return kind === 'date' ? sFmt(v) : kind === 'money' ? sAed(v) : String(v);
+    };
+`;
+
 const FILTERBAR = String.raw`<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
             <sc-if value="{{fb.anyOpen}}" hint-placeholder-val="{{false}}">
               <div onClick="{{fb.closeAll}}" aria-hidden="true" style="position:fixed;inset:0;z-index:25"></div>
@@ -348,6 +465,7 @@ for (const f of fs.readdirSync(__dirname).filter((x) => x.endsWith('.tpl.html'))
   s = s.replace(/<!--@TABS (.+?)-->/, (_, a) => tabs(a));
   s = s.replace('<!--@FILTERBAR-->', FILTERBAR);
   s = s.replace('/*@SHARED*/', SHARED);
+  s = s.replace('/*@STAFF*/', STAFF_JS);
   const out = f.replace('.tpl.html', '.dc.html');
   fs.writeFileSync(path.join(OUT, out), s);
   console.log('built', out, s.length);

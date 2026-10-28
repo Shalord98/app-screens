@@ -1,0 +1,86 @@
+<!--@HEAD Staff member-->
+<div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+  <div style="padding:24px 20px 8px;display:flex;align-items:center;gap:12px">
+    <a href="Admin_Staff.dc.html" aria-label="Back to Staff" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;display:flex;align-items:center;justify-content:center;color:#14213D;flex:none">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </a>
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px" role="group" aria-label="Choose staff member">
+      <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+        <button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="height:36px;flex:none;padding:0 12px;border-radius:18px;border:1px solid {{p.border}};background:{{p.bg}};color:{{p.fg}};font-weight:700;font-size:13px">{{p.first}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-scroll style="flex:1;overflow-y:auto;padding:6px 20px 24px;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="width:56px;height:56px;border-radius:28px;background:{{s.avBg}};color:{{s.avFg}};font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{s.ini}}</span>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <h1 style="margin:0;font-size:22px;font-weight:800;letter-spacing:-0.3px">{{s.name}}</h1>
+        <span style="font-size:13px;color:#5B6472">{{s.jobTitle}} · since {{s.joinedText}}</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <span style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:12px;padding:9px 11px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">Monthly gross</span><b style="font-size:15px">{{s.monthlyText}}</b></span>
+      <span style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:12px;padding:9px 11px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">Leave balance</span><b style="font-size:15px">{{s.leaveText}}</b></span>
+    </div>
+    <span style="font-size:13px;font-weight:700;padding:10px 12px;border-radius:12px;background:{{s.alertBg}};color:{{s.alertFg}}">{{s.alertText}} · {{s.nextText}}</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <a href="tel:{{s.mobile}}" style="height:44px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">Call {{s.first}}</a>
+      <a href="Admin_IDs.dc.html" style="height:44px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center">Document Vault</a>
+    </div>
+
+    <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;display:flex;flex-direction:column;overflow:hidden">
+      <sc-for list="{{sections}}" as="sec" hint-placeholder-count="9">
+        <button onClick="{{sec.toggle}}" aria-expanded="{{sec.open}}" style="width:100%;min-height:50px;border:none;border-bottom:1px solid #EFEBE2;background:#FFFFFF;padding:0 14px;display:flex;align-items:center;justify-content:space-between;color:#14213D;font-weight:700;font-size:14.5px">
+          <span>{{sec.label}}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform:{{sec.rotate}}"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <sc-if value="{{sec.open}}" hint-placeholder-val="{{false}}">
+          <div style="padding:4px 14px 10px;border-bottom:1px solid #EFEBE2;background:#FAFAF7;display:flex;flex-direction:column">
+            <sc-for list="{{sec.fields}}" as="f" hint-placeholder-count="6">
+              <div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #EFEBE2;font-size:13px">
+                <span style="color:#5B6472;font-weight:600;flex:none;max-width:48%">{{f.label}}</span>
+                <span style="font-weight:600;text-align:right;color:{{f.fg}};overflow-wrap:anywhere">{{f.value}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </sc-for>
+    </div>
+    <span style="font-size:12.5px;color:#5B6472;text-align:center;line-height:1.5">To change these details, use Staff on the laptop.</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sel: 's1', open: 'personal' };
+  }
+  renderVals() {
+    /*@STAFF*/
+    const st = this.state;
+    const people = STAFF.map((p) => {
+      const on = p.id === st.sel;
+      return { first: p.preferred || p.name.split(' ')[0], on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB',
+        pick: () => this.setState({ sel: p.id }) };
+    });
+    const i = Math.max(0, STAFF.findIndex((p) => p.id === st.sel)), p = STAFF[i], c = staffCalc(p), av = AVATAR[i % AVATAR.length];
+    const s = { name: p.name, first: p.preferred || p.name.split(' ')[0], jobTitle: p.jobTitle, joinedText: sFmt(p.joined), mobile: p.mobile.replace(/\s/g, ''),
+      ini: p.name.split(' ').map((w) => w[0]).slice(0, 2).join(''), avBg: av[0], avFg: av[1],
+      monthlyText: sAed(c.monthly), leaveText: c.leaveBalance + ' days', alertText: c.alertText, alertBg: c.alertBg, alertFg: c.alertFg, nextText: c.nextText };
+    const sections = STAFF_TABS.map(([key, label, defs]) => {
+      const open = st.open === key;
+      return { label, open, rotate: open ? 'rotate(180deg)' : 'none', toggle: () => this.setState({ open: open ? null : key }),
+        fields: open ? defs.map(([k, l, kind]) => {
+          const value = staffValue(p, c, k, kind);
+          const days = kind === 'date' && /Expiry|expiry|contractEnd/.test(k) && p[k] ? sDays(p[k]) : null;
+          return { label: l, value, fg: days !== null && days < 0 ? '#9A3412' : days !== null && days <= 90 ? '#8A4B08' : value === '—' ? '#9AA3AF' : '#14213D' };
+        }).concat(key === 'records' ? c.costLines.map(([l, v]) => ({ label: l, value: sAed(v), fg: '#14213D' })) : []) : [] };
+    });
+    return { people, s, sections };
+  }
+}
+</script>
+</body>
+</html>

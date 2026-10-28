@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Staff on laptop</title>
+<title>Staff</title>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -14,7 +14,10 @@
 body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F3EE}
 button,input,textarea{font-family:inherit}
 button{cursor:pointer}
+button:disabled{cursor:not-allowed}
 a{text-decoration:none}
+[data-scroll]>*{flex-shrink:0}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F766E;outline-offset:2px}
 </style>
 </helmet>
 <div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
@@ -53,125 +56,296 @@ a{text-decoration:none}
   <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
     <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
       <div style="display:flex;flex-direction:column;gap:2px">
-        <span style="font-size:13px;color:#5B6472;font-weight:500">{{summary}}</span>
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Household staff · Admin only</span>
         <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Staff</h1>
       </div>
-      <button style="height:44px;padding:0 18px 0 14px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+      <button onClick="{{addStaff}}" style="height:44px;padding:0 18px 0 14px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add staff member</button>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
-      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#14213D">{{count}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Active staff</span></div>
-      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#14213D">{{payroll}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Salaries per month</span></div>
-      <div style="background:#FDE7E1;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#9A3412">{{docIssues}}</span><span style="font-size:13px;font-weight:700;color:#9A3412">With expired visa or ID</span></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{activeCount}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Active staff</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{payroll}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Monthly payroll (gross)</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{yearCost}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Total staff cost per year</span></div>
+      <div style="background:{{docTileBg}};border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:{{docTileFg}}">{{docIssues}}</span><span style="font-size:13px;font-weight:700;color:{{docTileFg}}">Documents expired or due in 90 days</span></div>
     </div>
+
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
     <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
-      <section aria-label="Staff list" style="flex:3 1 460px;min-width:0;display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <sc-for list="{{roles}}" as="r" hint-placeholder-count="4">
-            <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid {{r.border}};background:{{r.bg}};color:{{r.fg}};font-weight:600;font-size:13px">{{r.label}}</button>
-          </sc-for>
-        </div>
-        <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
-          <div style="min-width:600px;display:flex;flex-direction:column">
-            <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
-              <span style="flex:1.6;min-width:0">NAME</span><span style="width:90px;flex:none">ROLE</span><span style="width:90px;flex:none">JOINED</span><span style="width:110px;flex:none;text-align:right">SALARY</span><span style="width:120px;flex:none;text-align:right">DOCUMENTS</span>
-            </div>
-            <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
-              <button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{p.rowBg}};box-shadow:{{p.mark}};padding:10px 16px;display:flex;align-items:center;gap:12px;color:#14213D">
-                <span style="flex:1.6;min-width:0;display:flex;align-items:center;gap:10px">
-                  <span style="width:36px;height:36px;border-radius:18px;background:{{p.avBg}};color:{{p.avFg}};font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{p.ini}}</span>
-                  <span style="font-size:14.5px;font-weight:700">{{p.name}}</span>
-                </span>
-                <span style="width:90px;flex:none;font-size:13.5px">{{p.role}}</span>
-                <span style="width:90px;flex:none;font-size:13px;color:#5B6472">{{p.joined}}</span>
-                <span style="width:110px;flex:none;font-size:13.5px;font-weight:700;text-align:right">{{p.salaryText}}</span>
-                <span style="width:120px;flex:none;display:flex;justify-content:flex-end"><span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{p.chipBg}};color:{{p.chipFg}}">{{p.chip}}</span></span>
-              </button>
-            </sc-for>
-          </div>
-        </div>
+      <section aria-label="Staff list" style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:8px">
+        <sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+          <button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="width:100%;text-align:left;background:#FFFFFF;border:{{p.border}};border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;color:#14213D">
+            <span style="width:42px;height:42px;border-radius:21px;background:{{p.avBg}};color:{{p.avFg}};font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{p.ini}}</span>
+            <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:15px;font-weight:700">{{p.name}}</span>
+              <span style="font-size:12.5px;color:#5B6472">{{p.jobTitle}} · {{p.monthlyText}}</span>
+              <span style="align-self:flex-start;font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{p.alertBg}};color:{{p.alertFg}}">{{p.alertText}}</span>
+            </span>
+          </button>
+        </sc-for>
       </section>
+
       <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
-        <aside aria-label="Staff member" style="flex:2 1 360px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px">
-          <div style="display:flex;align-items:center;gap:14px">
-            <span style="width:56px;height:56px;border-radius:28px;background:{{s.avBg}};color:{{s.avFg}};font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{s.ini}}</span>
-            <div style="flex:1;display:flex;flex-direction:column;gap:2px"><h2 style="margin:0;font-size:21px;font-weight:800">{{s.name}}</h2><span style="font-size:13px;color:#5B6472">{{s.role}} · since {{s.joined}}</span></div>
-            <button style="height:40px;padding:0 14px;border-radius:10px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px">Edit</button>
+        <section aria-label="Staff details" style="flex:3 1 560px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+            <span style="width:56px;height:56px;border-radius:28px;background:{{s.avBg}};color:{{s.avFg}};font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{s.ini}}</span>
+            <div style="flex:1;min-width:200px;display:flex;flex-direction:column;gap:2px">
+              <h2 style="margin:0;font-size:22px;font-weight:800">{{s.name}}</h2>
+              <span style="font-size:13px;color:#5B6472">{{s.jobTitle}} · {{s.department}} · {{s.empId}}</span>
+            </div>
+            <span style="font-size:12px;font-weight:700;padding:5px 11px;border-radius:10px;background:{{s.statusBg}};color:{{s.statusFg}}">{{s.status}}</span>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px">
-            <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:12px;color:#5B6472;font-weight:600">Mobile</span><span style="font-size:14px;font-weight:700">{{s.mobile}}</span></span>
-            <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:12px;color:#5B6472;font-weight:600">Monthly salary</span><span style="font-size:14px;font-weight:700">{{s.salaryText}}</span></span>
-            <sc-if value="{{s.hasVehicle}}" hint-placeholder-val="{{true}}">
-              <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:12px;color:#5B6472;font-weight:600">Vehicle</span><a href="Laptop_Vehicles.dc.html" style="font-size:14px;font-weight:700;color:#0B5C55">{{s.vehicle}}</a></span>
-            </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+            <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:#5B6472">Joined</span><b style="font-size:15px">{{s.joinedText}}</b><span style="font-size:12px;color:#5B6472">{{s.yearsText}}</span></span>
+            <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:#5B6472">Monthly gross</span><b style="font-size:15px">{{s.monthlyText}}</b><span style="font-size:12px;color:#5B6472">{{s.annualText}} a year</span></span>
+            <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:#5B6472">Leave balance</span><b style="font-size:15px">{{s.leaveText}}</b><span style="font-size:12px;color:#5B6472">{{s.leaveSub}}</span></span>
+            <span style="display:flex;flex-direction:column;background:{{s.alertBg}};border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:{{s.alertFg}}">Next document expiry</span><b style="font-size:15px;color:{{s.alertFg}}">{{s.alertText}}</b><span style="font-size:12px;color:{{s.alertFg}}">{{s.nextText}}</span></span>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <span style="font-size:12px;font-weight:700;color:#5B6472;letter-spacing:0.6px">DOCUMENTS IN THE VAULT</span>
-            <sc-for list="{{s.docs}}" as="x" hint-placeholder-count="2">
-              <a href="Laptop_IDs.dc.html" style="border:1px solid #E6E2D8;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;color:#14213D">
-                <span style="flex:1;display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700">{{x.type}}</span><span style="font-size:12px;color:#5B6472">Expires {{x.expiry}}</span></span>
-                <span style="font-size:11px;font-weight:700;padding:4px 9px;border-radius:10px;background:{{x.chipBg}};color:{{x.chipFg}}">{{x.chip}}</span>
-              </a>
+
+          <div role="tablist" aria-label="Staff detail sections" style="display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid #E6E2D8;padding-bottom:8px">
+            <sc-for list="{{tabs}}" as="t" hint-placeholder-count="9">
+              <button role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="height:36px;padding:0 12px;border-radius:10px;border:none;background:{{t.bg}};color:{{t.fg}};font-weight:{{t.weight}};font-size:13px">{{t.label}}</button>
             </sc-for>
-            <sc-if value="{{s.noDocs}}" hint-placeholder-val="{{false}}">
-              <a href="Laptop_IDs.dc.html" style="border:1px dashed #D9D5CB;border-radius:12px;padding:12px 14px;font-size:13px;color:#5B6472">No passport or visa saved yet. <b style="color:#0B5C55">Add to Document Vault</b></a>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <h3 style="margin:0;font-size:16px;font-weight:800">{{tabTitle}}</h3>
+            <sc-if value="{{viewing}}" hint-placeholder-val="{{true}}">
+              <button onClick="{{startEdit}}" style="height:38px;padding:0 14px;border-radius:10px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px" aria-label="Edit {{tabTitle}}">Edit</button>
+            </sc-if>
+            <sc-if value="{{editing}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;gap:8px">
+                <button onClick="{{cancelEdit}}" style="height:38px;padding:0 14px;border-radius:10px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Cancel</button>
+                <button onClick="{{saveEdit}}" style="height:38px;padding:0 16px;border-radius:10px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:13px">Save changes</button>
+              </div>
             </sc-if>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:12px;border-top:1px solid #EFEBE2">
-            <a href="Laptop_Contacts.dc.html" style="flex:1 1 140px;height:44px;border-radius:12px;border:1px solid #D9D5CB;color:#14213D;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;box-sizing:border-box">Contact &amp; logs</a>
-            <button style="flex:1 1 140px;height:44px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px">Mark as left</button>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px 20px">
+            <sc-for list="{{fields}}" as="f" hint-placeholder-count="9">
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <sc-if value="{{f.showInput}}" hint-placeholder-val="{{false}}">
+                  <label for="{{f.inputId}}" style="font-size:12px;font-weight:700;color:#5B6472">{{f.label}}</label>
+                  <input id="{{f.inputId}}" type="{{f.inputType}}" inputmode="{{f.mode}}" value="{{f.raw}}" onChange="{{f.typed}}" style="width:100%;min-width:0;height:40px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:10px;padding:0 10px;font-size:14px;background:#FFFFFF;color:#14213D">
+                </sc-if>
+                <sc-if value="{{f.showValue}}" hint-placeholder-val="{{true}}">
+                  <span style="font-size:12px;font-weight:700;color:#5B6472;display:flex;gap:6px;align-items:center">{{f.label}}<sc-if value="{{f.isAuto}}" hint-placeholder-val="{{false}}"><span style="font-size:10px;font-weight:800;padding:1px 6px;border-radius:6px;background:#E3EAF7;color:#1E3A8A">AUTO</span></sc-if></span>
+                  <span style="font-size:14.5px;font-weight:600;color:{{f.fg}};overflow-wrap:anywhere">{{f.value}}</span>
+                </sc-if>
+              </div>
+            </sc-for>
           </div>
-        </aside>
+
+          <sc-if value="{{showCost}}" hint-placeholder-val="{{false}}">
+            <div style="border-top:1px solid #EFEBE2;padding-top:12px;display:flex;flex-direction:column">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.6px;color:#5B6472;padding-bottom:4px">HOW THE ANNUAL COST ADDS UP</span>
+              <sc-for list="{{costLines}}" as="c" hint-placeholder-count="9">
+                <div style="display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #EFEBE2;font-size:13.5px"><span>{{c.label}}</span><span style="font-weight:700;font-variant-numeric:tabular-nums">{{c.value}}</span></div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0 0;font-size:14.5px;font-weight:800"><span>Total</span><span style="font-variant-numeric:tabular-nums">{{totalCost}}</span></div>
+            </div>
+          </sc-if>
+          <sc-if value="{{showDocs}}" hint-placeholder-val="{{false}}">
+            <a href="Laptop_IDs.dc.html" style="align-self:flex-start;min-height:36px;display:flex;align-items:center;font-size:13px;font-weight:700;color:#0B5C55">Open the scans in Document Vault</a>
+          </sc-if>
+        </section>
       </sc-if>
     </div>
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":1000}}'>
 class Component extends DCLogic {
-  constructor(props) { super(props); this.state = { role: 'All', sel: 's1' }; }
+  constructor(props) {
+    super(props);
+    this.state = { sel: 's1', tab: 'personal', editing: false, draft: {}, edits: {}, added: [], banner: '' };
+  }
   renderVals() {
-    const today = new Date(2026, 9, 20);
-    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const D = (y, m, dd) => new Date(y, m - 1, dd);
-    const fmt = (x) => x.getDate() + ' ' + MON[x.getMonth()] + ' ' + x.getFullYear();
-    const short = (x) => x.getDate() + ' ' + MON[x.getMonth()];
-    const daysTo = (x) => Math.round((x - today) / 86400000);
-    const aed = (n) => 'AED ' + n.toLocaleString('en-US');
-    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
-    const expChip = (x) => {
-      if (!x) return { chip: 'Not added', chipBg: tone.none[0], chipFg: tone.none[1], days: 9999 };
-      const n = daysTo(x);
-      const t = n < 0 ? tone.bad : n <= 30 ? tone.warn : n <= 90 ? tone.soon : tone.ok;
-      return { chip: n < 0 ? 'Expired ' + (-n) + 'd ago' : n <= 90 ? 'In ' + n + ' days' : 'Valid', chipBg: t[0], chipFg: t[1], days: n };
+    
+    // ---- Staff records (sample data) and the fields shown for each person ----
+    const STAFF = [
+      { id: 's1', empId: 'EMP-001', name: 'Ravi Kumar', preferred: 'Ravi', gender: 'Male', dob: '1988-04-12', nationality: 'Indian', marital: 'Married', email: 'ravi.kumar88@example.com', mobile: '+971 50 118 4412',
+        sponsor: 'CEO (household sponsor)', department: 'Transport', jobTitle: 'Driver', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Rahul Menon',
+        joined: '2023-03-01', probationEnd: '2023-08-31', contractStart: '2025-03-01', contractEnd: '2027-02-28', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS bank transfer', bank: 'Emirates NBD', iban: 'AE07 0260 0010 1234 5678 901', basic: 2000, housing: 800, transport: 300, otherAllow: 400, bonus: 1750, lastIncrement: '2025-03-01', nextReview: '2027-03-01',
+        leaveEnt: 30, leaveTaken: 18, sickTaken: 3, otherLeave: 0, ticketEnt: 6000, ticketPaid: 6000, ticketDue: '2027-07-01', route: 'Economy, DXB – Kochi (family)',
+        medProvider: 'Daman', medPolicy: 'DMN-77310245', medPlan: 'Basic (essential benefits)', medStart: '2026-01-01', medExpiry: '2026-12-31', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2024/7700512', visaIssue: '2024-10-10', visaExpiry: '2026-10-09', visaCost: 3850, eidNo: '784-1990-7654321-7', eidExpiry: '2026-10-09',
+        passportNo: 'Z4471209', passportExpiry: '2031-05-14', permitNo: 'MOHRE DW-558213', permitExpiry: '2026-10-09', govtCost: 1870,
+        vehicle: 'Toyota Land Cruiser (Dubai A 12345)', mobileAllow: 100, otherBenefits: 600, assets: 'SIM 050 118 4412 · ADNOC fuel card ••2231',
+        emName: 'Anjali Kumar', emRel: 'Wife', emPhone: '+91 98470 22314', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Kochi, Kerala, India',
+        docLink: 'Shared drive › Staff › Ravi Kumar', remarks: 'Visa and Emirates ID renewal submitted on 5 Oct. Waiting for the new visa.', updated: '2026-10-05', updatedBy: 'Fatima Noor' },
+      { id: 's2', empId: 'EMP-002', name: 'Maria Santos', preferred: 'Maria', gender: 'Female', dob: '1992-09-03', nationality: 'Filipino', marital: 'Single', email: 'maria.santos92@example.com', mobile: '+971 52 340 7781',
+        sponsor: 'CEO (household sponsor)', department: 'Household', jobTitle: 'Housekeeper', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Fatima Noor',
+        joined: '2025-08-10', probationEnd: '2026-02-09', contractStart: '2025-08-10', contractEnd: '2027-08-09', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1600, housing: 500, transport: 0, otherAllow: 400, bonus: 1250, lastIncrement: '', nextReview: '2026-08-10',
+        leaveEnt: 30, leaveTaken: 6, sickTaken: 2, otherLeave: 0, ticketEnt: 2200, ticketPaid: 0, ticketDue: '2026-12-15', route: 'Economy, DXB – Cebu',
+        medProvider: 'Daman', medPolicy: 'DMN-80455120', medPlan: 'Basic (essential benefits)', medStart: '2026-08-10', medExpiry: '2027-08-09', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2025/3300094', visaIssue: '2025-01-06', visaExpiry: '2027-01-05', visaCost: 3600, eidNo: '784-1992-3300094-1', eidExpiry: '2027-01-05',
+        passportNo: 'P5507703', passportExpiry: '2030-06-30', permitNo: 'MOHRE DW-602177', permitExpiry: '2027-01-05', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 052 340 7781',
+        emName: 'Rosa Santos', emRel: 'Mother', emPhone: '+63 917 555 0142', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Cebu City, Philippines',
+        docLink: 'Shared drive › Staff › Maria Santos', remarks: 'Leave planned 15 Dec – 5 Jan. Book the ticket by 15 Nov.', updated: '2026-09-20', updatedBy: 'Fatima Noor' },
+      { id: 's3', empId: 'EMP-003', name: 'Joseph Mathew', preferred: 'Joseph', gender: 'Male', dob: '1985-12-20', nationality: 'Indian', marital: 'Married', email: '', mobile: '+971 55 902 3309',
+        sponsor: 'CEO (household sponsor)', department: 'Property', jobTitle: 'Gardener and maintenance', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Rahul Menon',
+        joined: '2025-06-01', probationEnd: '2025-11-30', contractStart: '2025-06-01', contractEnd: '2027-05-31', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1800, housing: 600, transport: 200, otherAllow: 200, bonus: 1400, lastIncrement: '', nextReview: '2026-06-01',
+        leaveEnt: 30, leaveTaken: 0, sickTaken: 4, otherLeave: 2, ticketEnt: 1800, ticketPaid: 0, ticketDue: '2027-06-01', route: 'Economy, DXB – Kochi',
+        medProvider: 'Daman', medPolicy: 'DMN-78812004', medPlan: 'Basic (essential benefits)', medStart: '2026-01-01', medExpiry: '2026-12-31', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2025/2104471', visaIssue: '2025-06-01', visaExpiry: '2027-05-31', visaCost: 3600, eidNo: '784-1985-2104471-3', eidExpiry: '2027-05-31',
+        passportNo: 'U8823145', passportExpiry: '2028-02-11', permitNo: 'MOHRE DW-590034', permitExpiry: '2027-05-31', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 055 902 3309 · Garden tools set',
+        emName: 'Mary Joseph', emRel: 'Wife', emPhone: '+91 94470 81236', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Kottayam, Kerala, India',
+        docLink: 'Shared drive › Staff › Joseph Mathew', remarks: 'Salary review was due in June. Not done yet.', updated: '2026-07-02', updatedBy: 'Rahul Menon' },
+      { id: 's4', empId: 'EMP-004', name: 'Ahmed Hassan', preferred: 'Ahmed', gender: 'Male', dob: '1994-07-07', nationality: 'Egyptian', marital: 'Single', email: 'ahmed.hassan94@example.com', mobile: '+971 56 207 1290',
+        sponsor: 'CEO (household sponsor)', department: 'Household', jobTitle: 'Cleaner and maintenance', empType: 'Full-time, 2-year contract', location: 'Villa 14, Emirates Hills', manager: 'Fatima Noor',
+        joined: '2026-01-15', probationEnd: '2026-07-14', contractStart: '2026-01-15', contractEnd: '2028-01-14', status: 'Active', lastDay: '', exitReason: '',
+        paidVia: 'WPS salary card', bank: 'Al Ansari Exchange', iban: '', basic: 1700, housing: 600, transport: 100, otherAllow: 200, bonus: 0, lastIncrement: '', nextReview: '2027-01-15',
+        leaveEnt: 30, leaveTaken: 0, sickTaken: 1, otherLeave: 0, ticketEnt: 1500, ticketPaid: 0, ticketDue: '2027-01-15', route: 'Economy, DXB – Cairo',
+        medProvider: 'Daman', medPolicy: 'DMN-81230977', medPlan: 'Basic (essential benefits)', medStart: '2026-01-15', medExpiry: '2027-01-14', dependants: 0, medPremium: 1100,
+        lifeProvider: '', lifePolicy: '', lifeExpiry: '', lifePremium: 0, otherInsCost: 0,
+        visaType: 'Domestic worker residence visa', uid: '201/2026/0412986', visaIssue: '2026-01-15', visaExpiry: '2028-01-14', visaCost: 3600, eidNo: '784-1994-0412986-5', eidExpiry: '2028-01-14',
+        passportNo: 'A27719034', passportExpiry: '2026-12-02', permitNo: 'MOHRE DW-631508', permitExpiry: '2028-01-14', govtCost: 450,
+        vehicle: '', mobileAllow: 50, otherBenefits: 600, assets: 'SIM 056 207 1290',
+        emName: 'Omar Hassan', emRel: 'Brother', emPhone: '+20 100 245 7781', address: 'Staff quarters, Villa 14, Emirates Hills, Dubai', homeAddress: 'Giza, Egypt',
+        docLink: 'Shared drive › Staff › Ahmed Hassan', remarks: 'Passport expires 2 Dec. Renewal appointment at the Egyptian consulate needed.', updated: '2026-10-01', updatedBy: 'Fatima Noor' }
+    ];
+    const S_TODAY = new Date(2026, 9, 20);
+    const S_MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const sDate = (s) => (s ? new Date(s + 'T00:00:00') : null);
+    const sFmt = (s) => { const d = sDate(s); return d ? d.getDate() + ' ' + S_MON[d.getMonth()] + ' ' + d.getFullYear() : '—'; };
+    const sAed = (n) => 'AED ' + Math.round(n || 0).toLocaleString('en-US');
+    const sDays = (s) => Math.round((sDate(s) - S_TODAY) / 86400000);
+    const STONE = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const AVATAR = [['#FDF0DC', '#8A4B08'], ['#E3EAF7', '#1E3A8A'], ['#DDF1EE', '#0B5C55'], ['#E8E4F5', '#3F2F8F']];
+    // Everything worked out from the record rather than typed in.
+    const staffCalc = (p) => {
+      const n = (v) => Number(v) || 0;
+      const monthly = n(p.basic) + n(p.housing) + n(p.transport) + n(p.otherAllow);
+      const years = p.joined ? Math.max(0, (S_TODAY - sDate(p.joined)) / (365.25 * 86400000)) : 0;
+      const gratuityYear = (n(p.basic) / 30) * 21; // UAE: 21 days' basic pay per year for the first 5 years
+      const docs = [['Visa', p.visaExpiry], ['Emirates ID', p.eidExpiry], ['Passport', p.passportExpiry], ['Work permit', p.permitExpiry], ['Medical insurance', p.medExpiry]]
+        .filter((d) => d[1]).map(([what, date]) => ({ what, date, days: sDays(date) })).sort((a, b) => a.days - b.days);
+      const next = docs[0];
+      const alert = !next ? ['No documents', STONE.none] : next.days < 0 ? [next.what + ' expired ' + (-next.days) + 'd ago', STONE.bad]
+        : next.days <= 30 ? [next.what + ' in ' + next.days + ' days', STONE.warn] : next.days <= 90 ? [next.what + ' in ' + next.days + ' days', STONE.soon] : ['Documents valid', STONE.ok];
+      const costLines = [
+        ['Salary and allowances (12 months)', monthly * 12], ['Bonus', n(p.bonus)], ['Air ticket', n(p.ticketEnt)],
+        ['Medical insurance', n(p.medPremium)], ['Life and other insurance', n(p.lifePremium) + n(p.otherInsCost)],
+        ['Visa and government fees (per year, 2-year visa)', (n(p.visaCost) + n(p.govtCost)) / 2], ['Mobile allowance (12 months)', n(p.mobileAllow) * 12],
+        ['Other benefits', n(p.otherBenefits)], ['End-of-service gratuity for the year', gratuityYear]
+      ];
+      return {
+        monthly, annual: monthly * 12, years, yearsText: years < 1 ? Math.round(years * 12) + ' months' : years.toFixed(1) + ' years',
+        leaveBalance: n(p.leaveEnt) - n(p.leaveTaken), gratuity: gratuityYear * Math.min(years, 5) + (years > 5 ? (n(p.basic) * (years - 5)) : 0),
+        next, nextText: next ? next.what + ', ' + sFmt(next.date) : '—', alertText: alert[0], alertBg: alert[1][0], alertFg: alert[1][1], docs,
+        costLines, totalCost: costLines.reduce((a, l) => a + l[1], 0)
+      };
     };
-    const staff = [
-      { id: 's1', ini: 'RK', name: 'Ravi Kumar', role: 'Driver', joined: 'Mar 2023', salary: 3500, mobile: '+971 50 118 4412', vehicle: 'Toyota Land Cruiser', avBg: '#FDF0DC', avFg: '#8A4B08',
-        docs: [{ type: 'Residence visa', exp: D(2026, 10, 9) }, { type: 'Emirates ID', exp: D(2026, 10, 9) }] },
-      { id: 's2', ini: 'MS', name: 'Maria Santos', role: 'Helper', joined: 'Aug 2025', salary: 2500, mobile: '+971 52 340 7781', vehicle: '', avBg: '#E3EAF7', avFg: '#1E3A8A',
-        docs: [{ type: 'Residence visa', exp: D(2027, 1, 5) }, { type: 'Passport', exp: D(2030, 6, 30) }] },
-      { id: 's3', ini: 'JM', name: 'Joseph Mathew', role: 'Worker', joined: 'Jun 2025', salary: 2800, mobile: '+971 55 902 3309', vehicle: '', avBg: '#DDF1EE', avFg: '#0B5C55', docs: [] },
-      { id: 's4', ini: 'AH', name: 'Ahmed Hassan', role: 'Worker', joined: 'Jan 2026', salary: 2600, mobile: '+971 56 207 1290', vehicle: '', avBg: '#E8E4F5', avFg: '#3F2F8F', docs: [] }
-    ].map((p) => {
-      const docs = p.docs.map((x) => ({ ...x, ...expChip(x.exp), expiry: fmt(x.exp) }));
-      const worst = docs.slice().sort((a, b) => a.days - b.days)[0];
-      const st = worst ? { chip: worst.days < 0 ? 'Visa expired' : worst.days <= 90 ? 'Doc due soon' : 'Docs valid', chipBg: worst.chipBg, chipFg: worst.chipFg }
-        : { chip: 'No documents', chipBg: tone.none[0], chipFg: tone.none[1] };
-      return { ...p, docs, hasDocs: docs.length > 0, noDocs: docs.length === 0, hasVehicle: !!p.vehicle, salaryText: aed(p.salary), ...st };
-    });
-    const chipOf = (on) => ({ bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
+    // Tabs and their fields. kind: text | date | money | num | auto (worked out, not typed).
+    const STAFF_TABS = [
+      ['personal', 'Personal', [['empId', 'Employee ID'], ['name', 'Full name'], ['preferred', 'Preferred name'], ['gender', 'Gender'], ['dob', 'Date of birth', 'date'], ['nationality', 'Nationality'],
+        ['marital', 'Marital status'], ['email', 'Personal email'], ['mobile', 'Mobile number']]],
+      ['job', 'Job', [['sponsor', 'Sponsor / employer'], ['department', 'Department'], ['jobTitle', 'Job title'], ['empType', 'Employment type'], ['location', 'Work location'], ['manager', 'Reports to'],
+        ['joined', 'Joining date', 'date'], ['probationEnd', 'Probation end date', 'date'], ['contractStart', 'Contract start', 'date'], ['contractEnd', 'Contract end', 'date'], ['status', 'Status'],
+        ['lastDay', 'Last working date', 'date'], ['exitReason', 'Exit reason']]],
+      ['pay', 'Pay', [['paidVia', 'Paid via'], ['bank', 'Bank / exchange'], ['iban', 'IBAN'], ['basic', 'Basic salary', 'money'], ['housing', 'Housing allowance', 'money'], ['transport', 'Transport allowance', 'money'],
+        ['otherAllow', 'Other fixed allowance', 'money'], ['$monthly', 'Monthly gross', 'auto'], ['$annual', 'Annual gross', 'auto'], ['bonus', 'Variable pay / bonus (year)', 'money'],
+        ['lastIncrement', 'Last increment', 'date'], ['nextReview', 'Next salary review', 'date']]],
+      ['leave', 'Leave & travel', [['leaveEnt', 'Annual leave entitlement (days)', 'num'], ['leaveTaken', 'Annual leave taken (days)', 'num'], ['$leaveBalance', 'Annual leave balance (days)', 'auto'],
+        ['sickTaken', 'Sick leave taken (days)', 'num'], ['otherLeave', 'Other leave taken (days)', 'num'], ['ticketEnt', 'Air ticket entitlement', 'money'], ['ticketPaid', 'Air ticket paid', 'money'],
+        ['ticketDue', 'Air ticket due', 'date'], ['route', 'Travel class / route']]],
+      ['insurance', 'Insurance', [['medProvider', 'Medical insurer'], ['medPolicy', 'Medical policy no.'], ['medPlan', 'Plan / category'], ['medStart', 'Medical start', 'date'], ['medExpiry', 'Medical expiry', 'date'],
+        ['dependants', 'Dependants covered', 'num'], ['medPremium', 'Medical premium (year)', 'money'], ['lifeProvider', 'Life insurer'], ['lifePolicy', 'Life policy no.'], ['lifeExpiry', 'Life expiry', 'date'],
+        ['lifePremium', 'Life premium (year)', 'money'], ['otherInsCost', 'Other medical / insurance cost', 'money']]],
+      ['visa', 'Visa & documents', [['visaType', 'Visa type'], ['uid', 'Visa / UID no.'], ['visaIssue', 'Visa issue date', 'date'], ['visaExpiry', 'Visa expiry', 'date'], ['visaCost', 'Visa cost', 'money'],
+        ['eidNo', 'Emirates ID no.'], ['eidExpiry', 'Emirates ID expiry', 'date'], ['passportNo', 'Passport no.'], ['passportExpiry', 'Passport expiry', 'date'], ['permitNo', 'Work permit no.'],
+        ['permitExpiry', 'Work permit expiry', 'date'], ['govtCost', 'Other government / PRO cost', 'money']]],
+      ['benefits', 'Benefits & assets', [['vehicle', 'Vehicle assigned'], ['mobileAllow', 'Mobile allowance (month)', 'money'], ['otherBenefits', 'Other benefits (year)', 'money'], ['assets', 'Assigned items'],
+        ['$gratuity', 'Gratuity built up so far', 'auto']]],
+      ['emergency', 'Emergency', [['emName', 'Emergency contact'], ['emRel', 'Relationship'], ['emPhone', 'Contact number'], ['address', 'Address in UAE'], ['homeAddress', 'Home country address']]],
+      ['records', 'Cost & records', [['$totalCost', 'Total annual cost', 'auto'], ['$yearsText', 'Service', 'auto'], ['$nextText', 'Next document expiry', 'auto'], ['$alertText', 'Expiry alert', 'auto'],
+        ['docLink', 'Document folder'], ['remarks', 'Remarks'], ['updated', 'Last updated', 'date'], ['updatedBy', 'Updated by']]]
+    ];
+    const staffValue = (p, c, key, kind) => {
+      if (kind === 'auto') { const v = c[key.slice(1)]; return typeof v === 'number' ? (key === '$leaveBalance' ? String(v) : sAed(v)) : String(v); }
+      const v = p[key];
+      if (v === '' || v === null || v === undefined) return '—';
+      return kind === 'date' ? sFmt(v) : kind === 'money' ? sAed(v) : String(v);
+    };
+
     const st = this.state;
-    const roles = ['All', 'Driver', 'Helper', 'Worker'].map((r) => ({ label: r === 'All' ? 'Everyone' : r + 's', on: st.role === r, ...chipOf(st.role === r), pick: () => this.setState({ role: r }) }));
-    const people = staff.filter((p) => st.role === 'All' || p.role === st.role).map((p) => {
-      const on = p.id === st.sel;
-      return { ...p, on, rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none', pick: () => this.setState({ sel: p.id }) };
+    const all = STAFF.concat(st.added).map((p) => ({ ...p, ...(st.edits[p.id] || {}) }));
+    const rows = all.map((p, i) => {
+      const c = staffCalc(p), av = AVATAR[i % AVATAR.length];
+      return { p, c, i, ini: (p.name || '?').split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase(), avBg: av[0], avFg: av[1] };
     });
-    const s = people.find((p) => p.on) || people[0];
+    const people = rows.map((r) => {
+      const on = r.p.id === st.sel;
+      return { name: r.p.name || 'New staff member', jobTitle: r.p.jobTitle || 'No job title yet', monthlyText: sAed(r.c.monthly) + '/month', ini: r.ini, avBg: r.avBg, avFg: r.avFg,
+        alertText: r.c.alertText, alertBg: r.c.alertBg, alertFg: r.c.alertFg, on, border: on ? '2px solid #0F766E' : '1px solid #E6E2D8',
+        pick: () => this.setState({ sel: r.p.id, editing: false, draft: {} }) };
+    });
+    const r = rows.find((x) => x.p.id === st.sel) || rows[0];
+    const tabDef = STAFF_TABS.find((t) => t[0] === st.tab);
+    const tabs = STAFF_TABS.map(([key, label]) => {
+      const on = key === st.tab;
+      return { label, on, bg: on ? '#14213D' : 'transparent', fg: on ? '#FFFFFF' : '#3D4654', weight: on ? 700 : 600, pick: () => this.setState({ tab: key, editing: false, draft: {} }) };
+    });
+    let s = null, fields = [];
+    if (r) {
+      const p = r.p, c = r.c, active = (p.status || '').toLowerCase() === 'active';
+      s = { name: p.name || 'New staff member', jobTitle: p.jobTitle || '—', department: p.department || '—', empId: p.empId || '—', ini: r.ini, avBg: r.avBg, avFg: r.avFg,
+        status: p.status || 'Draft', statusBg: active ? '#DDF1EE' : '#EEF0F3', statusFg: active ? '#0B5C55' : '#3D4654',
+        joinedText: sFmt(p.joined), yearsText: p.joined ? c.yearsText + ' of service' : '', monthlyText: sAed(c.monthly), annualText: sAed(c.annual),
+        leaveText: c.leaveBalance + ' days', leaveSub: (Number(p.leaveTaken) || 0) + ' of ' + (Number(p.leaveEnt) || 0) + ' taken',
+        alertText: c.alertText, alertBg: c.alertBg, alertFg: c.alertFg, nextText: c.nextText };
+      fields = tabDef[2].map(([key, label, kind]) => {
+        const isAuto = kind === 'auto', showInput = st.editing && !isAuto;
+        const raw = st.draft[key] !== undefined ? st.draft[key] : (p[key] === undefined || p[key] === null ? '' : String(p[key]));
+        const value = staffValue(p, c, key, kind);
+        const alertKey = kind === 'date' && /Expiry|expiry|contractEnd/.test(key) && p[key] ? sDays(p[key]) : null;
+        return { label, isAuto, showInput, showValue: !showInput, value, raw, inputId: 'sf-' + key,
+          inputType: kind === 'date' ? 'date' : 'text', mode: kind === 'money' || kind === 'num' ? 'decimal' : 'text',
+          fg: alertKey !== null && alertKey < 0 ? '#9A3412' : alertKey !== null && alertKey <= 90 ? '#8A4B08' : value === '—' ? '#9AA3AF' : '#14213D',
+          typed: (e) => this.setState({ draft: { ...this.state.draft, [key]: e.target.value } }) };
+      });
+    }
+    const totalPayroll = rows.filter((x) => (x.p.status || '').toLowerCase() === 'active').reduce((a, x) => a + x.c.monthly, 0);
+    const docIssues = rows.filter((x) => x.c.next && x.c.next.days <= 90).length;
     return {
-      roles, people, s, hasSel: !!s, count: staff.length,
-      payroll: aed(staff.reduce((n, p) => n + p.salary, 0)),
-      docIssues: staff.filter((p) => p.docs.some((x) => x.days < 0)).length,
-      summary: 'Admin only · names and phones come from Contacts'
+      people, hasSel: !!s, s, tabs, fields, tabTitle: tabDef[1],
+      viewing: !st.editing, editing: st.editing,
+      startEdit: () => this.setState({ editing: true, draft: {} }),
+      cancelEdit: () => this.setState({ editing: false, draft: {} }),
+      saveEdit: () => {
+        // Numbers stay numbers so totals keep working.
+        const nums = new Set(tabDef[2].filter((f) => f[2] === 'money' || f[2] === 'num').map((f) => f[0]));
+        const patch = {};
+        Object.keys(st.draft).forEach((k) => { patch[k] = nums.has(k) ? Number(String(st.draft[k]).replace(/[^0-9.]/g, '')) || 0 : st.draft[k]; });
+        this.setState({ edits: { ...st.edits, [r.p.id]: { ...(st.edits[r.p.id] || {}), ...patch } }, editing: false, draft: {},
+          banner: Object.keys(patch).length ? 'Saved ' + tabDef[1].toLowerCase() + ' for ' + (patch.name || r.p.name || 'the new staff member') + '.' : 'No changes to save.' });
+      },
+      addStaff: () => {
+        const id = 'n' + (st.added.length + 1);
+        const blank = { id, empId: 'EMP-00' + (STAFF.length + st.added.length + 1), name: '', status: 'Draft', joined: '', basic: 0, housing: 0, transport: 0, otherAllow: 0, leaveEnt: 30, leaveTaken: 0 };
+        this.setState({ added: [...st.added, blank], sel: id, tab: 'personal', editing: true, draft: {}, banner: '' });
+      },
+      showCost: st.tab === 'records' && !!r, costLines: r ? r.c.costLines.map(([label, v]) => ({ label, value: sAed(v) })) : [], totalCost: r ? sAed(r.c.totalCost) : '',
+      showDocs: st.tab === 'visa',
+      activeCount: rows.filter((x) => (x.p.status || '').toLowerCase() === 'active').length,
+      payroll: sAed(totalPayroll), yearCost: sAed(rows.reduce((a, x) => a + x.c.totalCost, 0)),
+      docIssues, docTileBg: docIssues ? '#FDE7E1' : '#DDF1EE', docTileFg: docIssues ? '#9A3412' : '#0B5C55',
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
     };
   }
 }
