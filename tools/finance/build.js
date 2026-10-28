@@ -22,7 +22,7 @@ const at = (pairs) => { const a = every(0); pairs.forEach(([m, v]) => { a[m] = v
 const catDefs = [
   // id, name, monthly allocation, fixed (spend equals allocation) or varies
   ['staff', 'Staff Salaries', at([...Array(12).keys()].map((m) => [m, m === 6 ? 17400 : 11400])), true],
-  ['elec', 'Electricity & Water', [1700, 1500, 1600, 1900, 2600, 3300, 3700, 3800, 3100, 2200, 1800, 1700], false],
+  ['elec', 'Electricity & Water', [1700, 1500, 1600, 1900, 2600, 3300, 3700, 3800, 3100, 2200, 1800, 1700].map((v) => v + 800), false],
   ['net', 'Internet & Mobile', every(1050), true],
   ['maint', 'Property Maintenance', [...every(2500).slice(0, 11), 3500], false],
   ['rent', 'Rent & Service Charges', at([[0, 4200], [3, 4200], [6, 4200], [9, 4200]]), true],
@@ -34,15 +34,13 @@ const catDefs = [
   ['health', 'Healthcare', every(600), false],
   ['life', 'Personal & Lifestyle', [2500, 2500, 4000, 2500, 2500, 2500, 1500, 1500, 2500, 3000, 3000, 5000], false],
   ['other', 'Other Expenses', every(500), false],
-  ['util', 'Utilities', every(800), true],
-  ['salary', 'Salary', every(0), true],
   ['petrol', 'Petrol Top Up', every(1300), false],
   ['cash', 'Cash collection for travel', [1000, 1000, 2000, 1000, 1000, 3000, 3000, 1500, 1000, 3000, 1000, 3000], false],
   ['visa', 'Visa Renewal', [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 6500, 1500, 1500], false]
 ];
 // Short codes shown in the category badges.
 const CODES = { staff: 'SS', elec: 'EW', net: 'IM', maint: 'PM', rent: 'RS', groc: 'GR', trans: 'TP', ins: 'IN', edu: 'ED', travel: 'TV',
-  health: 'HC', life: 'PL', other: 'OE', util: 'UT', salary: 'SA', petrol: 'PT', cash: 'CT', visa: 'VR' };
+  health: 'HC', life: 'PL', other: 'OE', petrol: 'PT', cash: 'CT', visa: 'VR' };
 const cats = catDefs.map(([id, name, alloc, fixed], i) => ({
   id, name, ini: CODES[id], alloc, fixed,
   // Jan–Sep actual spend: fixed items match the allocation, the rest vary a little around it.
@@ -93,7 +91,7 @@ for (let m = 0; m < 9; m++) {
   const sp = (id) => cats.find((c) => c.id === id).spent[m];
   [['ravi', 3500], ['maria', 2500], ['joseph', 2800], ['ahmed', 2600]].forEach(([p, a]) => H(m, 28, 'Salary – ' + pname(p), 'staff', 'WPS payroll', 'Bank transfer', a, 'Recurring', p, ''));
   if (sp('staff') > 11400) H(m, 12, 'Annual leave flight – Ravi Kumar', 'staff', 'Emirates', 'Card ••4417', sp('staff') - 11400, 'One-off', 'ravi', '');
-  H(m, 22, 'DEWA – Villa', 'elec', 'DEWA', 'Bank transfer', sp('elec'), 'Recurring', '', 'villa');
+  H(m, 22, 'DEWA – Villa', 'elec', 'DEWA', 'Bank transfer', sp('elec') - 800, 'Recurring', '', 'villa');
   H(m, 18, 'du – Internet and TV', 'net', 'du', 'Card ••4417', 399, 'Recurring', '', 'villa');
   H(m, 14, 'Etisalat – Mobiles', 'net', 'Etisalat', 'Autopay', sp('net') - 399, 'Recurring', '', '');
   const aptJob = m === 2 || m === 6 ? 600 : 0;
@@ -118,8 +116,8 @@ for (let m = 0; m < 9; m++) {
   H(m, 11, 'OSN+ subscription', 'life', 'OSN', 'Autopay', 55, 'Recurring', '', 'villa');
   H(m, 21, 'Business dinner', 'life', 'Zuma DIFC', 'Card ••4417', sp('life') - 55, 'One-off', 'ceo', '');
   H(m, 26, 'Miscellaneous', 'other', 'Various', 'Petty cash', sp('other'), 'One-off', '', '');
-  H(m, 28, 'Empower – Chiller', 'util', 'Empower', 'Bank transfer', 720, 'Recurring', '', 'villa');
-  H(m, 15, 'Gas cylinders', 'util', 'Emirates Gas', 'Petty cash', sp('util') - 720, 'One-off', '', 'villa');
+  H(m, 28, 'Empower – Chiller', 'elec', 'Empower', 'Bank transfer', 720, 'Recurring', '', 'villa');
+  H(m, 15, 'Gas cylinders', 'elec', 'Emirates Gas', 'Petty cash', 80, 'One-off', '', 'villa');
   const pt = split(sp('petrol'), [0.4, 0.35, 0.25]);
   H(m, 6, 'Petrol – Land Cruiser', 'petrol', 'ENOC', 'Fuel card', pt[0], 'One-off', '', 'lc');
   H(m, 13, 'Petrol – Nissan Patrol', 'petrol', 'ADNOC', 'Fuel card', pt[1], 'One-off', '', 'patrol');
@@ -140,7 +138,7 @@ const recurring = [
   R('r2', 'Fuel card top-up', 'petrol', 'Monthly', 9, 20, 800, 'Bank transfer', false, 'ADNOC fleet card'),
   R('r3', 'DEWA – Villa', 'elec', 'Monthly', 9, 22, 1840, 'Bank transfer', false, 'Amount changes each month'),
   R('r4', 'Staff salaries (4 people)', 'staff', 'Monthly', 9, 28, 11400, 'Bank transfer (WPS)', false, 'Ravi, Maria, Joseph, Ahmed'),
-  R('r5', 'Empower – Chiller', 'util', 'Monthly', 9, 28, 720, 'Bank transfer', false, 'Account EMP-••••-311'),
+  R('r5', 'Empower – Chiller', 'elec', 'Monthly', 9, 28, 720, 'Bank transfer', false, 'Account EMP-••••-311'),
   R('r6', 'Car lease – Nissan Patrol', 'trans', 'Monthly', 10, 1, 3200, 'Autopay', true, 'Lease ends 31 Aug 2027'),
   R('r7', 'Pool maintenance', 'maint', 'Monthly', 10, 10, 450, 'Petty cash', false, 'BlueWave Pools'),
   R('r8', 'OSN+ subscription', 'life', 'Monthly', 10, 11, 55, 'Autopay', true, ''),
