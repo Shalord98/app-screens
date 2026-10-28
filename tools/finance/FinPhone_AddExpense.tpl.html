@@ -41,6 +41,7 @@
           <sc-for list="{{f.cats}}" as="o" hint-placeholder-count="7">
             <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:38px;padding:0 13px;border-radius:19px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
           </sc-for>
+          <button onClick="{{f.toggleCats}}" aria-expanded="{{f.allCats}}" style="height:38px;padding:0 13px;border-radius:19px;border:1px dashed #9AA3AF;background:transparent;color:#0B5C55;font-weight:700;font-size:13px">{{f.catsToggleLabel}}</button>
         </div>
       </div>
       <button onClick="{{f.toggleReceipt}}" style="min-height:52px;border:1px dashed {{f.rcBorder}};border-radius:12px;background:{{f.rcBg}};color:{{f.rcFg}};font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -86,20 +87,26 @@ class Component extends DCLogic {
     super(props);
     this.state = { form: this.blank(), last: null };
   }
-  blank() { return { amount: '', desc: '', payee: '', cat: '', p: '', o: '', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false, more: false }; }
+  blank() { return { amount: '', desc: '', payee: '', cat: '', p: '', o: '', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false, more: false, allCats: false }; }
   renderVals() {
     /*@SHARED*/
     const st = this.state, fm = st.form;
     const setF = (patch) => this.setState({ form: { ...this.state.form, ...patch } });
     const choice = (on) => ({ on, bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB' });
     // Person and object are optional: tapping the selected one again clears it.
+    const used = {};
+    FIN.history.concat(FIN.txns).forEach((t) => { used[t.cat] = (used[t.cat] || 0) + 1; });
+    const topCats = FIN.cats.slice().sort((a, b) => (used[b.id] || 0) - (used[a.id] || 0)).slice(0, 6).map((c) => c.id);
     const opts = (key, list, optional) => list.map((x) => ({ label: x.name, ...choice(fm[key] === x.id), pick: () => setF({ [key]: optional && fm[key] === x.id ? '' : x.id }) }));
     const amt = Number(String(fm.amount).replace(/[^0-9.]/g, ''));
     const ok = fm.desc.trim().length > 0 && amt > 0 && !!fm.cat;
     const f = {
       ...fm,
       setAmount: (e) => setF({ amount: e.target.value }), setDesc: (e) => setF({ desc: e.target.value }), setPayee: (e) => setF({ payee: e.target.value }),
-      cats: opts('cat', FIN.cats, false),
+      // The 6 most-used categories first; the rest behind "More categories". A picked category always stays visible.
+      cats: opts('cat', fm.allCats ? FIN.cats : FIN.cats.filter((c) => topCats.includes(c.id) || c.id === fm.cat), false),
+      allCats: fm.allCats, toggleCats: () => setF({ allCats: !fm.allCats }),
+      catsToggleLabel: fm.allCats ? 'Fewer' : 'More categories (' + (FIN.cats.length - topCats.length) + ')',
       more: fm.more, toggleMore: () => setF({ more: !fm.more }),
       moreLabel: fm.more ? 'Hide details' : 'More details (optional)',
       moreHint: fm.more ? '' : [(FIN.persons.find((x) => x.id === fm.p) || {}).name, (FIN.objects.find((x) => x.id === fm.o) || {}).name, fm.type === 'Recurring' ? 'repeats ' + fm.freq.toLowerCase() : ''].filter(Boolean).join(' · ') || 'person, vehicle, paid with',

@@ -14,6 +14,11 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:14px;top:13px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
       <input id="rq" value="{{q}}" onChange="{{search}}" placeholder="Search payee, person or item" style="width:100%;height:44px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px 0 42px;font-size:14px;background:#FFFFFF;color:#14213D">
     </div>
+    <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px" role="group" aria-label="Show">
+      <sc-for list="{{dirs}}" as="v" hint-placeholder-count="3">
+        <button onClick="{{v.pick}}" aria-pressed="{{v.on}}" style="flex:1;height:36px;border-radius:10px;border:none;background:{{v.bg}};color:#14213D;font-weight:{{v.weight}};font-size:13px">{{v.label}}</button>
+      </sc-for>
+    </div>
   </div>
 
   <div data-scroll style="flex:1;overflow-y:auto;padding:2px 20px 20px;display:flex;flex-direction:column;gap:10px">
@@ -31,7 +36,7 @@
             <span style="font-size:12px;color:#5B6472;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{t.meta}}</span>
           </span>
           <span style="display:flex;flex-direction:column;align-items:flex-end;flex:none;gap:2px">
-            <span style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">{{t.amountText}}</span>
+            <span style="font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;color:{{t.amtFg}}">{{t.amountText}}</span>
             <sc-if value="{{t.noReceipt}}" hint-placeholder-val="{{false}}"><span style="font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:8px;background:#E3EAF7;color:#1E3A8A">No receipt</span></sc-if>
           </span>
         </button>
@@ -73,34 +78,43 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { q: '', open: null, added: {}, banner: '' };
+    this.state = { q: '', dir: 'all', open: null, added: {}, banner: '' };
   }
   renderVals() {
     /*@SHARED*/
     const st = this.state, LIMIT = 25;
-    const all = FIN.txns.concat(FIN.history).slice().sort((a, b) => b.m - a.m || b.d - a.d);
+    // Money out (expenses) and money in (income received), newest first.
+    const outs = FIN.txns.concat(FIN.history).map((t) => ({ ...t, dir: 'out' }));
+    const ins = FIN.income.filter((i) => i.received !== null).map((i) => {
+      const src = FIN.sources.find((x) => x.id === i.src);
+      return { id: 'in-' + i.id, dir: 'in', m: i.m, d: i.d, desc: i.src === 'other' ? i.ref : src.name, payee: src.from, amount: i.received, method: i.ref, srcName: src.name, receipt: true, p: '', o: '' };
+    });
+    const all = outs.concat(ins).sort((a, b) => b.m - a.m || b.d - a.d);
     const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
     const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
     const hasRc = (t) => t.receipt || !!st.added[t.id];
     const q = st.q.trim().toLowerCase();
-    const found = q ? all.filter((t) => (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q)) : all;
+    const inDir = all.filter((t) => st.dir === 'all' || t.dir === st.dir);
+    const found = q ? inDir.filter((t) => (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q)) : inDir;
     const shown = found.slice(0, LIMIT);
     const rows = shown.map((t) => {
       const who = [pName(t.p), oName(t.o)].filter(Boolean).join(' · ');
-      return { desc: t.desc, amountText: num(t.amount), date: dateText(t.m, t.d), noReceipt: !hasRc(t), hasReceipt: hasRc(t),
-        meta: dateText(t.m, t.d) + ' · ' + (who || catOf(t.cat).name), open: () => this.setState({ open: t.id }) };
+      const isIn = t.dir === 'in';
+      return { desc: t.desc, amountText: (isIn ? '+' : '−') + num(t.amount), amtFg: isIn ? '#0B5C55' : '#14213D', date: dateText(t.m, t.d), noReceipt: !hasRc(t), hasReceipt: hasRc(t),
+        meta: dateText(t.m, t.d) + ' · ' + (isIn ? t.payee : who || catOf(t.cat).name), open: () => this.setState({ open: t.id }) };
     });
     const t = st.open && all.find((x) => x.id === st.open);
     const d = t ? {
-      desc: t.desc, amountText: aed(t.amount), catName: catOf(t.cat).name, fullDate: t.d + ' ' + MONTHS[t.m],
+      desc: t.desc, amountText: (t.dir === 'in' ? '+' : '−') + aed(t.amount), catName: t.dir === 'in' ? 'Money in · ' + t.srcName : catOf(t.cat).name, fullDate: t.d + ' ' + MONTHS[t.m],
       line: [t.payee, pName(t.p), oName(t.o), t.method].filter(Boolean).join(' · '),
       noReceipt: !hasRc(t), hasReceipt: hasRc(t),
       addReceipt: () => this.setState({ added: { ...st.added, [t.id]: true }, open: null, banner: 'Receipt added to ' + t.desc + '.' })
     } : {};
     return {
       q: st.q, search: (e) => this.setState({ q: e.target.value }),
-      subtitle: q ? found.length + (found.length === 1 ? ' match' : ' matches') : 'Latest ' + shown.length + ' expenses',
-      total: q && found.length ? aed(sum(found.map((x) => x.amount))) : '',
+      dirs: [['all', 'All'], ['out', 'Money out'], ['in', 'Money in']].map(([k, label]) => ({ label, on: st.dir === k, bg: st.dir === k ? '#FFFFFF' : 'transparent', weight: st.dir === k ? 800 : 600, pick: () => this.setState({ dir: k }) })),
+      subtitle: q ? found.length + (found.length === 1 ? ' match' : ' matches') : 'Latest ' + shown.length + (st.dir === 'in' ? ' receipts' : st.dir === 'out' ? ' expenses' : ' transactions'),
+      total: q && found.length ? (st.dir === 'all' ? 'Net ' + aed(sum(found.map((x) => (x.dir === 'in' ? x.amount : -x.amount)))) : aed(sum(found.map((x) => x.amount)))) : '',
       rows, isEmpty: rows.length === 0,
       note: found.length > LIMIT ? 'Showing the latest ' + LIMIT + '. Full history, filters and totals are in Finance on the laptop.' : 'Full history, filters and totals are in Finance on the laptop.',
       detailOpen: !!t, d, closeDetail: () => this.setState({ open: null }),

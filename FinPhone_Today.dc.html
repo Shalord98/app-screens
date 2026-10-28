@@ -167,7 +167,7 @@ class Component extends DCLogic {
       const n = daysTo(i.m, i.d);
       if (i.received === null && n <= 0) {
         const s = FIN.sources.find((x) => x.id === i.src);
-        items.push({ id: i.id, k: 'COLLECT', title: 'Collect ' + s.name.charAt(0).toLowerCase() + s.name.slice(1) + ' · ' + aed(i.expected), n, action: 'Received' });
+        items.push({ id: i.id, k: 'COLLECT', title: 'Collect ' + (i.src === 'other' ? i.ref : s.name) + ' · ' + aed(i.expected), n, action: 'Received' });
       }
     });
     const open = items.filter((t) => !st.done[t.id]).sort((a, b) => a.n - b.n).map((t) => ({

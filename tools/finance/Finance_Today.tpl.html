@@ -137,7 +137,7 @@ class Component extends DCLogic {
       const n = daysTo(i.m, i.d);
       if (i.received === null && n <= 7) {
         const s = FIN.sources.find((x) => x.id === i.src);
-        tasks.push({ id: i.id, k: 'COLLECT', title: (n < 0 ? 'Chase ' : 'Confirm ') + s.name.charAt(0).toLowerCase() + s.name.slice(1), meta: s.from + ' · ' + i.ref, amount: i.expected, days: n });
+        tasks.push({ id: i.id, k: 'COLLECT', title: (n < 0 ? 'Chase ' : 'Confirm ') + (i.src === 'other' ? i.ref : s.name), meta: s.from + ' · ' + i.ref, amount: i.expected, days: n });
       }
     });
     FIN.txns.filter((t) => !t.receipt).forEach((t) => tasks.push({ id: 'rc' + t.id, k: 'RECEIPT', title: 'Upload receipt: ' + t.desc, meta: dateText(t.m, t.d) + ' · ' + t.payee + ' · ' + t.method + ' · entered by ' + t.by, amount: t.amount, days: 0 }));
