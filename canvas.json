@@ -477,24 +477,24 @@
       "title": "Finance · 3 Budget plan"
     },
     "Finance_Expenses.dc.html": {
-      "x": 4338,
+      "x": 5784,
       "y": 0,
       "w": 1366,
       "h": 1000,
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "title": "Finance · 4 Expenses + recurring"
+      "title": "Finance · 5 Expenses + recurring"
     },
     "Finance_Income.dc.html": {
-      "x": 5784,
+      "x": 7230,
       "y": 0,
       "w": 1366,
       "h": 1100,
       "page": "finance",
       "expand": "fill",
       "is_interactive": true,
-      "title": "Finance · 5 Income"
+      "title": "Finance · 6 Income"
     },
     "FinPhone_Today.dc.html": {
       "x": 0,
@@ -535,6 +535,16 @@
       "is_interactive": true,
       "x": 470,
       "title": "Finance phone · 2 Overview (CEO)"
+    },
+    "Finance_Transactions.dc.html": {
+      "y": 0,
+      "w": 1366,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "x": 4338,
+      "h": 1100,
+      "title": "Finance · 4 All transactions"
     }
   },
   "order": [
@@ -582,6 +592,7 @@
     "Finance_Today.dc.html",
     "Finance_Overview.dc.html",
     "Finance_Budget.dc.html",
+    "Finance_Transactions.dc.html",
     "Finance_Expenses.dc.html",
     "Finance_Income.dc.html",
     "FinPhone_Today.dc.html",
@@ -624,7 +635,7 @@
     },
     "tf": {
       "kind": "title1",
-      "maxW": 7150,
+      "maxW": 8596,
       "text": "Finance (laptop): yearly budget, expenses, income and the daily to-do",
       "x": 0,
       "y": -260,

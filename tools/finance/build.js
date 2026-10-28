@@ -154,12 +154,51 @@ const SHARED = `const FIN = ${JSON.stringify(FIN)};
     const spentOf = (cat, m, txns) => (m < FIN.today.m ? cat.spent[m] : m === FIN.today.m ? sum((txns || FIN.txns).filter((t) => t.cat === cat.id && t.m === m).map((t) => t.amount)) : 0);
     // Variance = allocated − spent: positive is under budget, negative is over.
     const varText = (v) => (Math.round(v) === 0 ? 'On budget' : v > 0 ? 'Under ' + aed(v) : 'Over ' + aed(-v));
-    const varTone = (v) => (v < 0 ? tone.bad : tone.ok);`;
+    const varTone = (v) => (v < 0 ? tone.bad : tone.ok);
+    // Filter bar: a row of dropdowns, each a checklist with counts. defs: { key, label, options: [{ v, label } | { head }], test(row, sel), single, def }.
+    const filterBar = (rows, fb, openKey, setFb, setOpen, defs) => {
+      const passes = (r, skip) => defs.every((d) => d.key === skip || d.test(r, fb[d.key]));
+      const filtered = rows.filter((r) => passes(r));
+      const items = defs.map((d) => {
+        const sel = fb[d.key], isOpen = openKey === d.key;
+        const base = isOpen ? rows.filter((r) => passes(r, d.key)) : [];
+        const opts = !isOpen ? [] : d.options.map((o) => {
+          if (o.head) return { isHead: true, isOpt: false, label: o.head };
+          const checked = d.single ? sel === o.v : sel.includes(o.v);
+          const n = base.filter((r) => d.test(r, d.single ? o.v : [o.v])).length;
+          return { isHead: false, isOpt: true, label: o.label, count: n, checked, fg: n || checked ? '#14213D' : '#9AA3AF',
+            boxBg: checked ? '#0F766E' : '#FFFFFF', boxBorder: checked ? '#0F766E' : '#9AA3AF', radius: d.single ? '9px' : '5px',
+            toggle: () => setFb({ [d.key]: d.single ? o.v : checked ? sel.filter((x) => x !== o.v) : [...sel, o.v] }, d.single) };
+        });
+        const active = d.single ? sel !== d.def : sel.length > 0;
+        const name = (v) => (d.options.find((o) => o.v === v) || {}).label;
+        const text = d.single ? (active ? name(sel) : d.label) : sel.length === 0 ? d.label : sel.length === 1 ? name(sel[0]) : d.label + ' · ' + sel.length;
+        return { text, open: isOpen, active, bg: active ? '#E6F2F0' : '#FFFFFF', fg: active ? '#0B5C55' : '#14213D', border: active ? '#0F766E' : '#D9D5CB',
+          toggle: () => setOpen(isOpen ? null : d.key), close: () => setOpen(null), multi: !d.single,
+          clear: () => setFb({ [d.key]: d.single ? d.def : [] }), opts };
+      });
+      const tokens = [];
+      defs.forEach((d) => {
+        const sel = fb[d.key];
+        if (d.single) { if (sel !== d.def) tokens.push({ label: (d.options.find((o) => o.v === sel) || {}).label, remove: () => setFb({ [d.key]: d.def }) }); }
+        else sel.forEach((v) => tokens.push({ label: (d.options.find((o) => o.v === v) || {}).label, remove: () => setFb({ [d.key]: sel.filter((x) => x !== v) }) }));
+      });
+      return { items, filtered, tokens, hasTokens: tokens.length > 0, anyOpen: !!openKey, closeAll: () => setOpen(null),
+        clearAll: () => setFb(Object.fromEntries(defs.map((d) => [d.key, d.single ? d.def : []]))) };
+    };
+    const periodDef = (get) => ({
+      key: 'period', label: 'Period', single: true, def: 'ytd',
+      options: [{ head: 'Quick picks' }, { v: 'ytd', label: 'Year to date' }, { v: 'this', label: 'This month' }, { v: 'last', label: 'Last month' }, { v: 'last3', label: 'Last 3 months' }, { head: 'Month' }]
+        .concat([...Array(FIN.today.m + 1).keys()].reverse().map((m) => ({ v: 'm' + m, label: MONTHS[m] }))),
+      test: (r, v) => { const m = get(r); return v === 'ytd' || (v === 'this' && m === FIN.today.m) || (v === 'last' && m === FIN.today.m - 1) || (v === 'last3' && m > FIN.today.m - 3) || v === 'm' + m; }
+    });
+    const listDef = (key, label, options, get) => ({ key, label, options, test: (r, sel) => sel.length === 0 || sel.includes(get(r)) });`;
 
 const NAV = [
   ['Finance_Today.dc.html', 'To-do today', '<path d="M9 11l3 3 8-8"></path><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"></path>'],
   ['Finance_Overview.dc.html', 'Budget overview', '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path>'],
   ['Finance_Budget.dc.html', 'Budget plan', '<rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16"></path>'],
+  ['Finance_Transactions.dc.html', 'All transactions', '<path d="M7 4v16M7 4L3 8M7 4l4 4"></path><path d="M17 20V4M17 20l-4-4M17 20l4-4"></path>'],
   ['Finance_Expenses.dc.html', 'Expenses', '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path>'],
   ['Finance_Income.dc.html', 'Income', '<path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path>']
 ];
@@ -199,6 +238,50 @@ ${TABS.map(([h, l, i]) => `    <a href="${h}"${h === active ? ' aria-current="pa
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${i}</svg>${l}</a>`).join('\n')}
   </nav>`;
 
+const FILTERBAR = String.raw`<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <sc-if value="{{fb.anyOpen}}" hint-placeholder-val="{{false}}">
+              <div onClick="{{fb.closeAll}}" aria-hidden="true" style="position:fixed;inset:0;z-index:25"></div>
+            </sc-if>
+            <sc-for list="{{fb.items}}" as="it" hint-placeholder-count="5">
+              <div style="position:relative">
+                <button onClick="{{it.toggle}}" aria-expanded="{{it.open}}" aria-haspopup="true" style="height:40px;padding:0 12px 0 14px;border-radius:12px;border:1px solid {{it.border}};background:{{it.bg}};color:{{it.fg}};font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap">{{it.text}}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+                <sc-if value="{{it.open}}" hint-placeholder-val="{{false}}">
+                  <div role="menu" style="position:absolute;top:46px;left:0;z-index:30;width:270px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;box-shadow:0 12px 32px rgba(20,33,61,0.18);padding:6px;display:flex;flex-direction:column">
+                    <div style="max-height:420px;overflow-y:auto;display:flex;flex-direction:column">
+                      <sc-for list="{{it.opts}}" as="o" hint-placeholder-count="6">
+                        <sc-if value="{{o.isHead}}" hint-placeholder-val="{{false}}">
+                          <span style="font-size:10.5px;font-weight:800;letter-spacing:0.6px;color:#5B6472;padding:10px 10px 4px;text-transform:uppercase">{{o.label}}</span>
+                        </sc-if>
+                        <sc-if value="{{o.isOpt}}" hint-placeholder-val="{{true}}">
+                          <button role="menuitemcheckbox" aria-checked="{{o.checked}}" onClick="{{o.toggle}}" style="width:100%;min-height:38px;border:none;border-radius:9px;background:transparent;padding:0 10px;display:flex;align-items:center;gap:10px;color:{{o.fg}};font-size:13.5px;font-weight:600;text-align:left">
+                            <span aria-hidden="true" style="width:18px;height:18px;flex:none;border-radius:{{o.radius}};border:2px solid {{o.boxBorder}};background:{{o.boxBg}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:12px;line-height:1">✓</span>
+                            <span style="flex:1;min-width:0">{{o.label}}</span>
+                            <span style="font-size:12px;color:#5B6472;font-variant-numeric:tabular-nums">{{o.count}}</span>
+                          </button>
+                        </sc-if>
+                      </sc-for>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;gap:8px;padding:8px 4px 2px;border-top:1px solid #EFEBE2;margin-top:4px">
+                      <button onClick="{{it.clear}}" style="height:34px;padding:0 10px;border-radius:9px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Reset</button>
+                      <button onClick="{{it.close}}" style="height:34px;padding:0 14px;border-radius:9px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:13px">Done</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{fb.hasTokens}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{fb.clearAll}}" style="height:40px;padding:0 10px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:13px">Clear all</button>
+            </sc-if>
+          </div>
+          <sc-if value="{{fb.hasTokens}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{fb.tokens}}" as="tk" hint-placeholder-count="2">
+                <button onClick="{{tk.remove}}" aria-label="Remove filter {{tk.label}}" style="height:30px;padding:0 8px 0 12px;border-radius:15px;border:none;background:#14213D;color:#FFFFFF;font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:6px">{{tk.label}}<span aria-hidden="true" style="font-size:15px;line-height:1">×</span></button>
+              </sc-for>
+            </div>
+          </sc-if>`;
+
 const head = (title) => `<!doctype html>
 <html lang="en">
 <head>
@@ -227,6 +310,7 @@ for (const f of fs.readdirSync(__dirname).filter((x) => x.endsWith('.tpl.html'))
   s = s.replace(/<!--@HEAD (.+?)-->/, (_, t) => head(t));
   s = s.replace(/<!--@NAV (.+?)-->/, (_, a) => nav(a));
   s = s.replace(/<!--@TABS (.+?)-->/, (_, a) => tabs(a));
+  s = s.replace('<!--@FILTERBAR-->', FILTERBAR);
   s = s.replace('/*@SHARED*/', SHARED);
   const out = f.replace('.tpl.html', '.dc.html');
   fs.writeFileSync(path.join(OUT, out), s);

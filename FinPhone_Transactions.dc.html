@@ -126,6 +126,44 @@ class Component extends DCLogic {
     // Variance = allocated − spent: positive is under budget, negative is over.
     const varText = (v) => (Math.round(v) === 0 ? 'On budget' : v > 0 ? 'Under ' + aed(v) : 'Over ' + aed(-v));
     const varTone = (v) => (v < 0 ? tone.bad : tone.ok);
+    // Filter bar: a row of dropdowns, each a checklist with counts. defs: { key, label, options: [{ v, label } | { head }], test(row, sel), single, def }.
+    const filterBar = (rows, fb, openKey, setFb, setOpen, defs) => {
+      const passes = (r, skip) => defs.every((d) => d.key === skip || d.test(r, fb[d.key]));
+      const filtered = rows.filter((r) => passes(r));
+      const items = defs.map((d) => {
+        const sel = fb[d.key], isOpen = openKey === d.key;
+        const base = isOpen ? rows.filter((r) => passes(r, d.key)) : [];
+        const opts = !isOpen ? [] : d.options.map((o) => {
+          if (o.head) return { isHead: true, isOpt: false, label: o.head };
+          const checked = d.single ? sel === o.v : sel.includes(o.v);
+          const n = base.filter((r) => d.test(r, d.single ? o.v : [o.v])).length;
+          return { isHead: false, isOpt: true, label: o.label, count: n, checked, fg: n || checked ? '#14213D' : '#9AA3AF',
+            boxBg: checked ? '#0F766E' : '#FFFFFF', boxBorder: checked ? '#0F766E' : '#9AA3AF', radius: d.single ? '9px' : '5px',
+            toggle: () => setFb({ [d.key]: d.single ? o.v : checked ? sel.filter((x) => x !== o.v) : [...sel, o.v] }, d.single) };
+        });
+        const active = d.single ? sel !== d.def : sel.length > 0;
+        const name = (v) => (d.options.find((o) => o.v === v) || {}).label;
+        const text = d.single ? (active ? name(sel) : d.label) : sel.length === 0 ? d.label : sel.length === 1 ? name(sel[0]) : d.label + ' · ' + sel.length;
+        return { text, open: isOpen, active, bg: active ? '#E6F2F0' : '#FFFFFF', fg: active ? '#0B5C55' : '#14213D', border: active ? '#0F766E' : '#D9D5CB',
+          toggle: () => setOpen(isOpen ? null : d.key), close: () => setOpen(null), multi: !d.single,
+          clear: () => setFb({ [d.key]: d.single ? d.def : [] }), opts };
+      });
+      const tokens = [];
+      defs.forEach((d) => {
+        const sel = fb[d.key];
+        if (d.single) { if (sel !== d.def) tokens.push({ label: (d.options.find((o) => o.v === sel) || {}).label, remove: () => setFb({ [d.key]: d.def }) }); }
+        else sel.forEach((v) => tokens.push({ label: (d.options.find((o) => o.v === v) || {}).label, remove: () => setFb({ [d.key]: sel.filter((x) => x !== v) }) }));
+      });
+      return { items, filtered, tokens, hasTokens: tokens.length > 0, anyOpen: !!openKey, closeAll: () => setOpen(null),
+        clearAll: () => setFb(Object.fromEntries(defs.map((d) => [d.key, d.single ? d.def : []]))) };
+    };
+    const periodDef = (get) => ({
+      key: 'period', label: 'Period', single: true, def: 'ytd',
+      options: [{ head: 'Quick picks' }, { v: 'ytd', label: 'Year to date' }, { v: 'this', label: 'This month' }, { v: 'last', label: 'Last month' }, { v: 'last3', label: 'Last 3 months' }, { head: 'Month' }]
+        .concat([...Array(FIN.today.m + 1).keys()].reverse().map((m) => ({ v: 'm' + m, label: MONTHS[m] }))),
+      test: (r, v) => { const m = get(r); return v === 'ytd' || (v === 'this' && m === FIN.today.m) || (v === 'last' && m === FIN.today.m - 1) || (v === 'last3' && m > FIN.today.m - 3) || v === 'm' + m; }
+    });
+    const listDef = (key, label, options, get) => ({ key, label, options, test: (r, sel) => sel.length === 0 || sel.includes(get(r)) });
     const st = this.state, LIMIT = 25;
     const all = FIN.txns.concat(FIN.history).slice().sort((a, b) => b.m - a.m || b.d - a.d);
     const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';

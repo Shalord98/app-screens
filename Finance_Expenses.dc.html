@@ -37,6 +37,8 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Budget overview</a>
       <a href="Finance_Budget.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16"></path></svg>Budget plan</a>
+      <a href="Finance_Transactions.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M7 4L3 8M7 4l4 4"></path><path d="M17 20V4M17 20l-4-4M17 20l4-4"></path></svg>All transactions</a>
       <a href="Finance_Expenses.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg>Expenses</a>
       <a href="Finance_Income.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
@@ -94,24 +96,52 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
         </div>
 
         <sc-if value="{{isTxns}}" hint-placeholder-val="{{true}}">
-          <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:7px">
-            <sc-for list="{{filterRows}}" as="fr" hint-placeholder-count="5">
-              <div style="display:flex;align-items:flex-start;gap:10px">
-                <span style="width:120px;flex:none;padding-top:8px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">{{fr.title}}</span>
-                <div style="display:flex;flex-wrap:wrap;gap:5px;min-width:0">
-                  <sc-for list="{{fr.opts}}" as="f" hint-placeholder-count="6">
-                    <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:30px;padding:0 11px;border-radius:15px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12px">{{f.label}}</button>
-                  </sc-for>
-                </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <sc-if value="{{fb.anyOpen}}" hint-placeholder-val="{{false}}">
+              <div onClick="{{fb.closeAll}}" aria-hidden="true" style="position:fixed;inset:0;z-index:25"></div>
+            </sc-if>
+            <sc-for list="{{fb.items}}" as="it" hint-placeholder-count="5">
+              <div style="position:relative">
+                <button onClick="{{it.toggle}}" aria-expanded="{{it.open}}" aria-haspopup="true" style="height:40px;padding:0 12px 0 14px;border-radius:12px;border:1px solid {{it.border}};background:{{it.bg}};color:{{it.fg}};font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;white-space:nowrap">{{it.text}}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+                <sc-if value="{{it.open}}" hint-placeholder-val="{{false}}">
+                  <div role="menu" style="position:absolute;top:46px;left:0;z-index:30;width:270px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;box-shadow:0 12px 32px rgba(20,33,61,0.18);padding:6px;display:flex;flex-direction:column">
+                    <div style="max-height:420px;overflow-y:auto;display:flex;flex-direction:column">
+                      <sc-for list="{{it.opts}}" as="o" hint-placeholder-count="6">
+                        <sc-if value="{{o.isHead}}" hint-placeholder-val="{{false}}">
+                          <span style="font-size:10.5px;font-weight:800;letter-spacing:0.6px;color:#5B6472;padding:10px 10px 4px;text-transform:uppercase">{{o.label}}</span>
+                        </sc-if>
+                        <sc-if value="{{o.isOpt}}" hint-placeholder-val="{{true}}">
+                          <button role="menuitemcheckbox" aria-checked="{{o.checked}}" onClick="{{o.toggle}}" style="width:100%;min-height:38px;border:none;border-radius:9px;background:transparent;padding:0 10px;display:flex;align-items:center;gap:10px;color:{{o.fg}};font-size:13.5px;font-weight:600;text-align:left">
+                            <span aria-hidden="true" style="width:18px;height:18px;flex:none;border-radius:{{o.radius}};border:2px solid {{o.boxBorder}};background:{{o.boxBg}};box-sizing:border-box;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:12px;line-height:1">✓</span>
+                            <span style="flex:1;min-width:0">{{o.label}}</span>
+                            <span style="font-size:12px;color:#5B6472;font-variant-numeric:tabular-nums">{{o.count}}</span>
+                          </button>
+                        </sc-if>
+                      </sc-for>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;gap:8px;padding:8px 4px 2px;border-top:1px solid #EFEBE2;margin-top:4px">
+                      <button onClick="{{it.clear}}" style="height:34px;padding:0 10px;border-radius:9px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Reset</button>
+                      <button onClick="{{it.close}}" style="height:34px;padding:0 14px;border-radius:9px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:13px">Done</button>
+                    </div>
+                  </div>
+                </sc-if>
               </div>
             </sc-for>
+            <sc-if value="{{fb.hasTokens}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{fb.clearAll}}" style="height:40px;padding:0 10px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:13px">Clear all</button>
+            </sc-if>
           </div>
+          <sc-if value="{{fb.hasTokens}}" hint-placeholder-val="{{false}}">
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{fb.tokens}}" as="tk" hint-placeholder-count="2">
+                <button onClick="{{tk.remove}}" aria-label="Remove filter {{tk.label}}" style="height:30px;padding:0 8px 0 12px;border-radius:15px;border:none;background:#14213D;color:#FFFFFF;font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:6px">{{tk.label}}<span aria-hidden="true" style="font-size:15px;line-height:1">×</span></button>
+              </sc-for>
+            </div>
+          </sc-if>
           <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;background:#14213D;color:#FFFFFF;border-radius:14px;padding:10px 16px">
             <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:600;color:#C9D1DE">{{resultTitle}}</span><span style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums">{{listTotal}}</span></span>
             <span style="font-size:13px;font-weight:600;color:#C9D1DE">{{resultLine}}</span>
-            <sc-if value="{{hasFilters}}" hint-placeholder-val="{{false}}">
-              <button onClick="{{clearFilters}}" style="height:34px;padding:0 12px;border-radius:10px;border:1px solid #2A3A5C;background:#1E2E50;color:#FFFFFF;font-weight:700;font-size:12.5px">Clear filters</button>
-            </sc-if>
           </div>
           <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
             <div style="min-width:600px;display:flex;flex-direction:column">
@@ -295,7 +325,7 @@ input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F76
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { tab: 'Transactions', cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
+    this.state = { tab: 'Transactions', fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
       form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
   }
   renderVals() {
@@ -317,37 +347,70 @@ class Component extends DCLogic {
     // Variance = allocated − spent: positive is under budget, negative is over.
     const varText = (v) => (Math.round(v) === 0 ? 'On budget' : v > 0 ? 'Under ' + aed(v) : 'Over ' + aed(-v));
     const varTone = (v) => (v < 0 ? tone.bad : tone.ok);
+    // Filter bar: a row of dropdowns, each a checklist with counts. defs: { key, label, options: [{ v, label } | { head }], test(row, sel), single, def }.
+    const filterBar = (rows, fb, openKey, setFb, setOpen, defs) => {
+      const passes = (r, skip) => defs.every((d) => d.key === skip || d.test(r, fb[d.key]));
+      const filtered = rows.filter((r) => passes(r));
+      const items = defs.map((d) => {
+        const sel = fb[d.key], isOpen = openKey === d.key;
+        const base = isOpen ? rows.filter((r) => passes(r, d.key)) : [];
+        const opts = !isOpen ? [] : d.options.map((o) => {
+          if (o.head) return { isHead: true, isOpt: false, label: o.head };
+          const checked = d.single ? sel === o.v : sel.includes(o.v);
+          const n = base.filter((r) => d.test(r, d.single ? o.v : [o.v])).length;
+          return { isHead: false, isOpt: true, label: o.label, count: n, checked, fg: n || checked ? '#14213D' : '#9AA3AF',
+            boxBg: checked ? '#0F766E' : '#FFFFFF', boxBorder: checked ? '#0F766E' : '#9AA3AF', radius: d.single ? '9px' : '5px',
+            toggle: () => setFb({ [d.key]: d.single ? o.v : checked ? sel.filter((x) => x !== o.v) : [...sel, o.v] }, d.single) };
+        });
+        const active = d.single ? sel !== d.def : sel.length > 0;
+        const name = (v) => (d.options.find((o) => o.v === v) || {}).label;
+        const text = d.single ? (active ? name(sel) : d.label) : sel.length === 0 ? d.label : sel.length === 1 ? name(sel[0]) : d.label + ' · ' + sel.length;
+        return { text, open: isOpen, active, bg: active ? '#E6F2F0' : '#FFFFFF', fg: active ? '#0B5C55' : '#14213D', border: active ? '#0F766E' : '#D9D5CB',
+          toggle: () => setOpen(isOpen ? null : d.key), close: () => setOpen(null), multi: !d.single,
+          clear: () => setFb({ [d.key]: d.single ? d.def : [] }), opts };
+      });
+      const tokens = [];
+      defs.forEach((d) => {
+        const sel = fb[d.key];
+        if (d.single) { if (sel !== d.def) tokens.push({ label: (d.options.find((o) => o.v === sel) || {}).label, remove: () => setFb({ [d.key]: d.def }) }); }
+        else sel.forEach((v) => tokens.push({ label: (d.options.find((o) => o.v === v) || {}).label, remove: () => setFb({ [d.key]: sel.filter((x) => x !== v) }) }));
+      });
+      return { items, filtered, tokens, hasTokens: tokens.length > 0, anyOpen: !!openKey, closeAll: () => setOpen(null),
+        clearAll: () => setFb(Object.fromEntries(defs.map((d) => [d.key, d.single ? d.def : []]))) };
+    };
+    const periodDef = (get) => ({
+      key: 'period', label: 'Period', single: true, def: 'ytd',
+      options: [{ head: 'Quick picks' }, { v: 'ytd', label: 'Year to date' }, { v: 'this', label: 'This month' }, { v: 'last', label: 'Last month' }, { v: 'last3', label: 'Last 3 months' }, { head: 'Month' }]
+        .concat([...Array(FIN.today.m + 1).keys()].reverse().map((m) => ({ v: 'm' + m, label: MONTHS[m] }))),
+      test: (r, v) => { const m = get(r); return v === 'ytd' || (v === 'this' && m === FIN.today.m) || (v === 'last' && m === FIN.today.m - 1) || (v === 'last3' && m > FIN.today.m - 3) || v === 'm' + m; }
+    });
+    const listDef = (key, label, options, get) => ({ key, label, options, test: (r, sel) => sel.length === 0 || sel.includes(get(r)) });
     const st = this.state;
     const now = FIN.today;
     const txns = st.txns || FIN.txns;
     const rec = st.rec || FIN.recurring;
     const hasRc = (t) => t.receipt || !!st.uploaded[t.id];
 
-    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k === 'Transactions' ? 'All transactions' : 'Recurring · ' + rec.length, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k === 'Transactions' ? 'All expenses' : 'Recurring · ' + rec.length, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
     // Every 2026 transaction: October (live) plus Jan–Sep history.
     const all = txns.concat(FIN.history).slice().sort((a, b) => b.m - a.m || b.d - a.d);
     const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
     const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
     const q = st.q.trim().toLowerCase();
-    const fv = { month: st.month, cat: st.cat === 'All' ? 'all' : st.cat, p: st.p, o: st.o, type: st.type === 'All' ? 'all' : st.type };
-    const field = { month: 'm', cat: 'cat', p: 'p', o: 'o', type: 'type' };
-    const match = (t, skip) => Object.keys(fv).every((k) => k === skip || fv[k] === 'all' || t[field[k]] === fv[k])
-      && (!q || (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q));
-    const filtered = all.filter((t) => match(t));
-    const setFilter = (k, v) => this.setState(k === 'cat' ? { cat: v === 'all' ? 'All' : v, limit: 50 } : k === 'type' ? { type: v === 'all' ? 'All' : v, limit: 50 } : { [k]: v, limit: 50 });
-    const opt = (k, v, label) => {
-      const n = v === 'all' ? null : all.filter((t) => match(t, k) && t[field[k]] === v).length;
-      return { label: n === null ? label : label + ' · ' + n, ...chipOf(fv[k] === v), pick: () => setFilter(k, v) };
-    };
-    const filterRows = [
-      { title: 'PERIOD', opts: [opt('month', 'all', 'All 2026')].concat([...Array(now.m + 1).keys()].reverse().map((m) => opt('month', m, MON[m]))) },
-      { title: 'CATEGORY', opts: [opt('cat', 'all', 'All')].concat(FIN.cats.map((c) => opt('cat', c.id, c.name))) },
-      { title: 'PERSON', opts: [opt('p', 'all', 'Anyone')].concat(FIN.persons.map((x) => opt('p', x.id, x.name))) },
-      { title: 'VEHICLE / PROPERTY', opts: [opt('o', 'all', 'Anything')].concat(FIN.objects.map((x) => opt('o', x.id, x.name))) },
-      { title: 'TYPE', opts: [opt('type', 'all', 'Any'), opt('type', 'One-off', 'One-off'), opt('type', 'Recurring', 'Recurring')] }
+    const searched = q ? all.filter((t) => (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q)) : all;
+    const defs = [
+      periodDef((t) => t.m),
+      listDef('cat', 'Category', FIN.cats.map((c) => ({ v: c.id, label: c.name })), (t) => t.cat),
+      listDef('p', 'Person', FIN.persons.map((x) => ({ v: x.id, label: x.name })), (t) => t.p || ''),
+      listDef('o', 'Vehicle / property', FIN.objects.map((x) => ({ v: x.id, label: x.name })), (t) => t.o || ''),
+      listDef('type', 'Type', [{ v: 'One-off', label: 'One-off' }, { v: 'Recurring', label: 'Recurring' }], (t) => t.type)
     ];
-    const activeNames = [fv.month !== 'all' ? MONTHS[fv.month] : '', fv.cat !== 'all' ? catOf(fv.cat).name : '', pName(fv.p), oName(fv.o), fv.type !== 'all' ? fv.type : '', q ? '"' + st.q.trim() + '"' : ''].filter(Boolean);
-    const months = fv.month === 'all' ? now.m + 1 : 1;
+    const fb = filterBar(searched, st.fb, st.open,
+      (patch, close) => this.setState({ fb: { ...this.state.fb, ...patch }, limit: 50, ...(close ? { open: null } : {}) }),
+      (k) => this.setState({ open: k }), defs);
+    const filtered = fb.filtered;
+    const per = st.fb.period;
+    const months = per === 'ytd' ? now.m + 1 : per === 'last3' ? 3 : 1;
     const list = filtered.slice(0, st.limit).map((t) => {
       const on = !st.adding && t.id === st.sel, c = catOf(t.cat), rc = hasRc(t);
       return {
@@ -389,8 +452,8 @@ class Component extends DCLogic {
         hasReceipt: hasRc(sel), noReceipt: !hasRc(sel), receiptName: 'Receipt_' + sel.d + MON[sel.m] + '.jpg',
         upload: () => this.setState({ uploaded: { ...st.uploaded, [sel.id]: true }, banner: 'Receipt added to ' + sel.desc + '.' }),
         person: pName(sel.p) || '—', object: oName(sel.o) || '—', canPerson: !!sel.p, canObject: !!sel.o,
-        byPerson: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: sel.p, o: 'all', q: '', limit: 50 }),
-        byObject: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: sel.o, q: '', limit: 50 })
+        byPerson: () => this.setState({ fb: { period: 'ytd', cat: [], p: [sel.p], o: [], type: [] }, open: null, q: '', limit: 50 }),
+        byObject: () => this.setState({ fb: { period: 'ytd', cat: [], p: [], o: [sel.o], type: [] }, open: null, q: '', limit: 50 })
       };
     }
 
@@ -421,7 +484,7 @@ class Component extends DCLogic {
         const t = { id, m: now.m, d: now.d, desc: fm.desc.trim(), cat: fm.cat, payee: fm.payee.trim() || '—', p: fm.p, o: fm.o, method: fm.method, amount: amt, type: fm.type, receipt: fm.receipt, by: 'Fatima Noor' };
         const step = fm.freq === 'Yearly' ? 12 : fm.freq === 'Quarterly' ? 3 : 1;
         const newRec = fm.type === 'Recurring' ? [...rec, { id: 'nr' + st.n, name: t.desc, cat: t.cat, freq: fm.freq, m: now.m + step, d: now.d, amount: amt, method: fm.method, autopay: false, note: '' }] : rec;
-        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', q: '',
+        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, q: '',
           banner: 'Saved ' + t.desc + ' (' + aed(amt) + ')' + (fm.type === 'Recurring' ? ' and added it to Recurring.' : '.'),
           form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
       }
@@ -430,10 +493,9 @@ class Component extends DCLogic {
     const oct = txns.filter((t) => t.m === now.m);
     const recOct = rec.filter((r) => r.m === now.m);
     return {
-      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', filterRows, list, isEmpty: list.length === 0,
-      resultTitle: activeNames.length ? 'Total for ' + activeNames.join(' · ') : 'Total spent in 2026 so far',
+      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', fb, list, isEmpty: list.length === 0,
+      resultTitle: fb.hasTokens || q ? 'Total for ' + fb.tokens.map((t) => t.label).concat(q ? ['"' + st.q.trim() + '"'] : []).join(' · ') : 'Total spent in 2026 so far',
       resultLine: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses') + (months > 1 && filtered.length ? ' · ≈ ' + aed(sum(filtered.map((t) => t.amount)) / months) + ' a month' : ''),
-      hasFilters: activeNames.length > 0, clearFilters: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: 'all', q: '', limit: 50 }),
       hasMore: filtered.length > st.limit, moreLabel: 'Show ' + Math.min(100, filtered.length - st.limit) + ' more (' + (filtered.length - st.limit) + ' older)', showMore: () => this.setState({ limit: st.limit + 100 }),
       listCount: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses'), listTotal: aed(sum(filtered.map((t) => t.amount))),
       recList, recCount: rec.length + ' recurring payments', recMonthly: 'Monthly total ' + aed(sum(rec.filter((r) => r.freq === 'Monthly').map((r) => r.amount))),

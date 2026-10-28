@@ -45,24 +45,10 @@
         </div>
 
         <sc-if value="{{isTxns}}" hint-placeholder-val="{{true}}">
-          <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:7px">
-            <sc-for list="{{filterRows}}" as="fr" hint-placeholder-count="5">
-              <div style="display:flex;align-items:flex-start;gap:10px">
-                <span style="width:120px;flex:none;padding-top:8px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">{{fr.title}}</span>
-                <div style="display:flex;flex-wrap:wrap;gap:5px;min-width:0">
-                  <sc-for list="{{fr.opts}}" as="f" hint-placeholder-count="6">
-                    <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:30px;padding:0 11px;border-radius:15px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12px">{{f.label}}</button>
-                  </sc-for>
-                </div>
-              </div>
-            </sc-for>
-          </div>
+          <!--@FILTERBAR-->
           <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;background:#14213D;color:#FFFFFF;border-radius:14px;padding:10px 16px">
             <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:600;color:#C9D1DE">{{resultTitle}}</span><span style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums">{{listTotal}}</span></span>
             <span style="font-size:13px;font-weight:600;color:#C9D1DE">{{resultLine}}</span>
-            <sc-if value="{{hasFilters}}" hint-placeholder-val="{{false}}">
-              <button onClick="{{clearFilters}}" style="height:34px;padding:0 12px;border-radius:10px;border:1px solid #2A3A5C;background:#1E2E50;color:#FFFFFF;font-weight:700;font-size:12.5px">Clear filters</button>
-            </sc-if>
           </div>
           <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
             <div style="min-width:600px;display:flex;flex-direction:column">
@@ -246,7 +232,7 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { tab: 'Transactions', cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
+    this.state = { tab: 'Transactions', fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
       form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
   }
   renderVals() {
@@ -257,31 +243,26 @@ class Component extends DCLogic {
     const rec = st.rec || FIN.recurring;
     const hasRc = (t) => t.receipt || !!st.uploaded[t.id];
 
-    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k === 'Transactions' ? 'All transactions' : 'Recurring · ' + rec.length, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k === 'Transactions' ? 'All expenses' : 'Recurring · ' + rec.length, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
     // Every 2026 transaction: October (live) plus Jan–Sep history.
     const all = txns.concat(FIN.history).slice().sort((a, b) => b.m - a.m || b.d - a.d);
     const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
     const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
     const q = st.q.trim().toLowerCase();
-    const fv = { month: st.month, cat: st.cat === 'All' ? 'all' : st.cat, p: st.p, o: st.o, type: st.type === 'All' ? 'all' : st.type };
-    const field = { month: 'm', cat: 'cat', p: 'p', o: 'o', type: 'type' };
-    const match = (t, skip) => Object.keys(fv).every((k) => k === skip || fv[k] === 'all' || t[field[k]] === fv[k])
-      && (!q || (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q));
-    const filtered = all.filter((t) => match(t));
-    const setFilter = (k, v) => this.setState(k === 'cat' ? { cat: v === 'all' ? 'All' : v, limit: 50 } : k === 'type' ? { type: v === 'all' ? 'All' : v, limit: 50 } : { [k]: v, limit: 50 });
-    const opt = (k, v, label) => {
-      const n = v === 'all' ? null : all.filter((t) => match(t, k) && t[field[k]] === v).length;
-      return { label: n === null ? label : label + ' · ' + n, ...chipOf(fv[k] === v), pick: () => setFilter(k, v) };
-    };
-    const filterRows = [
-      { title: 'PERIOD', opts: [opt('month', 'all', 'All 2026')].concat([...Array(now.m + 1).keys()].reverse().map((m) => opt('month', m, MON[m]))) },
-      { title: 'CATEGORY', opts: [opt('cat', 'all', 'All')].concat(FIN.cats.map((c) => opt('cat', c.id, c.name))) },
-      { title: 'PERSON', opts: [opt('p', 'all', 'Anyone')].concat(FIN.persons.map((x) => opt('p', x.id, x.name))) },
-      { title: 'VEHICLE / PROPERTY', opts: [opt('o', 'all', 'Anything')].concat(FIN.objects.map((x) => opt('o', x.id, x.name))) },
-      { title: 'TYPE', opts: [opt('type', 'all', 'Any'), opt('type', 'One-off', 'One-off'), opt('type', 'Recurring', 'Recurring')] }
+    const searched = q ? all.filter((t) => (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q)) : all;
+    const defs = [
+      periodDef((t) => t.m),
+      listDef('cat', 'Category', FIN.cats.map((c) => ({ v: c.id, label: c.name })), (t) => t.cat),
+      listDef('p', 'Person', FIN.persons.map((x) => ({ v: x.id, label: x.name })), (t) => t.p || ''),
+      listDef('o', 'Vehicle / property', FIN.objects.map((x) => ({ v: x.id, label: x.name })), (t) => t.o || ''),
+      listDef('type', 'Type', [{ v: 'One-off', label: 'One-off' }, { v: 'Recurring', label: 'Recurring' }], (t) => t.type)
     ];
-    const activeNames = [fv.month !== 'all' ? MONTHS[fv.month] : '', fv.cat !== 'all' ? catOf(fv.cat).name : '', pName(fv.p), oName(fv.o), fv.type !== 'all' ? fv.type : '', q ? '"' + st.q.trim() + '"' : ''].filter(Boolean);
-    const months = fv.month === 'all' ? now.m + 1 : 1;
+    const fb = filterBar(searched, st.fb, st.open,
+      (patch, close) => this.setState({ fb: { ...this.state.fb, ...patch }, limit: 50, ...(close ? { open: null } : {}) }),
+      (k) => this.setState({ open: k }), defs);
+    const filtered = fb.filtered;
+    const per = st.fb.period;
+    const months = per === 'ytd' ? now.m + 1 : per === 'last3' ? 3 : 1;
     const list = filtered.slice(0, st.limit).map((t) => {
       const on = !st.adding && t.id === st.sel, c = catOf(t.cat), rc = hasRc(t);
       return {
@@ -323,8 +304,8 @@ class Component extends DCLogic {
         hasReceipt: hasRc(sel), noReceipt: !hasRc(sel), receiptName: 'Receipt_' + sel.d + MON[sel.m] + '.jpg',
         upload: () => this.setState({ uploaded: { ...st.uploaded, [sel.id]: true }, banner: 'Receipt added to ' + sel.desc + '.' }),
         person: pName(sel.p) || '—', object: oName(sel.o) || '—', canPerson: !!sel.p, canObject: !!sel.o,
-        byPerson: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: sel.p, o: 'all', q: '', limit: 50 }),
-        byObject: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: sel.o, q: '', limit: 50 })
+        byPerson: () => this.setState({ fb: { period: 'ytd', cat: [], p: [sel.p], o: [], type: [] }, open: null, q: '', limit: 50 }),
+        byObject: () => this.setState({ fb: { period: 'ytd', cat: [], p: [], o: [sel.o], type: [] }, open: null, q: '', limit: 50 })
       };
     }
 
@@ -355,7 +336,7 @@ class Component extends DCLogic {
         const t = { id, m: now.m, d: now.d, desc: fm.desc.trim(), cat: fm.cat, payee: fm.payee.trim() || '—', p: fm.p, o: fm.o, method: fm.method, amount: amt, type: fm.type, receipt: fm.receipt, by: 'Fatima Noor' };
         const step = fm.freq === 'Yearly' ? 12 : fm.freq === 'Quarterly' ? 3 : 1;
         const newRec = fm.type === 'Recurring' ? [...rec, { id: 'nr' + st.n, name: t.desc, cat: t.cat, freq: fm.freq, m: now.m + step, d: now.d, amount: amt, method: fm.method, autopay: false, note: '' }] : rec;
-        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', q: '',
+        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, q: '',
           banner: 'Saved ' + t.desc + ' (' + aed(amt) + ')' + (fm.type === 'Recurring' ? ' and added it to Recurring.' : '.'),
           form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
       }
@@ -364,10 +345,9 @@ class Component extends DCLogic {
     const oct = txns.filter((t) => t.m === now.m);
     const recOct = rec.filter((r) => r.m === now.m);
     return {
-      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', filterRows, list, isEmpty: list.length === 0,
-      resultTitle: activeNames.length ? 'Total for ' + activeNames.join(' · ') : 'Total spent in 2026 so far',
+      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', fb, list, isEmpty: list.length === 0,
+      resultTitle: fb.hasTokens || q ? 'Total for ' + fb.tokens.map((t) => t.label).concat(q ? ['"' + st.q.trim() + '"'] : []).join(' · ') : 'Total spent in 2026 so far',
       resultLine: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses') + (months > 1 && filtered.length ? ' · ≈ ' + aed(sum(filtered.map((t) => t.amount)) / months) + ' a month' : ''),
-      hasFilters: activeNames.length > 0, clearFilters: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: 'all', q: '', limit: 50 }),
       hasMore: filtered.length > st.limit, moreLabel: 'Show ' + Math.min(100, filtered.length - st.limit) + ' more (' + (filtered.length - st.limit) + ' older)', showMore: () => this.setState({ limit: st.limit + 100 }),
       listCount: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses'), listTotal: aed(sum(filtered.map((t) => t.amount))),
       recList, recCount: rec.length + ' recurring payments', recMonthly: 'Monthly total ' + aed(sum(rec.filter((r) => r.freq === 'Monthly').map((r) => r.amount))),
