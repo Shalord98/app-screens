@@ -29,6 +29,7 @@ a{text-decoration:none}
           <sc-if value="{{m.isVault}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="15" rx="2"></rect><circle cx="12" cy="11.5" r="3.5"></circle><path d="M12 8v1.2M12 13.8V15M8.5 11.5h1.2M14.3 11.5h1.2M6 19v2M18 19v2"></path></svg></sc-if>
           <sc-if value="{{m.isStaff}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><path d="M16 4.6a3.5 3.5 0 010 6.8M18 14.8c1.8.8 3 2.6 3.5 5.2"></path></svg></sc-if>
           <sc-if value="{{m.isVeh}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l2.2-5.2A2 2 0 018 5.5h8a2 2 0 011.8 1.3L20 12"></path><rect x="3" y="12" width="18" height="5" rx="1.5"></rect><path d="M6 17v2.5M18 17v2.5"></path><circle cx="7.5" cy="14.5" r="1"></circle><circle cx="16.5" cy="14.5" r="1"></circle></svg></sc-if>
+          <sc-if value="{{m.isHist}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></sc-if>
           <sc-if value="{{m.isBill}}" hint-placeholder-val="{{false}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg></sc-if>
         </span>
         <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
@@ -53,8 +54,8 @@ a{text-decoration:none}
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1-4 4-6 8-6s7 2 8 6"></path></svg>Contacts</a>
     <a href="Admin_Followups.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>Follow-ups</a>
-    <a href="Admin_History.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg>History</a>
+    <a href="FinPhone_Today.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#5B6472;font-size:11px;font-weight:600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2.5"></rect><path d="M3 10h18"></path><path d="M16 15h2"></path></svg>Finance</a>
     <a href="Admin_More.dc.html" style="min-width:60px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:#0F766E;font-size:11px;font-weight:700">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg>More</a>
   </div>
@@ -64,13 +65,13 @@ a{text-decoration:none}
 class Component extends DCLogic {
   renderVals() {
     const M = (key, label, sub, href, bg, fg, alert, aBg, aFg) => ({ label, sub, href, bg, fg, alert, hasAlert: !!alert, alertBg: aBg, alertFg: aFg,
-      isVault: key === 'vault', isStaff: key === 'staff', isVeh: key === 'veh', isBill: key === 'bill' });
+      isVault: key === 'vault', isStaff: key === 'staff', isVeh: key === 'veh', isBill: key === 'bill', isHist: key === 'hist' });
     return {
       items: [
         M('vault', 'Document Vault', 'Passports, IDs, visas and licences', 'Admin_IDs.dc.html', '#14213D', '#FFFFFF', '2 expired', '#FDE7E1', '#9A3412'),
         M('staff', 'Staff', '4 people · AED 11,400 a month', 'Admin_Staff.dc.html', '#FDF0DC', '#8A4B08', '1 visa expired', '#FDE7E1', '#9A3412'),
         M('veh', 'Vehicles', '3 cars · 2 owned, 1 leased', 'Admin_Vehicles.dc.html', '#E3EAF7', '#1E3A8A', 'Renewal in 25d', '#FDF0DC', '#8A4B08'),
-        M('bill', 'Finance', 'Budget, spending, income and to-do', 'FinPhone_Today.dc.html', '#DDF1EE', '#0B5C55', '3 overdue', '#FDE7E1', '#9A3412')
+        M('hist', 'History', 'Past and upcoming logs, day by day', 'Admin_History.dc.html', '#EEF0F3', '#3D4654', '', '', '')
       ]
     };
   }
