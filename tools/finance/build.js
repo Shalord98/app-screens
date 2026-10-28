@@ -189,12 +189,13 @@ ${link('Laptop_Today.dc.html', 'Back to logs', '<path d="M15 6l-6 6 6 6"></path>
 // Phone bottom menu for the Finance screens.
 const TABS = [
   ['FinPhone_Today.dc.html', 'Home', '<path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1z"></path>'],
+  ['FinPhone_Overview.dc.html', 'Overview', '<rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="4" rx="1.5"></rect><rect x="13" y="10" width="7" height="10" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect>'],
   ['FinPhone_AddExpense.dc.html', 'Add', '<circle cx="12" cy="12" r="9"></circle><path d="M12 8v8M8 12h8"></path>'],
   ['FinPhone_Transactions.dc.html', 'Recent', '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path>'],
   ['Main.dc.html', 'Logs', '<rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path>']
 ];
 const tabs = (active) => `  <nav aria-label="Finance" style="height:76px;flex:none;background:#FFFFFF;border-top:1px solid #E6E2D8;display:flex;justify-content:space-around;align-items:center;padding:0 6px 8px;box-sizing:border-box">
-${TABS.map(([h, l, i]) => `    <a href="${h}"${h === active ? ' aria-current="page"' : ''} style="min-width:72px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:${h === active ? '#0F766E' : '#5B6472'};font-size:11px;font-weight:${h === active ? 700 : 600}">
+${TABS.map(([h, l, i]) => `    <a href="${h}"${h === active ? ' aria-current="page"' : ''} style="min-width:64px;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:3px;color:${h === active ? '#0F766E' : '#5B6472'};font-size:11px;font-weight:${h === active ? 700 : 600}">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${i}</svg>${l}</a>`).join('\n')}
   </nav>`;
 

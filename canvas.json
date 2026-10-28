@@ -507,6 +507,16 @@
       "title": "Finance phone · 1 Home"
     },
     "FinPhone_Transactions.dc.html": {
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "radius": 28,
+      "page": "finance_phone",
+      "is_interactive": true,
+      "title": "Finance phone · 4 Recent"
+    },
+    "FinPhone_AddExpense.dc.html": {
       "x": 940,
       "y": 0,
       "w": 390,
@@ -514,17 +524,17 @@
       "radius": 28,
       "page": "finance_phone",
       "is_interactive": true,
-      "title": "Finance phone · 3 Recent"
+      "title": "Finance phone · 3 Add expense"
     },
-    "FinPhone_AddExpense.dc.html": {
-      "x": 470,
+    "FinPhone_Overview.dc.html": {
       "y": 0,
       "w": 390,
       "h": 844,
       "radius": 28,
       "page": "finance_phone",
       "is_interactive": true,
-      "title": "Finance phone · 2 Add expense"
+      "x": 470,
+      "title": "Finance phone · 2 Overview (CEO)"
     }
   },
   "order": [
@@ -575,6 +585,7 @@
     "Finance_Expenses.dc.html",
     "Finance_Income.dc.html",
     "FinPhone_Today.dc.html",
+    "FinPhone_Overview.dc.html",
     "FinPhone_Transactions.dc.html",
     "FinPhone_AddExpense.dc.html"
   ],
@@ -621,7 +632,7 @@
     },
     "tfp": {
       "kind": "title1",
-      "maxW": 1330,
+      "maxW": 1800,
       "text": "Finance on the phone: quick look and add",
       "x": 0,
       "y": -260,

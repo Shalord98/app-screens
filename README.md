@@ -1,6 +1,6 @@
 # App Screens
 
-A clickable prototype of the Executive Log app: 49 screens across six views (Admin phone, Individual phone, Laptop Admin, Laptop Individual, Laptop Finance, Phone Finance), with sample data.
+A clickable prototype of the Executive Log app: 50 screens across six views (Admin phone, Individual phone, Laptop Admin, Laptop Individual, Laptop Finance, Phone Finance), with sample data.
 
 **Live preview:** open `index.html` (on GitHub Pages: `https://shalord98.github.io/app-screens/`).
 
