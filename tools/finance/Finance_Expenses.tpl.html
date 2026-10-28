@@ -233,7 +233,7 @@ class Component extends DCLogic {
   constructor(props) {
     super(props);
     this.state = { tab: 'Transactions', fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
-      form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
+      form: { desc: '', amount: '', payee: '', cat: 'groc', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
   }
   renderVals() {
     /*@SHARED*/
@@ -338,7 +338,7 @@ class Component extends DCLogic {
         const newRec = fm.type === 'Recurring' ? [...rec, { id: 'nr' + st.n, name: t.desc, cat: t.cat, freq: fm.freq, m: now.m + step, d: now.d, amount: amt, method: fm.method, autopay: false, note: '' }] : rec;
         this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, fb: { period: 'ytd', cat: [], p: [], o: [], type: [] }, open: null, q: '',
           banner: 'Saved ' + t.desc + ' (' + aed(amt) + ')' + (fm.type === 'Recurring' ? ' and added it to Recurring.' : '.'),
-          form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
+          form: { desc: '', amount: '', payee: '', cat: 'groc', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
       }
     };
 

@@ -98,7 +98,7 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { mode: 'Allocated', edits: {}, sel: { c: 'travel', m: 10 }, draft: '5000', banner: '' };
+    this.state = { mode: 'Allocated', edits: {}, sel: { c: 'travel', m: 10 }, draft: null, banner: '' };
   }
   renderVals() {
     /*@SHARED*/
@@ -139,11 +139,13 @@ class Component extends DCLogic {
     const modes = ['Allocated', 'Spent', 'Variance'].map((k) => ({ label: k, on: mode === k, bg: mode === k ? '#FFFFFF' : 'transparent', weight: mode === k ? 800 : 600, pick: () => this.setState({ mode: k }) }));
 
     const cat = st.sel && FIN.cats.find((c) => c.id === st.sel.c);
-    let s = null, saveOk = false, draftN = 0;
+    let s = null, saveOk = false, draftN = 0, draft = '';
     if (cat) {
       const m = st.sel.m, cur = allocOf(cat, m);
-      draftN = Math.round(Number(String(st.draft).replace(/[^0-9.]/g, '')));
-      saveOk = String(st.draft).trim() !== '' && !isNaN(draftN) && draftN !== cur;
+      // The edit box starts at the current amount until the user types.
+      draft = st.draft === null ? String(cur) : st.draft;
+      draftN = Math.round(Number(String(draft).replace(/[^0-9.]/g, '')));
+      saveOk = String(draft).trim() !== '' && !isNaN(draftN) && draftN !== cur;
       const diff = draftN - cur;
       s = {
         title: cat.name + ' · ' + MONTHS[m] + ' ' + FIN.year,
@@ -162,7 +164,7 @@ class Component extends DCLogic {
       budget: aed(FIN.budget), allocated: aed(allocated), allocatedPct: Math.round((allocated / FIN.budget) * 1000) / 10 + '% of the annual budget',
       unLabel: un < 0 ? 'Over-allocated' : 'Not yet allocated', unallocated: aed(Math.abs(un)),
       unLine: un < 0 ? 'Reduce allocations or raise the budget' : 'Available to allocate', unBg: un < 0 ? '#FDE7E1' : '#DDF1EE', unFg: un < 0 ? '#9A3412' : '#0B5C55',
-      hasSel: !!s, s, draft: st.draft, typed: (e) => this.setState({ draft: e.target.value }),
+      hasSel: !!s, s, draft, typed: (e) => this.setState({ draft: e.target.value }),
       saveDisabled: !saveOk, saveBg: saveOk ? '#0F766E' : '#9FB8B5',
       fillLabel: cat ? 'Use for ' + MON[remaining[0]] + '–Dec' : '',
       save: () => {

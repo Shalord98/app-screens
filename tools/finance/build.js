@@ -8,39 +8,7 @@ const path = require('path');
 const OUT = process.argv[2];
 
 // ---- Sample data: a 2026 household / executive office budget, today = 20 Oct 2026 ----
-const cats = [
-  { id: 'staff', name: 'Staff salaries', ini: 'ST', alloc: [11400, 11400, 11400, 11400, 11400, 11400, 17400, 11400, 11400, 11400, 11400, 11400], f: [1, 1, 1, 1, 1, 1, 1, 1, 1] },
-  { id: 'util', name: 'Utilities', ini: 'UT', alloc: [3600, 3400, 3500, 3800, 4600, 5400, 5900, 6000, 5200, 4200, 3700, 3600], f: [0.97, 1.02, 0.95, 1.04, 1.08, 1.11, 1.06, 1.09, 1.03] },
-  { id: 'veh', name: 'Vehicles', ini: 'VH', alloc: [5800, 5800, 5800, 5800, 5800, 5800, 5800, 5800, 5800, 5800, 9800, 5800], f: [0.92, 1.05, 1.0, 0.88, 1.12, 0.97, 1.04, 0.95, 1.1] },
-  { id: 'home', name: 'Household', ini: 'HH', alloc: [6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 6000, 8000], f: [1.05, 0.9, 1.15, 0.98, 1.02, 0.94, 0.85, 0.9, 1.08] },
-  { id: 'travel', name: 'Travel', ini: 'TR', alloc: [6000, 4000, 9000, 5000, 4000, 12000, 15000, 8000, 6000, 9000, 5000, 14000], f: [0.8, 1.1, 1.25, 0.6, 0.9, 1.05, 1.18, 0.7, 1.3] },
-  { id: 'gov', name: 'Visas & govt fees', ini: 'GF', alloc: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 6500, 1500, 1500], f: [1.2, 0.6, 0.9, 1.4, 0.8, 1.0, 0.7, 1.1, 0.9] },
-  { id: 'hosp', name: 'Hospitality', ini: 'HS', alloc: [2500, 2500, 4000, 2500, 2500, 2500, 1500, 1500, 2500, 3000, 3000, 5000], f: [0.9, 1.1, 1.3, 0.8, 1.0, 0.7, 0.6, 1.2, 0.9] }
-].map((c) => ({ id: c.id, name: c.name, ini: c.ini, alloc: c.alloc, spent: c.f.map((x, i) => Math.round((c.alloc[i] * x) / 10) * 10) }));
-
-// October transactions so far (month index 9). Oct spend per category comes from these.
-const T = (id, d, desc, cat, payee, method, amount, type, receipt, by) => ({ id, m: 9, d, desc, cat, payee, method, amount, type, receipt, by });
-const txns = [
-  T('t19', 19, 'Airport transfer – Riyadh return', 'travel', 'Careem', 'Card ••4417', 180, 'One-off', false, 'Fatima Noor'),
-  T('t18', 18, 'AC repair – master bedroom', 'home', 'CoolTech Services', 'Bank transfer', 750, 'One-off', true, 'Fatima Noor'),
-  T('t17', 17, 'Petrol – Nissan Patrol', 'veh', 'ADNOC', 'Fuel card', 380, 'One-off', true, 'Ravi Kumar'),
-  T('t16', 16, 'Cleaning supplies', 'home', 'Spinneys', 'Petty cash', 310, 'One-off', true, 'Maria Santos'),
-  T('t15', 14, 'Groceries', 'home', 'Spinneys', 'Card ••4417', 980, 'One-off', true, 'Maria Santos'),
-  T('t14', 14, 'Etisalat – Mobiles', 'util', 'Etisalat', 'Autopay', 650, 'Recurring', true, 'Fatima Noor'),
-  T('t13', 12, 'Business dinner – Northgate', 'hosp', 'Zuma DIFC', 'Card ••4417', 1500, 'One-off', false, 'Fatima Noor'),
-  T('t12', 11, 'OSN+ subscription', 'util', 'OSN', 'Autopay', 55, 'Recurring', true, 'Fatima Noor'),
-  T('t11', 10, 'Pool maintenance', 'home', 'BlueWave Pools', 'Petty cash', 450, 'Recurring', false, 'Maria Santos'),
-  T('t10', 9, 'Salik top-up', 'veh', 'RTA Salik', 'Card ••4417', 200, 'One-off', true, 'Ravi Kumar'),
-  T('t09', 8, 'Flights DXB–RUH', 'travel', 'Emirates', 'Card ••4417', 2950, 'One-off', true, 'Fatima Noor'),
-  T('t08', 8, 'Hotel – Riyadh trip', 'travel', 'Four Seasons Riyadh', 'Card ••4417', 4600, 'One-off', true, 'Fatima Noor'),
-  T('t07', 6, 'Emirates ID renewal – Ravi Kumar', 'gov', 'ICP', 'Card ••4417', 1870, 'One-off', true, 'Fatima Noor'),
-  T('t06', 5, 'Residence visa renewal – Ravi Kumar', 'gov', 'GDRFA Dubai', 'Card ••4417', 3850, 'One-off', true, 'Fatima Noor'),
-  T('t05', 3, 'Petrol – Land Cruiser', 'veh', 'ENOC', 'Fuel card', 420, 'One-off', true, 'Ravi Kumar'),
-  T('t04', 2, 'Groceries', 'home', 'Carrefour', 'Card ••4417', 1245, 'One-off', true, 'Maria Santos'),
-  T('t03', 1, 'Car lease – Nissan Patrol', 'veh', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', true, 'Fatima Noor')
-];
-
-// Who (person) and what (object) each expense was for, so transactions can be filtered by them.
+// Budget categories (the client's list). Each has a monthly allocation for the year.
 const persons = [
   { id: 'ceo', name: 'CEO' }, { id: 'ravi', name: 'Ravi Kumar' }, { id: 'maria', name: 'Maria Santos' },
   { id: 'joseph', name: 'Joseph Mathew' }, { id: 'ahmed', name: 'Ahmed Hassan' }
@@ -49,93 +17,161 @@ const objects = [
   { id: 'lc', name: 'Land Cruiser' }, { id: 'patrol', name: 'Nissan Patrol' }, { id: 'merc', name: 'Mercedes S 500' },
   { id: 'villa', name: 'Villa' }, { id: 'apt', name: 'Jumeirah apartment' }
 ];
-const tags = {
-  t19: ['ceo', ''], t18: ['', 'villa'], t17: ['', 'patrol'], t16: ['', 'villa'], t15: ['', 'villa'], t14: ['', ''], t13: ['ceo', ''],
-  t12: ['', 'villa'], t11: ['', 'villa'], t10: ['', 'lc'], t09: ['ceo', ''], t08: ['ceo', ''], t07: ['ravi', ''], t06: ['ravi', ''],
-  t05: ['', 'lc'], t04: ['', 'villa'], t03: ['', 'patrol']
-};
-txns.forEach((t) => { t.p = tags[t.id][0]; t.o = tags[t.id][1]; });
+const every = (v) => Array(12).fill(v);
+const at = (pairs) => { const a = every(0); pairs.forEach(([m, v]) => { a[m] = v; }); return a; };
+const catDefs = [
+  // id, name, monthly allocation, fixed (spend equals allocation) or varies
+  ['staff', 'Staff Salaries', at([...Array(12).keys()].map((m) => [m, m === 6 ? 17400 : 11400])), true],
+  ['elec', 'Electricity & Water', [1700, 1500, 1600, 1900, 2600, 3300, 3700, 3800, 3100, 2200, 1800, 1700], false],
+  ['net', 'Internet & Mobile', every(1050), true],
+  ['maint', 'Property Maintenance', [...every(2500).slice(0, 11), 3500], false],
+  ['rent', 'Rent & Service Charges', at([[0, 4200], [3, 4200], [6, 4200], [9, 4200]]), true],
+  ['groc', 'Groceries', [...every(3200).slice(0, 11), 4000], false],
+  ['trans', 'Transportation', every(4200), false],
+  ['ins', 'Insurance', at([[0, 9000], [10, 5600]]), true],
+  ['edu', 'Education', at([[0, 15000], [3, 15000], [8, 15000]]), true],
+  ['travel', 'Travel', [5000, 3000, 7500, 4000, 3000, 10000, 12000, 6500, 5000, 7500, 4000, 12000], false],
+  ['health', 'Healthcare', every(600), false],
+  ['life', 'Personal & Lifestyle', [2500, 2500, 4000, 2500, 2500, 2500, 1500, 1500, 2500, 3000, 3000, 5000], false],
+  ['other', 'Other Expenses', every(500), false],
+  ['util', 'Utilities', every(800), true],
+  ['salary', 'Salary', every(0), true],
+  ['petrol', 'Petrol Top Up', every(1300), false],
+  ['cash', 'Cash collection for travel', [1000, 1000, 2000, 1000, 1000, 3000, 3000, 1500, 1000, 3000, 1000, 3000], false],
+  ['visa', 'Visa Renewal', [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 6500, 1500, 1500], false]
+];
+// Short codes shown in the category badges.
+const CODES = { staff: 'SS', elec: 'EW', net: 'IM', maint: 'PM', rent: 'RS', groc: 'GR', trans: 'TP', ins: 'IN', edu: 'ED', travel: 'TV',
+  health: 'HC', life: 'PL', other: 'OE', util: 'UT', salary: 'SA', petrol: 'PT', cash: 'CT', visa: 'VR' };
+const cats = catDefs.map(([id, name, alloc, fixed], i) => ({
+  id, name, ini: CODES[id], alloc, fixed,
+  // Jan–Sep actual spend: fixed items match the allocation, the rest vary a little around it.
+  spent: alloc.slice(0, 9).map((a, m) => (fixed ? a : Math.round((a * (0.85 + ((i * 7 + m * 13) % 30) / 100)) / 10) * 10))
+}));
 
-// Jan–Sep history: each category's monthly spend split into realistic transactions that add up exactly.
+// October transactions so far (month index 9). October spend per category comes from these.
+const T = (id, d, desc, cat, payee, method, amount, type, receipt, by, p, o) => ({ id, m: 9, d, desc, cat, payee, method, amount, type, receipt, by, p, o });
+const txns = [
+  T('t19', 19, 'Airport transfer – Riyadh return', 'trans', 'Careem', 'Card ••4417', 180, 'One-off', false, 'Fatima Noor', 'ceo', ''),
+  T('t18', 18, 'AC repair – master bedroom', 'maint', 'CoolTech Services', 'Bank transfer', 750, 'One-off', true, 'Fatima Noor', '', 'villa'),
+  T('t17', 17, 'Petrol – Nissan Patrol', 'petrol', 'ADNOC', 'Fuel card', 380, 'One-off', true, 'Ravi Kumar', '', 'patrol'),
+  T('t16', 16, 'Cleaning supplies', 'groc', 'Spinneys', 'Petty cash', 310, 'One-off', true, 'Maria Santos', '', 'villa'),
+  T('t15', 14, 'Groceries', 'groc', 'Spinneys', 'Card ••4417', 980, 'One-off', true, 'Maria Santos', '', 'villa'),
+  T('t14', 14, 'Etisalat – Mobiles', 'net', 'Etisalat', 'Autopay', 650, 'Recurring', true, 'Fatima Noor', '', ''),
+  T('t20', 13, 'Clinic visit – Maria Santos', 'health', 'Mediclinic', 'Card ••4417', 350, 'One-off', true, 'Fatima Noor', 'maria', ''),
+  T('t13', 12, 'Business dinner – Northgate', 'life', 'Zuma DIFC', 'Card ••4417', 1500, 'One-off', false, 'Fatima Noor', 'ceo', ''),
+  T('t12', 11, 'OSN+ subscription', 'life', 'OSN', 'Autopay', 55, 'Recurring', true, 'Fatima Noor', '', 'villa'),
+  T('t11', 10, 'Pool maintenance', 'maint', 'BlueWave Pools', 'Petty cash', 450, 'Recurring', false, 'Maria Santos', '', 'villa'),
+  T('t10', 9, 'Salik top-up', 'trans', 'RTA Salik', 'Card ••4417', 200, 'One-off', true, 'Ravi Kumar', '', 'lc'),
+  T('t09', 8, 'Flights DXB–RUH', 'travel', 'Emirates', 'Card ••4417', 2950, 'One-off', true, 'Fatima Noor', 'ceo', ''),
+  T('t08', 8, 'Hotel – Riyadh trip', 'travel', 'Four Seasons Riyadh', 'Card ••4417', 4600, 'One-off', true, 'Fatima Noor', 'ceo', ''),
+  T('t21', 7, 'Cash for Riyadh trip', 'cash', 'Cash withdrawal', 'Bank transfer', 3000, 'One-off', true, 'Fatima Noor', 'ceo', ''),
+  T('t07', 6, 'Emirates ID renewal – Ravi Kumar', 'visa', 'ICP', 'Card ••4417', 1870, 'One-off', true, 'Fatima Noor', 'ravi', ''),
+  T('t06', 5, 'Residence visa renewal – Ravi Kumar', 'visa', 'GDRFA Dubai', 'Card ••4417', 3850, 'One-off', true, 'Fatima Noor', 'ravi', ''),
+  T('t05', 3, 'Petrol – Land Cruiser', 'petrol', 'ENOC', 'Fuel card', 420, 'One-off', true, 'Ravi Kumar', '', 'lc'),
+  T('t04', 2, 'Groceries', 'groc', 'Carrefour', 'Card ••4417', 1245, 'One-off', true, 'Maria Santos', '', 'villa'),
+  T('t22', 1, 'Service charges Q4 – Jumeirah apartment', 'rent', 'Emaar Community', 'Bank transfer', 4200, 'Recurring', true, 'Fatima Noor', '', 'apt'),
+  T('t03', 1, 'Car lease – Nissan Patrol', 'trans', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', true, 'Fatima Noor', '', 'patrol')
+];
+
+// Jan–Sep history: each category's monthly spend split into transactions that add up exactly.
 const history = [];
 let hn = 0;
-const H = (m, d, desc, cat, payee, method, amount, type, p, o) =>
-  history.push({ id: 'h' + (++hn), m, d, desc, cat, payee, method, amount, type, receipt: true, by: 'Fatima Noor', p, o });
+const H = (m, d, desc, cat, payee, method, amount, type, p, o) => {
+  if (amount > 0) history.push({ id: 'h' + (++hn), m, d, desc, cat, payee, method, amount, type, receipt: true, by: 'Fatima Noor', p, o });
+};
 const split = (total, parts) => {
   // Split `total` by the given shares, rounded to 5, with the remainder on the last part.
   const out = []; let left = total;
   parts.forEach((share, i) => { const v = i === parts.length - 1 ? left : Math.round((total * share) / 5) * 5; out.push(v); left -= v; });
   return out;
 };
-const govPeople = ['maria', 'joseph', 'ahmed', 'ceo', 'ravi', 'maria', 'joseph', 'ahmed', 'ceo'];
 const pname = (id) => persons.find((x) => x.id === id).name;
+const rota = ['maria', 'joseph', 'ahmed', 'ceo', 'ravi', 'maria', 'joseph', 'ahmed', 'ceo'];
+const terms = { 0: 'Term 2', 3: 'Term 3', 8: 'Term 1' };
 for (let m = 0; m < 9; m++) {
   const sp = (id) => cats.find((c) => c.id === id).spent[m];
-  // Staff: one salary per person, plus annual leave tickets in July.
   [['ravi', 3500], ['maria', 2500], ['joseph', 2800], ['ahmed', 2600]].forEach(([p, a]) => H(m, 28, 'Salary – ' + pname(p), 'staff', 'WPS payroll', 'Bank transfer', a, 'Recurring', p, ''));
   if (sp('staff') > 11400) H(m, 12, 'Annual leave flight – Ravi Kumar', 'staff', 'Emirates', 'Card ••4417', sp('staff') - 11400, 'One-off', 'ravi', '');
-  // Utilities: fixed bills, DEWA takes the rest.
-  const fixed = [['du – Internet and TV', 'du', 399, 18], ['Empower – Chiller', 'Empower', 720, 28], ['Etisalat – Mobiles', 'Etisalat', 650, 14], ['OSN+ subscription', 'OSN', 55, 11]];
-  fixed.forEach(([desc, payee, a, d]) => H(m, d, desc, 'util', payee, desc.startsWith('du') ? 'Card ••4417' : 'Autopay', a, 'Recurring', '', desc.startsWith('Etisalat') ? '' : 'villa'));
-  H(m, 22, 'DEWA – Villa', 'util', 'DEWA', 'Bank transfer', sp('util') - 1824, 'Recurring', '', 'villa');
-  // Vehicles: Patrol lease, then fuel and Salik.
-  H(m, 1, 'Car lease – Nissan Patrol', 'veh', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', '', 'patrol');
-  const v = split(sp('veh') - 3200, [0.4, 0.25, 0.2, 0.15]);
-  H(m, 6, 'Petrol – Land Cruiser', 'veh', 'ENOC', 'Fuel card', v[0], 'One-off', '', 'lc');
-  H(m, 13, 'Petrol – Nissan Patrol', 'veh', 'ADNOC', 'Fuel card', v[1], 'One-off', '', 'patrol');
-  H(m, 19, 'Petrol – Mercedes S 500', 'veh', 'ENOC', 'Fuel card', v[2], 'One-off', '', 'merc');
-  H(m, 9, 'Salik top-up', 'veh', 'RTA Salik', 'Card ••4417', v[3], 'One-off', '', 'lc');
-  // Household: pool, groceries, maintenance (the apartment gets an AC service in Mar and Jul).
+  H(m, 22, 'DEWA – Villa', 'elec', 'DEWA', 'Bank transfer', sp('elec'), 'Recurring', '', 'villa');
+  H(m, 18, 'du – Internet and TV', 'net', 'du', 'Card ••4417', 399, 'Recurring', '', 'villa');
+  H(m, 14, 'Etisalat – Mobiles', 'net', 'Etisalat', 'Autopay', sp('net') - 399, 'Recurring', '', '');
   const aptJob = m === 2 || m === 6 ? 600 : 0;
-  const hh = split(sp('home') - 450 - aptJob, [0.6, 0.25, 0.15]);
-  H(m, 10, 'Pool maintenance', 'home', 'BlueWave Pools', 'Petty cash', 450, 'Recurring', '', 'villa');
-  H(m, 3, 'Groceries', 'home', 'Carrefour', 'Card ••4417', hh[0], 'One-off', '', 'villa');
-  H(m, 16, 'Groceries', 'home', 'Spinneys', 'Card ••4417', hh[1], 'One-off', '', 'villa');
-  H(m, 24, 'Villa maintenance', 'home', 'FixIt Home Services', 'Bank transfer', hh[2], 'One-off', '', 'villa');
-  if (aptJob) H(m, 20, 'AC service – apartment', 'home', 'CoolTech Services', 'Bank transfer', aptJob, 'One-off', '', 'apt');
-  // Travel, government fees, hospitality.
-  const tr = split(sp('travel'), [0.45, 0.55]);
-  H(m, 7, 'Flights – CEO trip', 'travel', 'Emirates', 'Card ••4417', tr[0], 'One-off', 'ceo', '');
-  H(m, 8, 'Hotel – CEO trip', 'travel', 'Marriott Bonvoy', 'Card ••4417', tr[1], 'One-off', 'ceo', '');
-  H(m, 15, 'Visa and medical – ' + pname(govPeople[m]), 'gov', 'GDRFA Dubai', 'Card ••4417', sp('gov'), 'One-off', govPeople[m], '');
-  H(m, 21, 'Business dinner', 'hosp', 'Zuma DIFC', 'Card ••4417', sp('hosp'), 'One-off', 'ceo', '');
+  H(m, 10, 'Pool maintenance', 'maint', 'BlueWave Pools', 'Petty cash', 450, 'Recurring', '', 'villa');
+  H(m, 24, 'Villa maintenance', 'maint', 'FixIt Home Services', 'Bank transfer', sp('maint') - 450 - aptJob, 'One-off', '', 'villa');
+  H(m, 20, 'AC service – apartment', 'maint', 'CoolTech Services', 'Bank transfer', aptJob, 'One-off', '', 'apt');
+  H(m, 1, 'Service charges – Jumeirah apartment', 'rent', 'Emaar Community', 'Bank transfer', sp('rent'), 'Recurring', '', 'apt');
+  const g = split(sp('groc'), [0.65, 0.35]);
+  H(m, 3, 'Groceries', 'groc', 'Carrefour', 'Card ••4417', g[0], 'One-off', '', 'villa');
+  H(m, 16, 'Groceries', 'groc', 'Spinneys', 'Card ••4417', g[1], 'One-off', '', 'villa');
+  H(m, 1, 'Car lease – Nissan Patrol', 'trans', 'Al Futtaim Leasing', 'Autopay', 3200, 'Recurring', '', 'patrol');
+  const tr = split(sp('trans') - 3200, [0.45, 0.35, 0.2]);
+  H(m, 9, 'Salik top-up', 'trans', 'RTA Salik', 'Card ••4417', tr[0], 'One-off', '', 'lc');
+  H(m, 17, 'Taxis', 'trans', 'Careem', 'Card ••4417', tr[1], 'One-off', 'ceo', '');
+  H(m, 25, 'Car wash and service', 'trans', 'Al-Futtaim Toyota', 'Card ••4417', tr[2], 'One-off', '', 'lc');
+  H(m, 5, 'Health insurance – family', 'ins', 'Daman', 'Bank transfer', sp('ins'), 'Recurring', 'ceo', '');
+  H(m, 6, 'School fees – ' + terms[m], 'edu', 'Dubai International School', 'Bank transfer', sp('edu'), 'Recurring', 'ceo', '');
+  const t = split(sp('travel'), [0.45, 0.55]);
+  H(m, 7, 'Flights – CEO trip', 'travel', 'Emirates', 'Card ••4417', t[0], 'One-off', 'ceo', '');
+  H(m, 8, 'Hotel – CEO trip', 'travel', 'Marriott Bonvoy', 'Card ••4417', t[1], 'One-off', 'ceo', '');
+  H(m, 13, 'Clinic and medicine – ' + pname(rota[m]), 'health', 'Mediclinic', 'Card ••4417', sp('health'), 'One-off', rota[m], '');
+  H(m, 11, 'OSN+ subscription', 'life', 'OSN', 'Autopay', 55, 'Recurring', '', 'villa');
+  H(m, 21, 'Business dinner', 'life', 'Zuma DIFC', 'Card ••4417', sp('life') - 55, 'One-off', 'ceo', '');
+  H(m, 26, 'Miscellaneous', 'other', 'Various', 'Petty cash', sp('other'), 'One-off', '', '');
+  H(m, 28, 'Empower – Chiller', 'util', 'Empower', 'Bank transfer', 720, 'Recurring', '', 'villa');
+  H(m, 15, 'Gas cylinders', 'util', 'Emirates Gas', 'Petty cash', sp('util') - 720, 'One-off', '', 'villa');
+  const pt = split(sp('petrol'), [0.4, 0.35, 0.25]);
+  H(m, 6, 'Petrol – Land Cruiser', 'petrol', 'ENOC', 'Fuel card', pt[0], 'One-off', '', 'lc');
+  H(m, 13, 'Petrol – Nissan Patrol', 'petrol', 'ADNOC', 'Fuel card', pt[1], 'One-off', '', 'patrol');
+  H(m, 19, 'Petrol – Mercedes S 500', 'petrol', 'ENOC', 'Fuel card', pt[2], 'One-off', '', 'merc');
+  H(m, 6, 'Cash for CEO trip', 'cash', 'Cash withdrawal', 'Bank transfer', sp('cash'), 'One-off', 'ceo', '');
+  H(m, 15, 'Visa and medical – ' + pname(rota[m]), 'visa', 'GDRFA Dubai', 'Card ••4417', sp('visa'), 'One-off', rota[m], '');
 }
 // Sanity check: history adds up to each category's monthly spend.
 cats.forEach((c) => c.spent.forEach((s, m) => {
   const got = history.filter((h) => h.cat === c.id && h.m === m).reduce((a, h) => a + h.amount, 0);
-  if (got !== s || history.some((h) => h.amount <= 0)) throw new Error('history mismatch ' + c.id + ' ' + m + ' ' + got + ' vs ' + s);
+  if (got !== s) throw new Error('history mismatch ' + c.id + ' ' + m + ' ' + got + ' vs ' + s);
 }));
 
 // Recurring payments: next due date (month index, day), amount, how it is paid.
 const R = (id, name, cat, freq, m, d, amount, method, autopay, note) => ({ id, name, cat, freq, m, d, amount, method, autopay, note });
 const recurring = [
-  R('r1', 'du – Internet and TV', 'util', 'Monthly', 9, 18, 399, 'Card ••4417', false, 'Account 0400••••88'),
-  R('r2', 'Fuel card top-up', 'veh', 'Monthly', 9, 20, 800, 'Bank transfer', false, 'ADNOC fleet card'),
-  R('r3', 'DEWA – Villa', 'util', 'Monthly', 9, 22, 1840, 'Bank transfer', false, 'Amount changes each month'),
+  R('r1', 'du – Internet and TV', 'net', 'Monthly', 9, 18, 399, 'Card ••4417', false, 'Account 0400••••88'),
+  R('r2', 'Fuel card top-up', 'petrol', 'Monthly', 9, 20, 800, 'Bank transfer', false, 'ADNOC fleet card'),
+  R('r3', 'DEWA – Villa', 'elec', 'Monthly', 9, 22, 1840, 'Bank transfer', false, 'Amount changes each month'),
   R('r4', 'Staff salaries (4 people)', 'staff', 'Monthly', 9, 28, 11400, 'Bank transfer (WPS)', false, 'Ravi, Maria, Joseph, Ahmed'),
   R('r5', 'Empower – Chiller', 'util', 'Monthly', 9, 28, 720, 'Bank transfer', false, 'Account EMP-••••-311'),
-  R('r6', 'Car lease – Nissan Patrol', 'veh', 'Monthly', 10, 1, 3200, 'Autopay', true, 'Lease ends 31 Aug 2027'),
-  R('r7', 'Pool maintenance', 'home', 'Monthly', 10, 10, 450, 'Petty cash', false, 'BlueWave Pools'),
-  R('r8', 'OSN+ subscription', 'util', 'Monthly', 10, 11, 55, 'Autopay', true, ''),
-  R('r9', 'Etisalat – Mobiles', 'util', 'Monthly', 10, 14, 650, 'Autopay', true, '3 lines'),
-  R('r10', 'Insurance and registration – Land Cruiser', 'veh', 'Yearly', 10, 14, 5600, 'Card ••4417', false, 'Dubai A 12345')
+  R('r6', 'Car lease – Nissan Patrol', 'trans', 'Monthly', 10, 1, 3200, 'Autopay', true, 'Lease ends 31 Aug 2027'),
+  R('r7', 'Pool maintenance', 'maint', 'Monthly', 10, 10, 450, 'Petty cash', false, 'BlueWave Pools'),
+  R('r8', 'OSN+ subscription', 'life', 'Monthly', 10, 11, 55, 'Autopay', true, ''),
+  R('r9', 'Etisalat – Mobiles', 'net', 'Monthly', 10, 14, 650, 'Autopay', true, '3 lines'),
+  R('r10', 'Insurance and registration – Land Cruiser', 'ins', 'Yearly', 10, 14, 5600, 'Card ••4417', false, 'Dubai A 12345'),
+  R('r11', 'Service charges – Jumeirah apartment', 'rent', 'Quarterly', 12, 1, 4200, 'Bank transfer', false, 'Emaar Community')
 ];
 
-// Income: each expected receipt with what actually came in.
+// Income categories (the client's list), each with expected receipts and what actually came in.
 const sources = [
-  { id: 'allow', name: 'Monthly allowance', from: 'Holding company', ini: 'MA' },
-  { id: 'rent', name: 'Rental income – Jumeirah apartment', from: 'Tenant: Khalid Saeed', ini: 'RI' },
-  { id: 'div', name: 'Dividends – Northgate fund', from: 'Northgate Capital', ini: 'DV' },
-  { id: 'reimb', name: 'Travel reimbursements', from: 'Holding company', ini: 'TR' }
+  { id: 'salary', name: 'Salary & Bonuses', from: 'Holding company', ini: 'SB' },
+  { id: 'div', name: 'Dividends', from: 'Northgate Capital', ini: 'DV' },
+  { id: 'rent', name: 'Rental Income', from: 'Tenant: Khalid Saeed · Jumeirah apartment', ini: 'RI' },
+  { id: 'interest', name: 'Interest Income', from: 'Emirates NBD savings', ini: 'II' },
+  { id: 'other', name: 'Other Income', from: 'Holding company', ini: 'OI' }
 ];
 const income = [];
-for (let m = 0; m < 12; m++) income.push({ id: 'a' + m, src: 'allow', m, d: 25, expected: 42000, received: m < 9 ? 42000 : null, ref: 'Bank transfer' });
-[[0, 30000], [3, 30000], [6, 30000], [9, null]].forEach(([m, r]) => income.push({ id: 'rent' + m, src: 'rent', m, d: 15, expected: 30000, received: r, ref: 'Cheque' }));
-[[2, 18000], [5, 17200], [8, 16500], [11, null]].forEach(([m, r]) => income.push({ id: 'div' + m, src: 'div', m, d: 30, expected: 18000, received: r, ref: 'Bank transfer' }));
-[[1, 3000, 3000, 'Jan trip'], [2, 6000, 4800, 'London trip'], [5, 5000, 5000, 'Paris trip'], [6, 8000, 6200, 'Summer trips'], [9, 4500, null, 'Riyadh – Sep claim'], [10, 7600, null, 'Riyadh – Oct claim']]
-  .forEach(([m, e, r, ref], i) => income.push({ id: 'rb' + i, src: 'reimb', m, d: m === 9 ? 15 : 10, expected: e, received: r, ref }));
+for (let m = 0; m < 12; m++) income.push({ id: 'sal' + m, src: 'salary', m, d: 25, expected: 42000, received: m < 9 ? 42000 : null, ref: 'Monthly salary' });
+income.push({ id: 'bonus', src: 'salary', m: 2, d: 28, expected: 30000, received: 30000, ref: 'Annual bonus' });
+[[0, 30000], [3, 30000], [6, 30000], [9, null]].forEach(([m, r]) => income.push({ id: 'rent' + m, src: 'rent', m, d: 15, expected: 30000, received: r, ref: 'Quarterly cheque' }));
+[[2, 18000], [5, 17200], [8, 16500], [11, null]].forEach(([m, r]) => income.push({ id: 'div' + m, src: 'div', m, d: 30, expected: 18000, received: r, ref: 'Quarterly dividend' }));
+for (let m = 0; m < 12; m++) income.push({ id: 'int' + m, src: 'interest', m, d: 28, expected: 1150, received: m < 9 ? 1150 + ((m * 37) % 60) - 30 : null, ref: 'Savings interest' });
+[[1, 3000, 3000, 'Travel reimbursement – Jan trip'], [2, 6000, 4800, 'Travel reimbursement – London'], [5, 5000, 5000, 'Travel reimbursement – Paris'],
+ [6, 8000, 6200, 'Travel reimbursement – summer'], [9, 4500, null, 'Travel reimbursement – Riyadh (Sep)'], [10, 7600, null, 'Travel reimbursement – Riyadh (Oct)']]
+  .forEach(([m, e, r, ref], i) => income.push({ id: 'oth' + i, src: 'other', m, d: m === 9 ? 15 : 10, expected: e, received: r, ref }));
 
-const FIN = { year: 2026, budget: 500000, today: { m: 9, d: 20 }, cats, txns, history, persons, objects, recurring, sources, income };
+// Annual budget: what is allocated, rounded up to leave a little unallocated.
+const allocated = cats.reduce((a, c) => a + c.alloc.reduce((x, y) => x + y, 0), 0);
+const budget = Math.ceil((allocated + 2000) / 10000) * 10000;
+
+const FIN = { year: 2026, budget, today: { m: 9, d: 20 }, cats, txns, history, persons, objects, recurring, sources, income };
 
 const SHARED = `const FIN = ${JSON.stringify(FIN)};
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -148,7 +184,8 @@ const SHARED = `const FIN = ${JSON.stringify(FIN)};
     const daysTo = (m, d) => Math.round((new Date(FIN.year, m, d) - new Date(FIN.year, FIN.today.m, FIN.today.d)) / 86400000);
     const dateText = (m, d) => d + ' ' + MON[m];
     const catOf = (id) => FIN.cats.find((c) => c.id === id) || { name: 'Other', ini: '··' };
-    const catColor = { staff: ['#E8E4F5', '#3F2F8F'], util: ['#E3EAF7', '#1E3A8A'], veh: ['#FDF0DC', '#8A4B08'], home: ['#DDF1EE', '#0B5C55'], travel: ['#FDE7E1', '#9A3412'], gov: ['#EEF0F3', '#3D4654'], hosp: ['#F6E7F0', '#7A1F57'] };
+    const PAL = [['#E8E4F5', '#3F2F8F'], ['#E3EAF7', '#1E3A8A'], ['#FDF0DC', '#8A4B08'], ['#DDF1EE', '#0B5C55'], ['#FDE7E1', '#9A3412'], ['#EEF0F3', '#3D4654'], ['#F6E7F0', '#7A1F57'], ['#E6F0DA', '#3F5F17']];
+    const catColor = Object.fromEntries(FIN.cats.map((c, i) => [c.id, PAL[i % PAL.length]]));
     const chipOf = (on) => ({ on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
     // Spend per category for a month: Jan–Sep from history, Oct (current) from transactions.
     const spentOf = (cat, m, txns) => (m < FIN.today.m ? cat.spent[m] : m === FIN.today.m ? sum((txns || FIN.txns).filter((t) => t.cat === cat.id && t.m === m).map((t) => t.amount)) : 0);

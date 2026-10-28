@@ -143,7 +143,8 @@ class Component extends DCLogic {
     FIN.txns.filter((t) => !t.receipt).forEach((t) => tasks.push({ id: 'rc' + t.id, k: 'RECEIPT', title: 'Upload receipt: ' + t.desc, meta: dateText(t.m, t.d) + ' · ' + t.payee + ' · ' + t.method + ' · entered by ' + t.by, amount: t.amount, days: 0 }));
     const m = FIN.today.m;
     const usage = FIN.cats.map((c) => ({ c, alloc: c.alloc[m], spent: spentOf(c, m) })).map((u) => ({ ...u, pct: u.alloc ? u.spent / u.alloc : 0 }));
-    usage.filter((u) => u.pct >= 0.8).forEach((u) => tasks.push({ id: 'rv' + u.c.id, k: 'REVIEW', title: 'Review ' + u.c.name + ' spending', meta: Math.round(u.pct * 100) + '% of the October budget used with 11 days left', amount: null, days: 0 }));
+    // Fixed bills (salaries, rent, fees) are meant to be paid in full, so only flag them when they go over.
+    usage.filter((u) => u.pct >= 0.8 && (!u.c.fixed || u.pct > 1)).forEach((u) => tasks.push({ id: 'rv' + u.c.id, k: 'REVIEW', title: 'Review ' + u.c.name + ' spending', meta: Math.round(u.pct * 100) + '% of the October budget used with 11 days left', amount: null, days: 0 }));
     st.custom.forEach((t) => tasks.push({ id: t.id, k: 'TASK', title: t.title, meta: 'Added by you today', amount: null, days: 0 }));
 
     const fmap = { All: null, 'To pay': 'PAY', 'To collect': 'COLLECT', Receipts: 'RECEIPT', Reviews: 'REVIEW' };

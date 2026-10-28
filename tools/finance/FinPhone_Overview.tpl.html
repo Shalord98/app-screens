@@ -93,7 +93,7 @@ class Component extends DCLogic {
       const a = sum(upTo.map((i) => c.alloc[i])), s = sum(upTo.map((i) => spentOf(c, i)));
       const ma = c.alloc[m], ms = spentOf(c, m), p = ma ? ms / ma : 0;
       if (s > a) watch.push({ name: c.name, line: 'Over budget this year: ' + aed(s) + ' of ' + aed(a), pill: 'Over ' + kfmt(s - a), bg: tone.bad[0], fg: tone.bad[1], rank: 2 });
-      else if (p >= 0.8) watch.push({ name: c.name, line: Math.round(p * 100) + '% of October used: ' + aed(ms) + ' of ' + aed(ma), pill: Math.round(p * 100) + '% used', bg: tone.warn[0], fg: tone.warn[1], rank: 1 });
+      else if (p >= 0.8 && !c.fixed) watch.push({ name: c.name, line: Math.round(p * 100) + '% of October used: ' + aed(ms) + ' of ' + aed(ma), pill: Math.round(p * 100) + '% used', bg: tone.warn[0], fg: tone.warn[1], rank: 1 });
     });
     watch.sort((a, b) => b.rank - a.rank);
 

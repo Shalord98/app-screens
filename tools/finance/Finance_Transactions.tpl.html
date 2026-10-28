@@ -78,7 +78,6 @@ class Component extends DCLogic {
     const st = this.state;
     const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
     const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
-    const srcCat = { allow: ['#DDF1EE', '#0B5C55'], rent: ['#DDF1EE', '#0B5C55'], div: ['#DDF1EE', '#0B5C55'], reimb: ['#DDF1EE', '#0B5C55'] };
 
     // The ledger: every expense paid plus every income actually received.
     const outRows = FIN.txns.concat(FIN.history).map((t) => ({
@@ -88,7 +87,7 @@ class Component extends DCLogic {
     }));
     const inRows = FIN.income.filter((i) => i.received !== null).map((i) => {
       const s = FIN.sources.find((x) => x.id === i.src);
-      return { id: 'in-' + i.id, m: i.m, d: i.d, dir: 'in', desc: s.name, sub: s.from + ' · ' + i.ref, cat: 'src:' + s.id, catName: 'Income · ' + s.name.split(' – ')[0], catBg: srcCat[s.id][0], catFg: srcCat[s.id][1],
+      return { id: 'in-' + i.id, m: i.m, d: i.d, dir: 'in', desc: s.name, sub: s.from + ' · ' + i.ref, cat: 'src:' + s.id, catName: s.name, catBg: '#DDF1EE', catFg: '#0B5C55',
         p: '', o: s.id === 'rent' ? 'apt' : '', amount: i.received,
         details: [['From', s.from], ['Reference', i.ref], ['Expected', aed(i.expected)], ['Received', aed(i.received)], ['Difference', i.received === i.expected ? 'None' : aed(i.received - i.expected)]] };
     });
