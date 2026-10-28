@@ -1,0 +1,217 @@
+<!--@HEAD Finance to-do-->
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+<!--@NAV Finance_Today.dc.html-->
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Tuesday 20 October · Finance</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">To-do today</h1>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <a href="Finance_Expenses.dc.html" style="height:44px;padding:0 16px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">Log an expense</a>
+        <a href="Finance_Income.dc.html" style="height:44px;padding:0 16px;border-radius:12px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">Record income</a>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+      <div style="background:#FDE7E1;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#9A3412">{{overdueCount}}</span><span style="font-size:13px;font-weight:700;color:#9A3412">Overdue</span></div>
+      <div style="background:#FDF0DC;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#8A4B08">{{todayCount}}</span><span style="font-size:13px;font-weight:700;color:#8A4B08">Due today</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{toPay}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">To pay in the next 7 days</span></div>
+      <div style="background:#DDF1EE;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#0B5C55">{{toCollect}}</span><span style="font-size:13px;font-weight:700;color:#0B5C55">To collect in the next 7 days</span></div>
+    </div>
+
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="To-do list" style="flex:3 1 480px;min-width:0;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+            <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:13px">{{f.label}}</button>
+          </sc-for>
+        </div>
+
+        <sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+          <sc-if value="{{r.isHeader}}" hint-placeholder-val="{{false}}">
+            <span style="font-size:12px;font-weight:800;letter-spacing:0.6px;color:{{r.color}};padding-top:6px">{{r.label}}</span>
+          </sc-if>
+          <sc-if value="{{r.isRow}}" hint-placeholder-val="{{true}}">
+            <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+              <button onClick="{{r.complete}}" aria-label="{{r.checkLabel}}" style="width:26px;height:26px;border-radius:8px;border:2px solid #9AA3AF;background:#FFFFFF;flex:none;padding:0"></button>
+              <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-size:10.5px;font-weight:800;letter-spacing:0.6px;padding:3px 8px;border-radius:8px;background:{{r.kindBg}};color:{{r.kindFg}}">{{r.kind}}</span>
+                  <span style="font-size:15px;font-weight:700">{{r.title}}</span>
+                </span>
+                <span style="font-size:12.5px;color:#5B6472">{{r.meta}}</span>
+              </span>
+              <span style="font-size:14px;font-weight:800;flex:none;text-align:right;font-variant-numeric:tabular-nums">{{r.amountText}}</span>
+              <span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{r.chipBg}};color:{{r.chipFg}};flex:none;white-space:nowrap">{{r.chip}}</span>
+              <button onClick="{{r.complete}}" style="height:36px;padding:0 12px;border-radius:10px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px;flex:none">{{r.action}}</button>
+            </div>
+          </sc-if>
+        </sc-for>
+        <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+          <div style="background:#FFFFFF;border:1px dashed #D9D5CB;border-radius:14px;padding:24px;text-align:center;font-size:14px;color:#5B6472">Nothing pending here. Good work.</div>
+        </sc-if>
+
+        <div style="display:flex;gap:8px;align-items:center;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:14px;padding:8px 8px 8px 14px">
+          <label for="newTask" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">New to-do</label>
+          <input id="newTask" value="{{newTask}}" onChange="{{typed}}" placeholder="Add a to-do for today, e.g. Call DEWA about the meter reading" style="flex:1;min-width:0;height:40px;border:none;font-size:14px;background:transparent;color:#14213D">
+          <button onClick="{{addTask}}" disabled="{{addDisabled}}" style="height:40px;padding:0 16px;border-radius:10px;border:none;background:{{addBg}};color:#FFFFFF;font-weight:700;font-size:14px">Add</button>
+        </div>
+
+        <sc-if value="{{hasDone}}" hint-placeholder-val="{{false}}">
+          <div style="display:flex;flex-direction:column;gap:6px;padding-top:6px">
+            <span style="font-size:12px;font-weight:800;letter-spacing:0.6px;color:#0B5C55">DONE TODAY · {{doneCount}}</span>
+            <sc-for list="{{doneRows}}" as="d" hint-placeholder-count="1">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 14px;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:12px;font-size:13.5px;color:#5B6472">
+                <span style="width:22px;height:22px;border-radius:7px;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;justify-content:center;flex:none">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>
+                </span>
+                <span style="flex:1;min-width:0;text-decoration:line-through">{{d.title}}</span>
+                <button onClick="{{d.undo}}" style="height:30px;padding:0 10px;border-radius:8px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:600;font-size:12px">Undo</button>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </section>
+
+      <aside aria-label="This month" style="flex:2 1 320px;min-width:0;display:flex;flex-direction:column;gap:14px">
+        <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+            <h2 style="margin:0;font-size:18px;font-weight:800">October so far</h2>
+            <span style="font-size:12px;color:#5B6472;font-weight:600">11 days left</span>
+          </div>
+          <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;background:#EEF0F3" role="img" aria-label="{{barLabel}}">
+            <span style="width:{{spentPct}};background:#0F766E"></span>
+            <span style="width:{{commitPct}};background:#E9B872"></span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12.5px">
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Budget</span><b style="font-size:15px">{{monthBudget}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#0B5C55;font-weight:700">Spent</span><b style="font-size:15px">{{monthSpent}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#8A4B08;font-weight:700">Still to pay this month</span><b style="font-size:15px">{{monthCommitted}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Expected left over</span><b style="font-size:15px;color:{{leftColor}}">{{monthLeft}}</b></span>
+          </div>
+          <a href="Finance_Overview.dc.html" style="min-height:36px;display:flex;align-items:center;color:#0B5C55;font-weight:700;font-size:13px">Open budget overview</a>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px">
+          <h2 style="margin:0;font-size:18px;font-weight:800">Budget use this month</h2>
+          <sc-for list="{{usage}}" as="u" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;justify-content:space-between;gap:8px;font-size:13px"><span style="font-weight:700">{{u.name}}</span><span style="font-weight:700;color:{{u.fg}}">{{u.pctText}}</span></div>
+              <div style="height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{u.bar}};background:{{u.barColor}}"></span></div>
+              <span style="font-size:12px;color:#5B6472">{{u.line}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { done: {}, order: [], filter: 'All', custom: [], newTask: '', banner: '' };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state;
+    const kinds = {
+      PAY: { kind: 'PAY', kindBg: '#FDE7E1', kindFg: '#9A3412', action: 'Mark paid' },
+      COLLECT: { kind: 'COLLECT', kindBg: '#DDF1EE', kindFg: '#0B5C55', action: 'Mark received' },
+      RECEIPT: { kind: 'RECEIPT', kindBg: '#E3EAF7', kindFg: '#1E3A8A', action: 'Uploaded' },
+      REVIEW: { kind: 'REVIEW', kindBg: '#FDF0DC', kindFg: '#8A4B08', action: 'Reviewed' },
+      TASK: { kind: 'TO-DO', kindBg: '#EEF0F3', kindFg: '#3D4654', action: 'Done' }
+    };
+    const tasks = [];
+    FIN.recurring.forEach((r) => {
+      const n = daysTo(r.m, r.d);
+      if (n <= 7 && !r.autopay) tasks.push({ id: r.id, k: 'PAY', title: 'Pay ' + r.name, meta: r.method + (r.note ? ' · ' + r.note : ''), amount: r.amount, days: n, m: r.m });
+    });
+    FIN.income.forEach((i) => {
+      const n = daysTo(i.m, i.d);
+      if (i.received === null && n <= 7) {
+        const s = FIN.sources.find((x) => x.id === i.src);
+        tasks.push({ id: i.id, k: 'COLLECT', title: (n < 0 ? 'Chase ' : 'Confirm ') + s.name.charAt(0).toLowerCase() + s.name.slice(1), meta: s.from + ' · ' + i.ref, amount: i.expected, days: n });
+      }
+    });
+    FIN.txns.filter((t) => !t.receipt).forEach((t) => tasks.push({ id: 'rc' + t.id, k: 'RECEIPT', title: 'Upload receipt: ' + t.desc, meta: dateText(t.m, t.d) + ' · ' + t.payee + ' · ' + t.method + ' · entered by ' + t.by, amount: t.amount, days: 0 }));
+    const m = FIN.today.m;
+    const usage = FIN.cats.map((c) => ({ c, alloc: c.alloc[m], spent: spentOf(c, m) })).map((u) => ({ ...u, pct: u.alloc ? u.spent / u.alloc : 0 }));
+    usage.filter((u) => u.pct >= 0.8).forEach((u) => tasks.push({ id: 'rv' + u.c.id, k: 'REVIEW', title: 'Review ' + u.c.name + ' spending', meta: Math.round(u.pct * 100) + '% of the October budget used with 11 days left', amount: null, days: 0 }));
+    st.custom.forEach((t) => tasks.push({ id: t.id, k: 'TASK', title: t.title, meta: 'Added by you today', amount: null, days: 0 }));
+
+    const fmap = { All: null, 'To pay': 'PAY', 'To collect': 'COLLECT', Receipts: 'RECEIPT', Reviews: 'REVIEW' };
+    const open = tasks.filter((t) => !st.done[t.id]);
+    const shown = open.filter((t) => !fmap[st.filter] || t.k === fmap[st.filter]);
+    const row = (t) => {
+      const c = t.days < 0 ? { chip: 'Overdue ' + (-t.days) + 'd', chipBg: tone.bad[0], chipFg: tone.bad[1] }
+        : t.days === 0 ? { chip: 'Today', chipBg: tone.warn[0], chipFg: tone.warn[1] }
+        : { chip: t.days === 1 ? 'Tomorrow' : 'In ' + t.days + ' days', chipBg: tone.none[0], chipFg: tone.none[1] };
+      return {
+        isHeader: false, isRow: true, ...t, ...kinds[t.k], ...c,
+        amountText: t.amount ? aed(t.amount) : '',
+        checkLabel: 'Complete: ' + t.title,
+        complete: () => this.setState({
+          done: { ...this.state.done, [t.id]: true }, order: [t.id, ...this.state.order],
+          banner: t.k === 'PAY' ? 'Marked paid: ' + t.title.replace('Pay ', '') + '. It now shows in Expenses.' : t.k === 'COLLECT' ? 'Marked received: ' + aed(t.amount) + '. It now shows in Income.' : 'Done: ' + t.title
+        })
+      };
+    };
+    const H = (label, color) => ({ isHeader: true, isRow: false, label, color });
+    let rows = [];
+    [['OVERDUE', '#9A3412', (t) => t.days < 0], ['DUE TODAY', '#8A4B08', (t) => t.days === 0], ['NEXT 7 DAYS', '#3D4654', (t) => t.days > 0]].forEach(([label, color, test]) => {
+      const list = shown.filter(test).sort((a, b) => a.days - b.days);
+      if (list.length) rows = rows.concat([H(label + ' · ' + list.length, color)], list.map(row));
+    });
+    const doneRows = st.order.map((id) => tasks.find((t) => t.id === id)).filter(Boolean).map((t) => ({
+      title: t.title, undo: () => this.setState({ done: { ...this.state.done, [t.id]: false }, order: this.state.order.filter((x) => x !== t.id), banner: '' })
+    }));
+    const filters = Object.keys(fmap).map((label) => {
+      const n = open.filter((t) => !fmap[label] || t.k === fmap[label]).length;
+      return { label: label + ' · ' + n, ...chipOf(st.filter === label), pick: () => this.setState({ filter: label }) };
+    });
+
+    // October: spent so far, plus bills still to pay this month (paid ones move into spent).
+    const budget = sum(FIN.cats.map((c) => c.alloc[m]));
+    const octPay = FIN.recurring.filter((r) => r.m === m && !r.autopay);
+    const paidNow = sum(octPay.filter((t) => st.done[t.id]).map((t) => t.amount));
+    const spent = sum(usage.map((u) => u.spent)) + paidNow;
+    const committed = sum(octPay.filter((t) => !st.done[t.id]).map((t) => t.amount));
+    const left = budget - spent - committed;
+    const pct = (n) => Math.max(0, Math.min(100, (n / budget) * 100)).toFixed(1) + '%';
+    const noteOk = st.newTask.trim().length > 0;
+    return {
+      rows, isEmpty: rows.length === 0, filters, doneRows, hasDone: doneRows.length > 0, doneCount: doneRows.length,
+      overdueCount: open.filter((t) => t.days < 0).length,
+      todayCount: open.filter((t) => t.days === 0).length,
+      toPay: aed(sum(open.filter((t) => t.k === 'PAY').map((t) => t.amount))),
+      toCollect: aed(sum(open.filter((t) => t.k === 'COLLECT').map((t) => t.amount))),
+      monthBudget: aed(budget), monthSpent: aed(spent), monthCommitted: aed(committed), monthLeft: aed(left),
+      leftColor: left < 0 ? '#9A3412' : '#0B5C55', spentPct: pct(spent), commitPct: pct(committed),
+      barLabel: 'Spent ' + aed(spent) + ', still to pay ' + aed(committed) + ' of ' + aed(budget),
+      usage: usage.slice().sort((a, b) => b.pct - a.pct).slice(0, 4).map((u) => {
+        const t = u.pct > 1 ? tone.bad : u.pct >= 0.8 ? tone.warn : tone.ok;
+        return { name: u.c.name, pctText: Math.round(u.pct * 100) + '% used', fg: t[1], bar: Math.min(100, u.pct * 100).toFixed(0) + '%', barColor: u.pct >= 0.8 ? (u.pct > 1 ? '#C2410C' : '#D9902B') : '#0F766E',
+          line: aed(u.spent) + ' of ' + aed(u.alloc) };
+      }),
+      newTask: st.newTask, typed: (e) => this.setState({ newTask: e.target.value }),
+      addDisabled: !noteOk, addBg: noteOk ? '#0F766E' : '#9FB8B5',
+      addTask: () => { if (!noteOk) return; this.setState({ custom: [...this.state.custom, { id: 'c' + Date.now(), title: this.state.newTask.trim() }], newTask: '' }); },
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Expenses</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F3EE}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
+a{text-decoration:none}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F766E;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <nav aria-label="Main" style="flex:1 1 220px;max-width:100%;box-sizing:border-box;background:#14213D;color:#FFFFFF;padding:24px 14px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px">
+      <span style="width:36px;height:36px;border-radius:10px;background:#0F766E;display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h10l3 3v13H6z"></path><path d="M9 10h7M9 14h7M9 18h4"></path></svg>
+      </span>
+      <span style="font-size:17px;font-weight:800">Executive Log</span>
+    </div>
+    <span style="padding:0 12px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#8C97AA">FINANCE · 2026</span>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <a href="Finance_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"></path><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"></path></svg>To-do today</a>
+      <a href="Finance_Overview.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Budget overview</a>
+      <a href="Finance_Budget.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16"></path></svg>Budget plan</a>
+      <a href="Finance_Expenses.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg>Expenses</a>
+      <a href="Finance_Income.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path></svg>Income</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;padding-top:12px;border-top:1px solid #2A3A5C">
+      <a href="Laptop_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Back to logs</a>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 0;border-top:1px solid #2A3A5C">
+      <span style="width:36px;height:36px;border-radius:18px;background:#DDF1EE;color:#0B5C55;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">FN</span>
+      <div style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700">Fatima Noor</span><span style="font-size:12px;color:#C9D1DE">Finance</span></div>
+    </div>
+  </nav>
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Every payment, day-to-day and recurring</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Expenses</h1>
+      </div>
+      <button onClick="{{startAdd}}" style="height:44px;padding:0 18px 0 14px;border-radius:12px;border:none;background:#0F766E;color:#FFFFFF;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add expense</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{octSpent}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Spent in October so far</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800">{{octCount}}</span><span style="font-size:13px;font-weight:700;color:#5B6472">Transactions this month</span></div>
+      <div style="background:#FDF0DC;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#8A4B08">{{recDue}}</span><span style="font-size:13px;font-weight:700;color:#8A4B08">Recurring still due in October</span></div>
+      <div style="background:#E3EAF7;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:24px;font-weight:800;color:#1E3A8A">{{missing}}</span><span style="font-size:13px;font-weight:700;color:#1E3A8A">Receipts missing</span></div>
+    </div>
+
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="Expenses list" style="flex:3 1 520px;min-width:0;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">
+          <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px">
+            <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+              <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:38px;padding:0 18px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13.5px">{{t.label}}</button>
+            </sc-for>
+          </div>
+          <sc-if value="{{isTxns}}" hint-placeholder-val="{{true}}">
+            <div style="position:relative;flex:0 1 260px">
+              <label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search expenses</label>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:12px;top:11px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+              <input id="q" value="{{q}}" onChange="{{search}}" placeholder="Search payee or description" style="width:100%;height:40px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 12px 0 38px;font-size:13.5px;background:#FFFFFF;color:#14213D">
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{isTxns}}" hint-placeholder-val="{{true}}">
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{catChips}}" as="f" hint-placeholder-count="8">
+              <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12.5px">{{f.label}}</button>
+            </sc-for>
+            <span style="width:1px;background:#D9D5CB;margin:0 4px"></span>
+            <sc-for list="{{typeChips}}" as="f" hint-placeholder-count="3">
+              <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12.5px">{{f.label}}</button>
+            </sc-for>
+          </div>
+          <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
+            <div style="min-width:600px;display:flex;flex-direction:column">
+              <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+                <span style="width:46px;flex:none">DATE</span><span style="flex:2;min-width:0">EXPENSE</span><span style="width:118px;flex:none">CATEGORY</span><span style="width:92px;flex:none">PAID WITH</span><span style="width:76px;flex:none;text-align:right">AMOUNT</span><span style="width:64px;flex:none;text-align:right">RECEIPT</span>
+              </div>
+              <sc-for list="{{list}}" as="t" hint-placeholder-count="8">
+                <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{t.rowBg}};box-shadow:{{t.mark}};padding:10px 16px;display:flex;align-items:center;gap:12px;color:#14213D">
+                  <span style="width:46px;flex:none;font-size:12.5px;font-weight:700;color:#5B6472">{{t.date}}</span>
+                  <span style="flex:2;min-width:0;display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:14px;font-weight:700">{{t.desc}}</span>
+                    <span style="font-size:12px;color:#5B6472;display:flex;gap:6px;align-items:center">{{t.payee}}<sc-if value="{{t.isRecurring}}" hint-placeholder-val="{{false}}"><span style="font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:8px;background:#E8E4F5;color:#3F2F8F">Recurring</span></sc-if></span>
+                  </span>
+                  <span style="width:118px;flex:none"><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{t.catBg}};color:{{t.catFg}}">{{t.catName}}</span></span>
+                  <span style="width:92px;flex:none;font-size:12px;color:#3D4654">{{t.method}}</span>
+                  <span style="width:76px;flex:none;text-align:right;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">{{t.amountText}}</span>
+                  <span style="width:64px;flex:none;display:flex;justify-content:flex-end">
+                    <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{t.rcBg}};color:{{t.rcFg}}">{{t.rcText}}</span>
+                  </span>
+                </button>
+              </sc-for>
+              <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+                <div style="padding:24px;text-align:center;font-size:14px;color:#5B6472">No expenses match these filters.</div>
+              </sc-if>
+              <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px;font-weight:800">
+                <span>{{listCount}}</span><span style="font-variant-numeric:tabular-nums">{{listTotal}}</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isRec}}" hint-placeholder-val="{{false}}">
+          <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
+            <div style="min-width:720px;display:flex;flex-direction:column">
+              <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+                <span style="flex:2;min-width:0">PAYMENT</span><span style="width:84px;flex:none">HOW OFTEN</span><span style="width:84px;flex:none">NEXT DUE</span><span style="width:90px;flex:none;text-align:right">AMOUNT</span><span style="width:110px;flex:none">STATUS</span><span style="width:104px;flex:none"></span>
+              </div>
+              <sc-for list="{{recList}}" as="r" hint-placeholder-count="8">
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #EFEBE2">
+                  <span style="flex:2;min-width:0;display:flex;align-items:center;gap:10px">
+                    <span style="width:32px;height:32px;border-radius:9px;background:{{r.catBg}};color:{{r.catFg}};font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{r.ini}}</span>
+                    <span style="display:flex;flex-direction:column;min-width:0"><span style="font-size:14px;font-weight:700">{{r.name}}</span><span style="font-size:12px;color:#5B6472">{{r.sub}}</span></span>
+                  </span>
+                  <span style="width:84px;flex:none;font-size:13px">{{r.freq}}</span>
+                  <span style="width:84px;flex:none;font-size:13px;font-weight:700">{{r.due}}</span>
+                  <span style="width:90px;flex:none;text-align:right;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">{{r.amountText}}</span>
+                  <span style="width:110px;flex:none"><span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{r.stBg}};color:{{r.stFg}};white-space:nowrap">{{r.status}}</span></span>
+                  <span style="width:104px;flex:none;display:flex;justify-content:flex-end">
+                    <sc-if value="{{r.canPay}}" hint-placeholder-val="{{true}}">
+                      <button onClick="{{r.pay}}" style="height:36px;padding:0 12px;border-radius:10px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px">Mark paid</button>
+                    </sc-if>
+                  </span>
+                </div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px;font-weight:800">
+                <span>{{recCount}}</span><span style="font-variant-numeric:tabular-nums">{{recMonthly}}</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </section>
+
+      <sc-if value="{{showForm}}" hint-placeholder-val="{{false}}">
+        <aside aria-label="Add expense" style="flex:2 1 320px;min-width:0;background:#FFFFFF;border:2px solid #0F766E;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;font-size:20px;font-weight:800">Add expense</h2>
+            <button onClick="{{cancelAdd}}" style="height:36px;padding:0 12px;border-radius:10px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Cancel</button></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <label for="fDesc" style="font-size:13px;font-weight:700">What was it for?</label>
+            <input id="fDesc" value="{{f.desc}}" onChange="{{f.setDesc}}" placeholder="e.g. Groceries, AC repair, flight tickets" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <label for="fAmt" style="font-size:13px;font-weight:700">Amount (AED)</label>
+              <input id="fAmt" inputmode="decimal" value="{{f.amount}}" onChange="{{f.setAmount}}" placeholder="0" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;font-weight:700;background:#FFFFFF;color:#14213D">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <label for="fPayee" style="font-size:13px;font-weight:700">Paid to</label>
+              <input id="fPayee" value="{{f.payee}}" onChange="{{f.setPayee}}" placeholder="Shop or company" style="width:100%;min-width:0;height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:14px;background:#FFFFFF;color:#14213D">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700">Category</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{f.cats}}" as="c" hint-placeholder-count="7">
+                <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height:34px;padding:0 12px;border-radius:17px;border:1px solid {{c.border}};background:{{c.bg}};color:{{c.fg}};font-weight:600;font-size:12.5px">{{c.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700">Paid with</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{f.methods}}" as="c" hint-placeholder-count="4">
+                <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height:34px;padding:0 12px;border-radius:17px;border:1px solid {{c.border}};background:{{c.bg}};color:{{c.fg}};font-weight:600;font-size:12.5px">{{c.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:700">Type</span>
+            <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px;align-self:flex-start">
+              <sc-for list="{{f.types}}" as="t" hint-placeholder-count="2">
+                <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:36px;padding:0 16px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13px">{{t.label}}</button>
+              </sc-for>
+            </div>
+            <sc-if value="{{f.isRecurring}}" hint-placeholder-val="{{false}}">
+              <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#F5F3EE;border-radius:12px;padding:10px 12px">
+                <span style="font-size:12.5px;font-weight:700;color:#5B6472">Repeats</span>
+                <sc-for list="{{f.freqs}}" as="c" hint-placeholder-count="3">
+                  <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{c.border}};background:{{c.bg}};color:{{c.fg}};font-weight:600;font-size:12.5px">{{c.label}}</button>
+                </sc-for>
+                <span style="font-size:12px;color:#5B6472;flex-basis:100%">{{f.repeatNote}}</span>
+              </div>
+            </sc-if>
+          </div>
+          <button onClick="{{f.toggleReceipt}}" style="min-height:48px;border:1px dashed {{f.rcBorder}};border-radius:12px;background:{{f.rcBg}};color:{{f.rcFg}};font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:8px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"></path></svg>{{f.rcLabel}}</button>
+          <span style="font-size:12.5px;color:#5B6472">Date: today, 20 Oct 2026 · Entered by Fatima Noor</span>
+          <button onClick="{{f.save}}" disabled="{{f.saveDisabled}}" style="height:48px;border-radius:12px;border:none;background:{{f.saveBg}};color:#FFFFFF;font-weight:700;font-size:15px">Save expense</button>
+        </aside>
+      </sc-if>
+
+      <sc-if value="{{showDetail}}" hint-placeholder-val="{{true}}">
+        <aside aria-label="Expense detail" style="flex:2 1 320px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{d.catBg}};color:{{d.catFg}}">{{d.catName}}</span>
+            <span style="font-size:12px;font-weight:700;color:#5B6472">{{d.type}}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <h2 style="margin:0;font-size:21px;font-weight:800;line-height:1.25">{{d.desc}}</h2>
+            <span style="font-size:28px;font-weight:800;font-variant-numeric:tabular-nums">{{d.amountText}}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Date</span><b>{{d.fullDate}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid to</span><b>{{d.payee}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid with</span><b>{{d.method}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Entered by</span><b>{{d.by}}</b></span>
+          </div>
+          <div style="background:{{d.budgetBg}};border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:{{d.budgetFg}}">{{d.budgetTitle}}</span>
+            <div style="height:8px;border-radius:4px;background:#FFFFFF;overflow:hidden"><span style="display:block;height:100%;width:{{d.budgetBar}};background:{{d.budgetFg}}"></span></div>
+            <span style="font-size:13px;font-weight:600;color:{{d.budgetFg}}">{{d.budgetLine}}</span>
+          </div>
+          <sc-if value="{{d.hasReceipt}}" hint-placeholder-val="{{true}}">
+            <span style="border:1px solid #E6E2D8;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 11h6M9 15h6"></path></svg>{{d.receiptName}}</span>
+          </sc-if>
+          <sc-if value="{{d.noReceipt}}" hint-placeholder-val="{{false}}">
+            <div style="background:#E3EAF7;border-radius:14px;padding:12px 14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-size:13px;font-weight:700;color:#1E3A8A">No receipt yet</span>
+              <button onClick="{{d.upload}}" style="height:38px;padding:0 14px;border-radius:10px;border:none;background:#1E3A8A;color:#FFFFFF;font-weight:700;font-size:13px">Upload receipt</button>
+            </div>
+          </sc-if>
+        </aside>
+      </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'Transactions', cat: 'All', type: 'All', q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
+      form: { desc: '', amount: '', payee: '', cat: 'home', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
+  }
+  renderVals() {
+    const FIN = {"year":2026,"budget":500000,"today":{"m":9,"d":20},"cats":[{"id":"staff","name":"Staff salaries","ini":"ST","alloc":[11400,11400,11400,11400,11400,11400,17400,11400,11400,11400,11400,11400],"spent":[11400,11400,11400,11400,11400,11400,17400,11400,11400]},{"id":"util","name":"Utilities","ini":"UT","alloc":[3600,3400,3500,3800,4600,5400,5900,6000,5200,4200,3700,3600],"spent":[3490,3470,3330,3950,4970,5990,6250,6540,5360]},{"id":"veh","name":"Vehicles","ini":"VH","alloc":[5800,5800,5800,5800,5800,5800,5800,5800,5800,5800,9800,5800],"spent":[5340,6090,5800,5100,6500,5630,6030,5510,6380]},{"id":"home","name":"Household","ini":"HH","alloc":[6000,6000,6000,6000,6000,6000,6000,6000,6000,6000,6000,8000],"spent":[6300,5400,6900,5880,6120,5640,5100,5400,6480]},{"id":"travel","name":"Travel","ini":"TR","alloc":[6000,4000,9000,5000,4000,12000,15000,8000,6000,9000,5000,14000],"spent":[4800,4400,11250,3000,3600,12600,17700,5600,7800]},{"id":"gov","name":"Visas & govt fees","ini":"GF","alloc":[1500,1500,1500,1500,1500,1500,1500,1500,1500,6500,1500,1500],"spent":[1800,900,1350,2100,1200,1500,1050,1650,1350]},{"id":"hosp","name":"Hospitality","ini":"HS","alloc":[2500,2500,4000,2500,2500,2500,1500,1500,2500,3000,3000,5000],"spent":[2250,2750,5200,2000,2500,1750,900,1800,2250]}],"txns":[{"id":"t19","m":9,"d":19,"desc":"Airport transfer – Riyadh return","cat":"travel","payee":"Careem","method":"Card ••4417","amount":180,"type":"One-off","receipt":false,"by":"Fatima Noor"},{"id":"t18","m":9,"d":18,"desc":"AC repair – master bedroom","cat":"home","payee":"CoolTech Services","method":"Bank transfer","amount":750,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t17","m":9,"d":17,"desc":"Petrol – Nissan Patrol","cat":"veh","payee":"ADNOC","method":"Fuel card","amount":380,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t16","m":9,"d":16,"desc":"Cleaning supplies","cat":"home","payee":"Spinneys","method":"Petty cash","amount":310,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t15","m":9,"d":14,"desc":"Groceries","cat":"home","payee":"Spinneys","method":"Card ••4417","amount":980,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t14","m":9,"d":14,"desc":"Etisalat – Mobiles","cat":"util","payee":"Etisalat","method":"Autopay","amount":650,"type":"Recurring","receipt":true,"by":"Fatima Noor"},{"id":"t13","m":9,"d":12,"desc":"Business dinner – Northgate","cat":"hosp","payee":"Zuma DIFC","method":"Card ••4417","amount":1500,"type":"One-off","receipt":false,"by":"Fatima Noor"},{"id":"t12","m":9,"d":11,"desc":"OSN+ subscription","cat":"util","payee":"OSN","method":"Autopay","amount":55,"type":"Recurring","receipt":true,"by":"Fatima Noor"},{"id":"t11","m":9,"d":10,"desc":"Pool maintenance","cat":"home","payee":"BlueWave Pools","method":"Petty cash","amount":450,"type":"Recurring","receipt":false,"by":"Maria Santos"},{"id":"t10","m":9,"d":9,"desc":"Salik top-up","cat":"veh","payee":"RTA Salik","method":"Card ••4417","amount":200,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t09","m":9,"d":8,"desc":"Flights DXB–RUH","cat":"travel","payee":"Emirates","method":"Card ••4417","amount":2950,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t08","m":9,"d":8,"desc":"Hotel – Riyadh trip","cat":"travel","payee":"Four Seasons Riyadh","method":"Card ••4417","amount":4600,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t07","m":9,"d":6,"desc":"Emirates ID renewal – Ravi Kumar","cat":"gov","payee":"ICP","method":"Card ••4417","amount":1870,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t06","m":9,"d":5,"desc":"Residence visa renewal – Ravi Kumar","cat":"gov","payee":"GDRFA Dubai","method":"Card ••4417","amount":3850,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t05","m":9,"d":3,"desc":"Petrol – Land Cruiser","cat":"veh","payee":"ENOC","method":"Fuel card","amount":420,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t04","m":9,"d":2,"desc":"Groceries","cat":"home","payee":"Carrefour","method":"Card ••4417","amount":1245,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t03","m":9,"d":1,"desc":"Car lease – Nissan Patrol","cat":"veh","payee":"Al Futtaim Leasing","method":"Autopay","amount":3200,"type":"Recurring","receipt":true,"by":"Fatima Noor"}],"recurring":[{"id":"r1","name":"du – Internet and TV","cat":"util","freq":"Monthly","m":9,"d":18,"amount":399,"method":"Card ••4417","autopay":false,"note":"Account 0400••••88"},{"id":"r2","name":"Fuel card top-up","cat":"veh","freq":"Monthly","m":9,"d":20,"amount":800,"method":"Bank transfer","autopay":false,"note":"ADNOC fleet card"},{"id":"r3","name":"DEWA – Villa","cat":"util","freq":"Monthly","m":9,"d":22,"amount":1840,"method":"Bank transfer","autopay":false,"note":"Amount changes each month"},{"id":"r4","name":"Staff salaries (4 people)","cat":"staff","freq":"Monthly","m":9,"d":28,"amount":11400,"method":"Bank transfer (WPS)","autopay":false,"note":"Ravi, Maria, Joseph, Ahmed"},{"id":"r5","name":"Empower – Chiller","cat":"util","freq":"Monthly","m":9,"d":28,"amount":720,"method":"Bank transfer","autopay":false,"note":"Account EMP-••••-311"},{"id":"r6","name":"Car lease – Nissan Patrol","cat":"veh","freq":"Monthly","m":10,"d":1,"amount":3200,"method":"Autopay","autopay":true,"note":"Lease ends 31 Aug 2027"},{"id":"r7","name":"Pool maintenance","cat":"home","freq":"Monthly","m":10,"d":10,"amount":450,"method":"Petty cash","autopay":false,"note":"BlueWave Pools"},{"id":"r8","name":"OSN+ subscription","cat":"util","freq":"Monthly","m":10,"d":11,"amount":55,"method":"Autopay","autopay":true,"note":""},{"id":"r9","name":"Etisalat – Mobiles","cat":"util","freq":"Monthly","m":10,"d":14,"amount":650,"method":"Autopay","autopay":true,"note":"3 lines"},{"id":"r10","name":"Insurance and registration – Land Cruiser","cat":"veh","freq":"Yearly","m":10,"d":14,"amount":5600,"method":"Card ••4417","autopay":false,"note":"Dubai A 12345"}],"sources":[{"id":"allow","name":"Monthly allowance","from":"Holding company","ini":"MA"},{"id":"rent","name":"Rental income – Jumeirah apartment","from":"Tenant: Khalid Saeed","ini":"RI"},{"id":"div","name":"Dividends – Northgate fund","from":"Northgate Capital","ini":"DV"},{"id":"reimb","name":"Travel reimbursements","from":"Holding company","ini":"TR"}],"income":[{"id":"a0","src":"allow","m":0,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a1","src":"allow","m":1,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a2","src":"allow","m":2,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a3","src":"allow","m":3,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a4","src":"allow","m":4,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a5","src":"allow","m":5,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a6","src":"allow","m":6,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a7","src":"allow","m":7,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a8","src":"allow","m":8,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a9","src":"allow","m":9,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"a10","src":"allow","m":10,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"a11","src":"allow","m":11,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"rent0","src":"rent","m":0,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent3","src":"rent","m":3,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent6","src":"rent","m":6,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent9","src":"rent","m":9,"d":15,"expected":30000,"received":null,"ref":"Cheque"},{"id":"div2","src":"div","m":2,"d":30,"expected":18000,"received":18000,"ref":"Bank transfer"},{"id":"div5","src":"div","m":5,"d":30,"expected":18000,"received":17200,"ref":"Bank transfer"},{"id":"div8","src":"div","m":8,"d":30,"expected":18000,"received":16500,"ref":"Bank transfer"},{"id":"div11","src":"div","m":11,"d":30,"expected":18000,"received":null,"ref":"Bank transfer"},{"id":"rb0","src":"reimb","m":1,"d":10,"expected":3000,"received":3000,"ref":"Jan trip"},{"id":"rb1","src":"reimb","m":2,"d":10,"expected":6000,"received":4800,"ref":"London trip"},{"id":"rb2","src":"reimb","m":5,"d":10,"expected":5000,"received":5000,"ref":"Paris trip"},{"id":"rb3","src":"reimb","m":6,"d":10,"expected":8000,"received":6200,"ref":"Summer trips"},{"id":"rb4","src":"reimb","m":9,"d":15,"expected":4500,"received":null,"ref":"Riyadh – Sep claim"},{"id":"rb5","src":"reimb","m":10,"d":10,"expected":7600,"received":null,"ref":"Riyadh – Oct claim"}]};
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const aed = (n) => (n < 0 ? '−' : '') + 'AED ' + Math.abs(Math.round(n)).toLocaleString('en-US');
+    const num = (n) => Math.abs(Math.round(n)).toLocaleString('en-US');
+    const kfmt = (n) => (Math.abs(n) >= 1000 ? (Math.round(Math.abs(n) / 100) / 10).toLocaleString('en-US') + 'k' : String(Math.round(Math.abs(n))));
+    const sum = (a) => a.reduce((x, y) => x + (y || 0), 0);
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const daysTo = (m, d) => Math.round((new Date(FIN.year, m, d) - new Date(FIN.year, FIN.today.m, FIN.today.d)) / 86400000);
+    const dateText = (m, d) => d + ' ' + MON[m];
+    const catOf = (id) => FIN.cats.find((c) => c.id === id) || { name: 'Other', ini: '··' };
+    const catColor = { staff: ['#E8E4F5', '#3F2F8F'], util: ['#E3EAF7', '#1E3A8A'], veh: ['#FDF0DC', '#8A4B08'], home: ['#DDF1EE', '#0B5C55'], travel: ['#FDE7E1', '#9A3412'], gov: ['#EEF0F3', '#3D4654'], hosp: ['#F6E7F0', '#7A1F57'] };
+    const chipOf = (on) => ({ on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
+    // Spend per category for a month: Jan–Sep from history, Oct (current) from transactions.
+    const spentOf = (cat, m, txns) => (m < FIN.today.m ? cat.spent[m] : m === FIN.today.m ? sum((txns || FIN.txns).filter((t) => t.cat === cat.id && t.m === m).map((t) => t.amount)) : 0);
+    // Variance = allocated − spent: positive is under budget, negative is over.
+    const varText = (v) => (Math.round(v) === 0 ? 'On budget' : v > 0 ? 'Under ' + aed(v) : 'Over ' + aed(-v));
+    const varTone = (v) => (v < 0 ? tone.bad : tone.ok);
+    const st = this.state;
+    const now = FIN.today;
+    const txns = st.txns || FIN.txns;
+    const rec = st.rec || FIN.recurring;
+    const hasRc = (t) => t.receipt || !!st.uploaded[t.id];
+
+    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k + ' · ' + (k === 'Transactions' ? txns.length : rec.length), on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const catChips = [{ id: 'All', name: 'All' }].concat(FIN.cats).map((c) => ({ label: c.name, ...chipOf(st.cat === c.id), pick: () => this.setState({ cat: c.id }) }));
+    const typeChips = ['All', 'One-off', 'Recurring'].map((k) => ({ label: k === 'All' ? 'Any type' : k, ...chipOf(st.type === k), pick: () => this.setState({ type: k }) }));
+    const q = st.q.trim().toLowerCase();
+    const filtered = txns.filter((t) => (st.cat === 'All' || t.cat === st.cat) && (st.type === 'All' || t.type === st.type) && (!q || (t.desc + ' ' + t.payee).toLowerCase().includes(q)));
+    const list = filtered.map((t) => {
+      const on = !st.adding && t.id === st.sel, c = catOf(t.cat), rc = hasRc(t);
+      return {
+        ...t, on, date: dateText(t.m, t.d), catName: c.name, catBg: catColor[t.cat][0], catFg: catColor[t.cat][1], isRecurring: t.type === 'Recurring',
+        amountText: num(t.amount), rcText: rc ? 'Yes' : 'Missing', rcBg: rc ? '#DDF1EE' : '#E3EAF7', rcFg: rc ? '#0B5C55' : '#1E3A8A',
+        rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none',
+        pick: () => this.setState({ sel: t.id, adding: false })
+      };
+    });
+
+    const label = (r) => r.d + ' ' + MON[r.m % 12] + (r.m >= 12 ? ' 2027' : '');
+    const recList = rec.slice().sort((a, b) => daysTo(a.m, a.d) - daysTo(b.m, b.d)).map((r) => {
+      const n = daysTo(r.m, r.d), c = catOf(r.cat);
+      const s = r.autopay ? ['Autopay', tone.soon] : n < 0 ? ['Overdue ' + (-n) + 'd', tone.bad] : n === 0 ? ['Due today', tone.warn] : n <= 7 ? ['Due in ' + n + 'd', tone.warn] : ['Due in ' + n + 'd', tone.none];
+      return {
+        ...r, ini: c.ini, catBg: catColor[r.cat][0], catFg: catColor[r.cat][1], sub: c.name + ' · ' + r.method + (r.note ? ' · ' + r.note : ''),
+        due: label(r), amountText: num(r.amount), status: s[0], stBg: s[1][0], stFg: s[1][1], canPay: !r.autopay && n <= 14,
+        pay: () => {
+          const step = r.freq === 'Yearly' ? 12 : r.freq === 'Quarterly' ? 3 : 1;
+          const t = { id: 'p' + st.n, m: now.m, d: now.d, desc: r.name, cat: r.cat, payee: r.name.split(' – ')[0], method: r.method, amount: r.amount, type: 'Recurring', receipt: false, by: 'Fatima Noor' };
+          this.setState({ txns: [t, ...txns], rec: rec.map((x) => (x.id === r.id ? { ...x, m: x.m + step } : x)), n: st.n + 1,
+            banner: r.name + ' marked paid (' + aed(r.amount) + '). Next due ' + label({ m: r.m + step, d: r.d }) + '.' });
+        }
+      };
+    });
+
+    const sel = txns.find((t) => t.id === st.sel);
+    let d = null;
+    if (sel) {
+      const c = catOf(sel.cat), cat = FIN.cats.find((x) => x.id === sel.cat);
+      const alloc = cat ? cat.alloc[sel.m] : 0, used = cat ? spentOf(cat, sel.m, txns) : 0, pct = alloc ? used / alloc : 0;
+      const t = pct > 1 ? tone.bad : pct >= 0.8 ? tone.warn : tone.ok;
+      d = {
+        ...sel, catName: c.name, catBg: catColor[sel.cat][0], catFg: catColor[sel.cat][1], amountText: aed(sel.amount),
+        fullDate: sel.d + ' ' + MONTHS[sel.m] + ' ' + FIN.year, type: sel.type === 'Recurring' ? 'Recurring payment' : 'One-off payment',
+        budgetTitle: c.name.toUpperCase() + ' · ' + MONTHS[sel.m].toUpperCase() + ' BUDGET', budgetBg: t[0], budgetFg: t[1], budgetBar: Math.min(100, pct * 100).toFixed(0) + '%',
+        budgetLine: aed(used) + ' of ' + aed(alloc) + ' used (' + Math.round(pct * 100) + '%)',
+        hasReceipt: hasRc(sel), noReceipt: !hasRc(sel), receiptName: 'Receipt_' + sel.d + MON[sel.m] + '.jpg',
+        upload: () => this.setState({ uploaded: { ...st.uploaded, [sel.id]: true }, banner: 'Receipt added to ' + sel.desc + '.' })
+      };
+    }
+
+    const fm = st.form;
+    const setF = (patch) => this.setState({ form: { ...this.state.form, ...patch } });
+    const amt = Number(String(fm.amount).replace(/[^0-9.]/g, ''));
+    const ok = fm.desc.trim().length > 0 && amt > 0;
+    const pick = (key, val) => () => setF({ [key]: val });
+    const choice = (on) => ({ on, bg: on ? '#0F766E' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#0F766E' : '#D9D5CB' });
+    const f = {
+      ...fm,
+      setDesc: (e) => setF({ desc: e.target.value }), setAmount: (e) => setF({ amount: e.target.value }), setPayee: (e) => setF({ payee: e.target.value }),
+      cats: FIN.cats.map((c) => ({ label: c.name, ...choice(fm.cat === c.id), pick: pick('cat', c.id) })),
+      methods: ['Card ••4417', 'Bank transfer', 'Petty cash', 'Fuel card'].map((k) => ({ label: k, ...choice(fm.method === k), pick: pick('method', k) })),
+      types: ['One-off', 'Recurring'].map((k) => ({ label: k, on: fm.type === k, bg: fm.type === k ? '#FFFFFF' : 'transparent', weight: fm.type === k ? 800 : 600, pick: pick('type', k) })),
+      isRecurring: fm.type === 'Recurring',
+      freqs: ['Monthly', 'Quarterly', 'Yearly'].map((k) => ({ label: k, ...choice(fm.freq === k), pick: pick('freq', k) })),
+      repeatNote: 'It will be added to Recurring, next due ' + label({ m: now.m + (fm.freq === 'Yearly' ? 12 : fm.freq === 'Quarterly' ? 3 : 1), d: now.d }) + '.',
+      rcLabel: fm.receipt ? 'Receipt attached · tap to remove' : 'Attach receipt (photo or PDF)',
+      rcBorder: fm.receipt ? '#0F766E' : '#9AA3AF', rcBg: fm.receipt ? '#DDF1EE' : '#FFFFFF', rcFg: fm.receipt ? '#0B5C55' : '#3D4654',
+      toggleReceipt: () => setF({ receipt: !fm.receipt }),
+      saveDisabled: !ok, saveBg: ok ? '#0F766E' : '#9FB8B5',
+      save: () => {
+        if (!ok) return;
+        const id = 'n' + st.n;
+        const t = { id, m: now.m, d: now.d, desc: fm.desc.trim(), cat: fm.cat, payee: fm.payee.trim() || '—', method: fm.method, amount: amt, type: fm.type, receipt: fm.receipt, by: 'Fatima Noor' };
+        const step = fm.freq === 'Yearly' ? 12 : fm.freq === 'Quarterly' ? 3 : 1;
+        const newRec = fm.type === 'Recurring' ? [...rec, { id: 'nr' + st.n, name: t.desc, cat: t.cat, freq: fm.freq, m: now.m + step, d: now.d, amount: amt, method: fm.method, autopay: false, note: '' }] : rec;
+        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, cat: 'All', type: 'All', q: '',
+          banner: 'Saved ' + t.desc + ' (' + aed(amt) + ')' + (fm.type === 'Recurring' ? ' and added it to Recurring.' : '.'),
+          form: { desc: '', amount: '', payee: '', cat: 'home', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
+      }
+    };
+
+    const oct = txns.filter((t) => t.m === now.m);
+    const recOct = rec.filter((r) => r.m === now.m);
+    return {
+      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', catChips, typeChips, list, isEmpty: list.length === 0,
+      listCount: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses'), listTotal: aed(sum(filtered.map((t) => t.amount))),
+      recList, recCount: rec.length + ' recurring payments', recMonthly: 'Monthly total ' + aed(sum(rec.filter((r) => r.freq === 'Monthly').map((r) => r.amount))),
+      q: st.q, search: (e) => this.setState({ q: e.target.value }),
+      octSpent: aed(sum(oct.map((t) => t.amount))), octCount: oct.length, recDue: aed(sum(recOct.map((r) => r.amount))),
+      missing: txns.filter((t) => !hasRc(t)).length,
+      showForm: st.adding, showDetail: !st.adding && !!d, d, f,
+      startAdd: () => this.setState({ adding: true, tab: 'Transactions' }), cancelAdd: () => this.setState({ adding: false }),
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>

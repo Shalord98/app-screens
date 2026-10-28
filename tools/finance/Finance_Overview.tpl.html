@@ -1,0 +1,192 @@
+<!--@HEAD Budget overview-->
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+<!--@NAV Finance_Overview.dc.html-->
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Year to date · 1 Jan – 20 Oct 2026</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Budget 2026</h1>
+      </div>
+      <a href="Finance_Budget.dc.html" style="height:44px;padding:0 16px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>Edit budget plan</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Annual budget</span><span style="font-size:24px;font-weight:800">{{budget}}</span><span style="font-size:12px;color:#5B6472">{{allocLine}}</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Spent so far</span><span style="font-size:24px;font-weight:800">{{spentYtd}}</span>
+        <div style="height:6px;border-radius:3px;background:#EEF0F3;overflow:hidden;margin:4px 0 2px"><span style="display:block;height:100%;width:{{spentPct}};background:#0F766E"></span></div>
+        <span style="font-size:12px;color:#5B6472">{{spentLine}}</span></div>
+      <div style="background:{{varBg}};border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:{{varFg}}">Variance, Jan–Sep</span><span style="font-size:24px;font-weight:800;color:{{varFg}}">{{closedVar}}</span><span style="font-size:12px;color:{{varFg}}">{{closedVarLine}}</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Left for the year</span><span style="font-size:24px;font-weight:800">{{leftYear}}</span><span style="font-size:12px;color:#5B6472">{{leftLine}}</span></div>
+      <a href="Finance_Income.dc.html" style="background:#DDF1EE;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px;color:#0B5C55">
+        <span style="font-size:13px;font-weight:700">Income received</span><span style="font-size:24px;font-weight:800">{{incomeIn}}</span><span style="font-size:12px">{{incomeLine}}</span></a>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="Monthly allocation and spend" style="flex:3 1 520px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px 18px 12px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+          <h2 style="margin:0;font-size:18px;font-weight:800">Allocated vs spent, by month</h2>
+          <div style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#5B6472">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#D9D5CB"></span>Allocated</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#0F766E"></span>Spent</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#C2410C"></span>Over budget</span>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <div style="min-width:600px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end">
+            <sc-for list="{{months}}" as="mo" hint-placeholder-count="12">
+              <button onClick="{{mo.pick}}" aria-pressed="{{mo.on}}" aria-label="{{mo.aria}}" style="border:none;border-radius:12px;background:{{mo.bg}};padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#14213D">
+                <span style="height:170px;display:flex;align-items:flex-end;gap:3px">
+                  <span style="width:12px;height:{{mo.allocH}};background:#D9D5CB;border-radius:4px 4px 0 0"></span>
+                  <span style="width:12px;height:{{mo.spentH}};background:{{mo.spentColor}};border-radius:4px 4px 0 0"></span>
+                </span>
+                <span style="font-size:12.5px;font-weight:800">{{mo.label}}</span>
+                <span style="font-size:11px;font-weight:700;color:{{mo.varFg}};white-space:nowrap">{{mo.varShort}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <span style="font-size:12px;color:#5B6472">Figures under each month show the variance: + is under budget, − is over. October is in progress; November and December are planned only.</span>
+      </section>
+
+      <aside aria-label="Month detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <h2 style="margin:0;font-size:20px;font-weight:800">{{sel.title}}</h2>
+          <span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{sel.stBg}};color:{{sel.stFg}}">{{sel.status}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">Allocated</span><b style="font-size:15px">{{sel.alloc}}</b></span>
+          <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">{{sel.spentLabel}}</span><b style="font-size:15px">{{sel.spent}}</b></span>
+          <span style="display:flex;flex-direction:column;background:{{sel.varBg}};border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:{{sel.varFg}}">Variance</span><b style="font-size:15px;color:{{sel.varFg}}">{{sel.variance}}</b></span>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+            <span style="flex:1">CATEGORY</span><span style="width:78px;text-align:right">ALLOCATED</span><span style="width:78px;text-align:right">SPENT</span><span style="width:96px;text-align:right">VARIANCE</span>
+          </div>
+          <sc-for list="{{sel.cats}}" as="c" hint-placeholder-count="7">
+            <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #EFEBE2;font-size:13px;font-variant-numeric:tabular-nums">
+              <span style="flex:1;min-width:0;font-weight:700">{{c.name}}</span>
+              <span style="width:78px;text-align:right">{{c.alloc}}</span>
+              <span style="width:78px;text-align:right">{{c.spent}}</span>
+              <span style="width:96px;display:flex;justify-content:flex-end"><span style="font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.varShort}}</span></span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{sel.isCurrent}}" hint-placeholder-val="{{true}}">
+          <a href="Finance_Expenses.dc.html" style="min-height:40px;display:flex;align-items:center;color:#0B5C55;font-weight:700;font-size:13px">See October expenses</a>
+        </sc-if>
+      </aside>
+    </div>
+
+    <section aria-label="Categories year to date" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px">
+        <h2 style="margin:0;font-size:18px;font-weight:800">Categories, Jan – Oct</h2>
+        <span style="font-size:12px;color:#5B6472">Compared with what was allocated up to October</span>
+      </div>
+      <div style="overflow-x:auto">
+        <div style="min-width:760px;display:flex;flex-direction:column">
+          <div style="display:flex;gap:12px;padding:8px 4px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+            <span style="flex:1.4">CATEGORY</span><span style="width:120px;text-align:right">YEAR ALLOCATION</span><span style="width:120px;text-align:right">ALLOCATED TO OCT</span><span style="width:110px;text-align:right">SPENT</span><span style="width:130px;text-align:right">VARIANCE</span><span style="flex:1">USED OF YEAR</span>
+          </div>
+          <sc-for list="{{catRows}}" as="c" hint-placeholder-count="7">
+            <div style="display:flex;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid #EFEBE2;font-size:13.5px;font-variant-numeric:tabular-nums">
+              <span style="flex:1.4;min-width:0;display:flex;align-items:center;gap:10px">
+                <span style="width:32px;height:32px;border-radius:9px;background:{{c.bg}};color:{{c.fg}};font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{c.ini}}</span>
+                <span style="font-weight:700">{{c.name}}</span>
+              </span>
+              <span style="width:120px;text-align:right">{{c.year}}</span>
+              <span style="width:120px;text-align:right">{{c.toDate}}</span>
+              <span style="width:110px;text-align:right;font-weight:700">{{c.spent}}</span>
+              <span style="width:130px;display:flex;justify-content:flex-end"><span style="font-size:12px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.variance}}</span></span>
+              <span style="flex:1;display:flex;align-items:center;gap:8px">
+                <span style="flex:1;height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{c.usedBar}};background:{{c.barColor}}"></span></span>
+                <span style="width:40px;text-align:right;font-size:12px;font-weight:700;color:#5B6472">{{c.used}}</span>
+              </span>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 4px 4px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">
+            <span style="flex:1.4">Total</span><span style="width:120px;text-align:right">{{total.year}}</span><span style="width:120px;text-align:right">{{total.toDate}}</span><span style="width:110px;text-align:right">{{total.spent}}</span>
+            <span style="width:130px;text-align:right;color:{{total.varFg}}">{{total.variance}}</span><span style="flex:1"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { month: 9 };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state;
+    const now = FIN.today.m;
+    const monthAlloc = (m) => sum(FIN.cats.map((c) => c.alloc[m]));
+    const monthSpent = (m) => sum(FIN.cats.map((c) => spentOf(c, m)));
+    const maxV = Math.max(...MON.map((_, m) => Math.max(monthAlloc(m), monthSpent(m))));
+    const h = (v) => Math.round((v / maxV) * 160) + 'px';
+    const months = MON.map((label, m) => {
+      const a = monthAlloc(m), s = monthSpent(m), v = a - s, on = m === st.month;
+      const future = m > now;
+      return {
+        label, on, bg: on ? '#E6F2F0' : 'transparent',
+        allocH: h(a), spentH: future ? '0px' : h(s), spentColor: s > a ? '#C2410C' : '#0F766E',
+        varShort: future ? 'plan' : (v >= 0 ? '+' : '−') + kfmt(v) + (m === now ? '*' : ''),
+        varFg: future ? '#5B6472' : v < 0 ? '#9A3412' : '#0B5C55',
+        aria: MONTHS[m] + ': allocated ' + aed(a) + (future ? ', planned' : ', spent ' + aed(s) + ', ' + varText(v)),
+        pick: () => this.setState({ month: m })
+      };
+    });
+
+    const m = st.month;
+    const a = monthAlloc(m), s = monthSpent(m), v = a - s;
+    const future = m > now, current = m === now;
+    const status = future ? ['Planned', tone.none] : current ? ['In progress · 11 days left', tone.warn] : ['Closed', tone.ok];
+    const vt = future ? tone.none : varTone(v);
+    const sel = {
+      title: MONTHS[m] + ' ' + FIN.year, status: status[0], stBg: status[1][0], stFg: status[1][1], isCurrent: current,
+      alloc: aed(a), spent: future ? '—' : aed(s), spentLabel: current ? 'Spent to date' : 'Spent',
+      variance: future ? '—' : (v >= 0 ? '+' : '−') + num(v), varBg: vt[0], varFg: vt[1],
+      cats: FIN.cats.map((c) => {
+        const ca = c.alloc[m], cs = spentOf(c, m), cv = ca - cs, t = future ? tone.none : varTone(cv);
+        return { name: c.name, alloc: num(ca), spent: future ? '—' : num(cs), varShort: future ? 'Planned' : cv === 0 ? 'On budget' : (cv > 0 ? 'Under ' : 'Over ') + num(cv), varBg: t[0], varFg: t[1] };
+      })
+    };
+
+    const yearAlloc = sum(FIN.cats.map((c) => sum(c.alloc)));
+    const toDateM = [...Array(now + 1).keys()];
+    const catRows = FIN.cats.map((c) => {
+      const year = sum(c.alloc), toDate = sum(toDateM.map((i) => c.alloc[i])), spent = sum(toDateM.map((i) => spentOf(c, i)));
+      const cv = toDate - spent, t = varTone(cv), used = spent / year;
+      return { name: c.name, ini: c.ini, bg: catColor[c.id][0], fg: catColor[c.id][1], year: num(year), toDate: num(toDate), spent: num(spent),
+        variance: varText(cv).replace('AED ', ''), varBg: t[0], varFg: t[1], used: Math.round(used * 100) + '%', usedBar: Math.min(100, used * 100).toFixed(0) + '%',
+        barColor: spent > toDate ? '#C2410C' : '#0F766E', _toDate: toDate, _spent: spent };
+    });
+    const tToDate = sum(catRows.map((c) => c._toDate)), tSpent = sum(catRows.map((c) => c._spent));
+    const closed = [...Array(now).keys()];
+    const closedA = sum(closed.map(monthAlloc)), closedS = sum(closed.map(monthSpent)), cvv = closedA - closedS, ct = varTone(cvv);
+    const incDue = FIN.income.filter((i) => daysTo(i.m, i.d) <= 0);
+    const incExp = sum(incDue.map((i) => i.expected)), incIn = sum(incDue.map((i) => i.received || 0));
+    return {
+      months, sel, catRows,
+      total: { year: num(yearAlloc), toDate: num(tToDate), spent: num(tSpent), variance: varText(tToDate - tSpent).replace('AED ', ''), varFg: varTone(tToDate - tSpent)[1] },
+      budget: aed(FIN.budget), allocLine: 'Allocated ' + aed(yearAlloc) + ' · ' + aed(FIN.budget - yearAlloc) + ' not yet allocated',
+      spentYtd: aed(tSpent), spentPct: ((tSpent / FIN.budget) * 100).toFixed(1) + '%', spentLine: Math.round((tSpent / FIN.budget) * 100) + '% of the annual budget, 80% of the year gone',
+      closedVar: (cvv >= 0 ? 'Under ' : 'Over ') + aed(Math.abs(cvv)), closedVarLine: 'Allocated ' + aed(closedA) + ', spent ' + aed(closedS), varBg: ct[0], varFg: ct[1],
+      leftYear: aed(FIN.budget - tSpent), leftLine: 'For the rest of Oct, Nov and Dec',
+      incomeIn: aed(incIn), incomeLine: 'of ' + aed(incExp) + ' expected so far · ' + aed(incExp - incIn) + ' outstanding'
+    };
+  }
+}
+</script>
+</body>
+</html>

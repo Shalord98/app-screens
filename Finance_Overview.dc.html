@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Budget overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#F5F3EE}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed}
+a{text-decoration:none}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #0F766E;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <nav aria-label="Main" style="flex:1 1 220px;max-width:100%;box-sizing:border-box;background:#14213D;color:#FFFFFF;padding:24px 14px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px">
+      <span style="width:36px;height:36px;border-radius:10px;background:#0F766E;display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h10l3 3v13H6z"></path><path d="M9 10h7M9 14h7M9 18h4"></path></svg>
+      </span>
+      <span style="font-size:17px;font-weight:800">Executive Log</span>
+    </div>
+    <span style="padding:0 12px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#8C97AA">FINANCE · 2026</span>
+    <div style="display:flex;flex-wrap:wrap;gap:4px">
+      <a href="Finance_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"></path><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"></path></svg>To-do today</a>
+      <a href="Finance_Overview.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;background:#0F766E;color:#FFFFFF;font-size:14px;font-weight:700">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Budget overview</a>
+      <a href="Finance_Budget.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 4v16"></path></svg>Budget plan</a>
+      <a href="Finance_Expenses.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg>Expenses</a>
+      <a href="Finance_Income.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v14M6 11l6 6 6-6"></path><path d="M4 21h16"></path></svg>Income</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;padding-top:12px;border-top:1px solid #2A3A5C">
+      <a href="Laptop_Today.dc.html" style="flex:1 1 170px;min-height:44px;box-sizing:border-box;border-radius:10px;padding:0 12px;display:flex;align-items:center;gap:10px;color:#C9D1DE;font-size:14px;font-weight:600">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Back to logs</a>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 8px 0;border-top:1px solid #2A3A5C">
+      <span style="width:36px;height:36px;border-radius:18px;background:#DDF1EE;color:#0B5C55;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">FN</span>
+      <div style="display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700">Fatima Noor</span><span style="font-size:12px;color:#C9D1DE">Finance</span></div>
+    </div>
+  </nav>
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">Year to date · 1 Jan – 20 Oct 2026</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Budget 2026</h1>
+      </div>
+      <a href="Finance_Budget.dc.html" style="height:44px;padding:0 16px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>Edit budget plan</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Annual budget</span><span style="font-size:24px;font-weight:800">{{budget}}</span><span style="font-size:12px;color:#5B6472">{{allocLine}}</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Spent so far</span><span style="font-size:24px;font-weight:800">{{spentYtd}}</span>
+        <div style="height:6px;border-radius:3px;background:#EEF0F3;overflow:hidden;margin:4px 0 2px"><span style="display:block;height:100%;width:{{spentPct}};background:#0F766E"></span></div>
+        <span style="font-size:12px;color:#5B6472">{{spentLine}}</span></div>
+      <div style="background:{{varBg}};border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:{{varFg}}">Variance, Jan–Sep</span><span style="font-size:24px;font-weight:800;color:{{varFg}}">{{closedVar}}</span><span style="font-size:12px;color:{{varFg}}">{{closedVarLine}}</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;font-weight:700;color:#5B6472">Left for the year</span><span style="font-size:24px;font-weight:800">{{leftYear}}</span><span style="font-size:12px;color:#5B6472">{{leftLine}}</span></div>
+      <a href="Finance_Income.dc.html" style="background:#DDF1EE;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column;gap:2px;color:#0B5C55">
+        <span style="font-size:13px;font-weight:700">Income received</span><span style="font-size:24px;font-weight:800">{{incomeIn}}</span><span style="font-size:12px">{{incomeLine}}</span></a>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="Monthly allocation and spend" style="flex:3 1 520px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px 18px 12px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+          <h2 style="margin:0;font-size:18px;font-weight:800">Allocated vs spent, by month</h2>
+          <div style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#5B6472">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#D9D5CB"></span>Allocated</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#0F766E"></span>Spent</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#C2410C"></span>Over budget</span>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <div style="min-width:600px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end">
+            <sc-for list="{{months}}" as="mo" hint-placeholder-count="12">
+              <button onClick="{{mo.pick}}" aria-pressed="{{mo.on}}" aria-label="{{mo.aria}}" style="border:none;border-radius:12px;background:{{mo.bg}};padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#14213D">
+                <span style="height:170px;display:flex;align-items:flex-end;gap:3px">
+                  <span style="width:12px;height:{{mo.allocH}};background:#D9D5CB;border-radius:4px 4px 0 0"></span>
+                  <span style="width:12px;height:{{mo.spentH}};background:{{mo.spentColor}};border-radius:4px 4px 0 0"></span>
+                </span>
+                <span style="font-size:12.5px;font-weight:800">{{mo.label}}</span>
+                <span style="font-size:11px;font-weight:700;color:{{mo.varFg}};white-space:nowrap">{{mo.varShort}}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <span style="font-size:12px;color:#5B6472">Figures under each month show the variance: + is under budget, − is over. October is in progress; November and December are planned only.</span>
+      </section>
+
+      <aside aria-label="Month detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <h2 style="margin:0;font-size:20px;font-weight:800">{{sel.title}}</h2>
+          <span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{sel.stBg}};color:{{sel.stFg}}">{{sel.status}}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">Allocated</span><b style="font-size:15px">{{sel.alloc}}</b></span>
+          <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:#5B6472">{{sel.spentLabel}}</span><b style="font-size:15px">{{sel.spent}}</b></span>
+          <span style="display:flex;flex-direction:column;background:{{sel.varBg}};border-radius:12px;padding:8px 10px"><span style="font-size:11.5px;font-weight:700;color:{{sel.varFg}}">Variance</span><b style="font-size:15px;color:{{sel.varFg}}">{{sel.variance}}</b></span>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+            <span style="flex:1">CATEGORY</span><span style="width:78px;text-align:right">ALLOCATED</span><span style="width:78px;text-align:right">SPENT</span><span style="width:96px;text-align:right">VARIANCE</span>
+          </div>
+          <sc-for list="{{sel.cats}}" as="c" hint-placeholder-count="7">
+            <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #EFEBE2;font-size:13px;font-variant-numeric:tabular-nums">
+              <span style="flex:1;min-width:0;font-weight:700">{{c.name}}</span>
+              <span style="width:78px;text-align:right">{{c.alloc}}</span>
+              <span style="width:78px;text-align:right">{{c.spent}}</span>
+              <span style="width:96px;display:flex;justify-content:flex-end"><span style="font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.varShort}}</span></span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{sel.isCurrent}}" hint-placeholder-val="{{true}}">
+          <a href="Finance_Expenses.dc.html" style="min-height:40px;display:flex;align-items:center;color:#0B5C55;font-weight:700;font-size:13px">See October expenses</a>
+        </sc-if>
+      </aside>
+    </div>
+
+    <section aria-label="Categories year to date" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px">
+        <h2 style="margin:0;font-size:18px;font-weight:800">Categories, Jan – Oct</h2>
+        <span style="font-size:12px;color:#5B6472">Compared with what was allocated up to October</span>
+      </div>
+      <div style="overflow-x:auto">
+        <div style="min-width:760px;display:flex;flex-direction:column">
+          <div style="display:flex;gap:12px;padding:8px 4px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+            <span style="flex:1.4">CATEGORY</span><span style="width:120px;text-align:right">YEAR ALLOCATION</span><span style="width:120px;text-align:right">ALLOCATED TO OCT</span><span style="width:110px;text-align:right">SPENT</span><span style="width:130px;text-align:right">VARIANCE</span><span style="flex:1">USED OF YEAR</span>
+          </div>
+          <sc-for list="{{catRows}}" as="c" hint-placeholder-count="7">
+            <div style="display:flex;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid #EFEBE2;font-size:13.5px;font-variant-numeric:tabular-nums">
+              <span style="flex:1.4;min-width:0;display:flex;align-items:center;gap:10px">
+                <span style="width:32px;height:32px;border-radius:9px;background:{{c.bg}};color:{{c.fg}};font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{c.ini}}</span>
+                <span style="font-weight:700">{{c.name}}</span>
+              </span>
+              <span style="width:120px;text-align:right">{{c.year}}</span>
+              <span style="width:120px;text-align:right">{{c.toDate}}</span>
+              <span style="width:110px;text-align:right;font-weight:700">{{c.spent}}</span>
+              <span style="width:130px;display:flex;justify-content:flex-end"><span style="font-size:12px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{c.varBg}};color:{{c.varFg}};white-space:nowrap">{{c.variance}}</span></span>
+              <span style="flex:1;display:flex;align-items:center;gap:8px">
+                <span style="flex:1;height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{c.usedBar}};background:{{c.barColor}}"></span></span>
+                <span style="width:40px;text-align:right;font-size:12px;font-weight:700;color:#5B6472">{{c.used}}</span>
+              </span>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px 4px 4px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">
+            <span style="flex:1.4">Total</span><span style="width:120px;text-align:right">{{total.year}}</span><span style="width:120px;text-align:right">{{total.toDate}}</span><span style="width:110px;text-align:right">{{total.spent}}</span>
+            <span style="width:130px;text-align:right;color:{{total.varFg}}">{{total.variance}}</span><span style="flex:1"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":1180}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { month: 9 };
+  }
+  renderVals() {
+    const FIN = {"year":2026,"budget":500000,"today":{"m":9,"d":20},"cats":[{"id":"staff","name":"Staff salaries","ini":"ST","alloc":[11400,11400,11400,11400,11400,11400,17400,11400,11400,11400,11400,11400],"spent":[11400,11400,11400,11400,11400,11400,17400,11400,11400]},{"id":"util","name":"Utilities","ini":"UT","alloc":[3600,3400,3500,3800,4600,5400,5900,6000,5200,4200,3700,3600],"spent":[3490,3470,3330,3950,4970,5990,6250,6540,5360]},{"id":"veh","name":"Vehicles","ini":"VH","alloc":[5800,5800,5800,5800,5800,5800,5800,5800,5800,5800,9800,5800],"spent":[5340,6090,5800,5100,6500,5630,6030,5510,6380]},{"id":"home","name":"Household","ini":"HH","alloc":[6000,6000,6000,6000,6000,6000,6000,6000,6000,6000,6000,8000],"spent":[6300,5400,6900,5880,6120,5640,5100,5400,6480]},{"id":"travel","name":"Travel","ini":"TR","alloc":[6000,4000,9000,5000,4000,12000,15000,8000,6000,9000,5000,14000],"spent":[4800,4400,11250,3000,3600,12600,17700,5600,7800]},{"id":"gov","name":"Visas & govt fees","ini":"GF","alloc":[1500,1500,1500,1500,1500,1500,1500,1500,1500,6500,1500,1500],"spent":[1800,900,1350,2100,1200,1500,1050,1650,1350]},{"id":"hosp","name":"Hospitality","ini":"HS","alloc":[2500,2500,4000,2500,2500,2500,1500,1500,2500,3000,3000,5000],"spent":[2250,2750,5200,2000,2500,1750,900,1800,2250]}],"txns":[{"id":"t19","m":9,"d":19,"desc":"Airport transfer – Riyadh return","cat":"travel","payee":"Careem","method":"Card ••4417","amount":180,"type":"One-off","receipt":false,"by":"Fatima Noor"},{"id":"t18","m":9,"d":18,"desc":"AC repair – master bedroom","cat":"home","payee":"CoolTech Services","method":"Bank transfer","amount":750,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t17","m":9,"d":17,"desc":"Petrol – Nissan Patrol","cat":"veh","payee":"ADNOC","method":"Fuel card","amount":380,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t16","m":9,"d":16,"desc":"Cleaning supplies","cat":"home","payee":"Spinneys","method":"Petty cash","amount":310,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t15","m":9,"d":14,"desc":"Groceries","cat":"home","payee":"Spinneys","method":"Card ••4417","amount":980,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t14","m":9,"d":14,"desc":"Etisalat – Mobiles","cat":"util","payee":"Etisalat","method":"Autopay","amount":650,"type":"Recurring","receipt":true,"by":"Fatima Noor"},{"id":"t13","m":9,"d":12,"desc":"Business dinner – Northgate","cat":"hosp","payee":"Zuma DIFC","method":"Card ••4417","amount":1500,"type":"One-off","receipt":false,"by":"Fatima Noor"},{"id":"t12","m":9,"d":11,"desc":"OSN+ subscription","cat":"util","payee":"OSN","method":"Autopay","amount":55,"type":"Recurring","receipt":true,"by":"Fatima Noor"},{"id":"t11","m":9,"d":10,"desc":"Pool maintenance","cat":"home","payee":"BlueWave Pools","method":"Petty cash","amount":450,"type":"Recurring","receipt":false,"by":"Maria Santos"},{"id":"t10","m":9,"d":9,"desc":"Salik top-up","cat":"veh","payee":"RTA Salik","method":"Card ••4417","amount":200,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t09","m":9,"d":8,"desc":"Flights DXB–RUH","cat":"travel","payee":"Emirates","method":"Card ••4417","amount":2950,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t08","m":9,"d":8,"desc":"Hotel – Riyadh trip","cat":"travel","payee":"Four Seasons Riyadh","method":"Card ••4417","amount":4600,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t07","m":9,"d":6,"desc":"Emirates ID renewal – Ravi Kumar","cat":"gov","payee":"ICP","method":"Card ••4417","amount":1870,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t06","m":9,"d":5,"desc":"Residence visa renewal – Ravi Kumar","cat":"gov","payee":"GDRFA Dubai","method":"Card ••4417","amount":3850,"type":"One-off","receipt":true,"by":"Fatima Noor"},{"id":"t05","m":9,"d":3,"desc":"Petrol – Land Cruiser","cat":"veh","payee":"ENOC","method":"Fuel card","amount":420,"type":"One-off","receipt":true,"by":"Ravi Kumar"},{"id":"t04","m":9,"d":2,"desc":"Groceries","cat":"home","payee":"Carrefour","method":"Card ••4417","amount":1245,"type":"One-off","receipt":true,"by":"Maria Santos"},{"id":"t03","m":9,"d":1,"desc":"Car lease – Nissan Patrol","cat":"veh","payee":"Al Futtaim Leasing","method":"Autopay","amount":3200,"type":"Recurring","receipt":true,"by":"Fatima Noor"}],"recurring":[{"id":"r1","name":"du – Internet and TV","cat":"util","freq":"Monthly","m":9,"d":18,"amount":399,"method":"Card ••4417","autopay":false,"note":"Account 0400••••88"},{"id":"r2","name":"Fuel card top-up","cat":"veh","freq":"Monthly","m":9,"d":20,"amount":800,"method":"Bank transfer","autopay":false,"note":"ADNOC fleet card"},{"id":"r3","name":"DEWA – Villa","cat":"util","freq":"Monthly","m":9,"d":22,"amount":1840,"method":"Bank transfer","autopay":false,"note":"Amount changes each month"},{"id":"r4","name":"Staff salaries (4 people)","cat":"staff","freq":"Monthly","m":9,"d":28,"amount":11400,"method":"Bank transfer (WPS)","autopay":false,"note":"Ravi, Maria, Joseph, Ahmed"},{"id":"r5","name":"Empower – Chiller","cat":"util","freq":"Monthly","m":9,"d":28,"amount":720,"method":"Bank transfer","autopay":false,"note":"Account EMP-••••-311"},{"id":"r6","name":"Car lease – Nissan Patrol","cat":"veh","freq":"Monthly","m":10,"d":1,"amount":3200,"method":"Autopay","autopay":true,"note":"Lease ends 31 Aug 2027"},{"id":"r7","name":"Pool maintenance","cat":"home","freq":"Monthly","m":10,"d":10,"amount":450,"method":"Petty cash","autopay":false,"note":"BlueWave Pools"},{"id":"r8","name":"OSN+ subscription","cat":"util","freq":"Monthly","m":10,"d":11,"amount":55,"method":"Autopay","autopay":true,"note":""},{"id":"r9","name":"Etisalat – Mobiles","cat":"util","freq":"Monthly","m":10,"d":14,"amount":650,"method":"Autopay","autopay":true,"note":"3 lines"},{"id":"r10","name":"Insurance and registration – Land Cruiser","cat":"veh","freq":"Yearly","m":10,"d":14,"amount":5600,"method":"Card ••4417","autopay":false,"note":"Dubai A 12345"}],"sources":[{"id":"allow","name":"Monthly allowance","from":"Holding company","ini":"MA"},{"id":"rent","name":"Rental income – Jumeirah apartment","from":"Tenant: Khalid Saeed","ini":"RI"},{"id":"div","name":"Dividends – Northgate fund","from":"Northgate Capital","ini":"DV"},{"id":"reimb","name":"Travel reimbursements","from":"Holding company","ini":"TR"}],"income":[{"id":"a0","src":"allow","m":0,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a1","src":"allow","m":1,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a2","src":"allow","m":2,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a3","src":"allow","m":3,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a4","src":"allow","m":4,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a5","src":"allow","m":5,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a6","src":"allow","m":6,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a7","src":"allow","m":7,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a8","src":"allow","m":8,"d":25,"expected":42000,"received":42000,"ref":"Bank transfer"},{"id":"a9","src":"allow","m":9,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"a10","src":"allow","m":10,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"a11","src":"allow","m":11,"d":25,"expected":42000,"received":null,"ref":"Bank transfer"},{"id":"rent0","src":"rent","m":0,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent3","src":"rent","m":3,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent6","src":"rent","m":6,"d":15,"expected":30000,"received":30000,"ref":"Cheque"},{"id":"rent9","src":"rent","m":9,"d":15,"expected":30000,"received":null,"ref":"Cheque"},{"id":"div2","src":"div","m":2,"d":30,"expected":18000,"received":18000,"ref":"Bank transfer"},{"id":"div5","src":"div","m":5,"d":30,"expected":18000,"received":17200,"ref":"Bank transfer"},{"id":"div8","src":"div","m":8,"d":30,"expected":18000,"received":16500,"ref":"Bank transfer"},{"id":"div11","src":"div","m":11,"d":30,"expected":18000,"received":null,"ref":"Bank transfer"},{"id":"rb0","src":"reimb","m":1,"d":10,"expected":3000,"received":3000,"ref":"Jan trip"},{"id":"rb1","src":"reimb","m":2,"d":10,"expected":6000,"received":4800,"ref":"London trip"},{"id":"rb2","src":"reimb","m":5,"d":10,"expected":5000,"received":5000,"ref":"Paris trip"},{"id":"rb3","src":"reimb","m":6,"d":10,"expected":8000,"received":6200,"ref":"Summer trips"},{"id":"rb4","src":"reimb","m":9,"d":15,"expected":4500,"received":null,"ref":"Riyadh – Sep claim"},{"id":"rb5","src":"reimb","m":10,"d":10,"expected":7600,"received":null,"ref":"Riyadh – Oct claim"}]};
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const aed = (n) => (n < 0 ? '−' : '') + 'AED ' + Math.abs(Math.round(n)).toLocaleString('en-US');
+    const num = (n) => Math.abs(Math.round(n)).toLocaleString('en-US');
+    const kfmt = (n) => (Math.abs(n) >= 1000 ? (Math.round(Math.abs(n) / 100) / 10).toLocaleString('en-US') + 'k' : String(Math.round(Math.abs(n))));
+    const sum = (a) => a.reduce((x, y) => x + (y || 0), 0);
+    const tone = { bad: ['#FDE7E1', '#9A3412'], warn: ['#FDF0DC', '#8A4B08'], soon: ['#E3EAF7', '#1E3A8A'], ok: ['#DDF1EE', '#0B5C55'], none: ['#EEF0F3', '#3D4654'] };
+    const daysTo = (m, d) => Math.round((new Date(FIN.year, m, d) - new Date(FIN.year, FIN.today.m, FIN.today.d)) / 86400000);
+    const dateText = (m, d) => d + ' ' + MON[m];
+    const catOf = (id) => FIN.cats.find((c) => c.id === id) || { name: 'Other', ini: '··' };
+    const catColor = { staff: ['#E8E4F5', '#3F2F8F'], util: ['#E3EAF7', '#1E3A8A'], veh: ['#FDF0DC', '#8A4B08'], home: ['#DDF1EE', '#0B5C55'], travel: ['#FDE7E1', '#9A3412'], gov: ['#EEF0F3', '#3D4654'], hosp: ['#F6E7F0', '#7A1F57'] };
+    const chipOf = (on) => ({ on, bg: on ? '#14213D' : '#FFFFFF', fg: on ? '#FFFFFF' : '#14213D', border: on ? '#14213D' : '#D9D5CB' });
+    // Spend per category for a month: Jan–Sep from history, Oct (current) from transactions.
+    const spentOf = (cat, m, txns) => (m < FIN.today.m ? cat.spent[m] : m === FIN.today.m ? sum((txns || FIN.txns).filter((t) => t.cat === cat.id && t.m === m).map((t) => t.amount)) : 0);
+    // Variance = allocated − spent: positive is under budget, negative is over.
+    const varText = (v) => (Math.round(v) === 0 ? 'On budget' : v > 0 ? 'Under ' + aed(v) : 'Over ' + aed(-v));
+    const varTone = (v) => (v < 0 ? tone.bad : tone.ok);
+    const st = this.state;
+    const now = FIN.today.m;
+    const monthAlloc = (m) => sum(FIN.cats.map((c) => c.alloc[m]));
+    const monthSpent = (m) => sum(FIN.cats.map((c) => spentOf(c, m)));
+    const maxV = Math.max(...MON.map((_, m) => Math.max(monthAlloc(m), monthSpent(m))));
+    const h = (v) => Math.round((v / maxV) * 160) + 'px';
+    const months = MON.map((label, m) => {
+      const a = monthAlloc(m), s = monthSpent(m), v = a - s, on = m === st.month;
+      const future = m > now;
+      return {
+        label, on, bg: on ? '#E6F2F0' : 'transparent',
+        allocH: h(a), spentH: future ? '0px' : h(s), spentColor: s > a ? '#C2410C' : '#0F766E',
+        varShort: future ? 'plan' : (v >= 0 ? '+' : '−') + kfmt(v) + (m === now ? '*' : ''),
+        varFg: future ? '#5B6472' : v < 0 ? '#9A3412' : '#0B5C55',
+        aria: MONTHS[m] + ': allocated ' + aed(a) + (future ? ', planned' : ', spent ' + aed(s) + ', ' + varText(v)),
+        pick: () => this.setState({ month: m })
+      };
+    });
+
+    const m = st.month;
+    const a = monthAlloc(m), s = monthSpent(m), v = a - s;
+    const future = m > now, current = m === now;
+    const status = future ? ['Planned', tone.none] : current ? ['In progress · 11 days left', tone.warn] : ['Closed', tone.ok];
+    const vt = future ? tone.none : varTone(v);
+    const sel = {
+      title: MONTHS[m] + ' ' + FIN.year, status: status[0], stBg: status[1][0], stFg: status[1][1], isCurrent: current,
+      alloc: aed(a), spent: future ? '—' : aed(s), spentLabel: current ? 'Spent to date' : 'Spent',
+      variance: future ? '—' : (v >= 0 ? '+' : '−') + num(v), varBg: vt[0], varFg: vt[1],
+      cats: FIN.cats.map((c) => {
+        const ca = c.alloc[m], cs = spentOf(c, m), cv = ca - cs, t = future ? tone.none : varTone(cv);
+        return { name: c.name, alloc: num(ca), spent: future ? '—' : num(cs), varShort: future ? 'Planned' : cv === 0 ? 'On budget' : (cv > 0 ? 'Under ' : 'Over ') + num(cv), varBg: t[0], varFg: t[1] };
+      })
+    };
+
+    const yearAlloc = sum(FIN.cats.map((c) => sum(c.alloc)));
+    const toDateM = [...Array(now + 1).keys()];
+    const catRows = FIN.cats.map((c) => {
+      const year = sum(c.alloc), toDate = sum(toDateM.map((i) => c.alloc[i])), spent = sum(toDateM.map((i) => spentOf(c, i)));
+      const cv = toDate - spent, t = varTone(cv), used = spent / year;
+      return { name: c.name, ini: c.ini, bg: catColor[c.id][0], fg: catColor[c.id][1], year: num(year), toDate: num(toDate), spent: num(spent),
+        variance: varText(cv).replace('AED ', ''), varBg: t[0], varFg: t[1], used: Math.round(used * 100) + '%', usedBar: Math.min(100, used * 100).toFixed(0) + '%',
+        barColor: spent > toDate ? '#C2410C' : '#0F766E', _toDate: toDate, _spent: spent };
+    });
+    const tToDate = sum(catRows.map((c) => c._toDate)), tSpent = sum(catRows.map((c) => c._spent));
+    const closed = [...Array(now).keys()];
+    const closedA = sum(closed.map(monthAlloc)), closedS = sum(closed.map(monthSpent)), cvv = closedA - closedS, ct = varTone(cvv);
+    const incDue = FIN.income.filter((i) => daysTo(i.m, i.d) <= 0);
+    const incExp = sum(incDue.map((i) => i.expected)), incIn = sum(incDue.map((i) => i.received || 0));
+    return {
+      months, sel, catRows,
+      total: { year: num(yearAlloc), toDate: num(tToDate), spent: num(tSpent), variance: varText(tToDate - tSpent).replace('AED ', ''), varFg: varTone(tToDate - tSpent)[1] },
+      budget: aed(FIN.budget), allocLine: 'Allocated ' + aed(yearAlloc) + ' · ' + aed(FIN.budget - yearAlloc) + ' not yet allocated',
+      spentYtd: aed(tSpent), spentPct: ((tSpent / FIN.budget) * 100).toFixed(1) + '%', spentLine: Math.round((tSpent / FIN.budget) * 100) + '% of the annual budget, 80% of the year gone',
+      closedVar: (cvv >= 0 ? 'Under ' : 'Over ') + aed(Math.abs(cvv)), closedVarLine: 'Allocated ' + aed(closedA) + ', spent ' + aed(closedS), varBg: ct[0], varFg: ct[1],
+      leftYear: aed(FIN.budget - tSpent), leftLine: 'For the rest of Oct, Nov and Dec',
+      incomeIn: aed(incIn), incomeLine: 'of ' + aed(incExp) + ' expected so far · ' + aed(incExp - incIn) + ' outstanding'
+    };
+  }
+}
+</script>
+</body>
+</html>

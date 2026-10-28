@@ -1,0 +1,183 @@
+<!--@HEAD Budget plan-->
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+<!--@NAV Finance_Budget.dc.html-->
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">How the 2026 budget is split by category and month</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Budget plan</h1>
+      </div>
+      <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px">
+        <sc-for list="{{modes}}" as="t" hint-placeholder-count="3">
+          <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:38px;padding:0 18px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13.5px">{{t.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#5B6472">Annual budget</span><span style="font-size:24px;font-weight:800">{{budget}}</span><span style="font-size:12px;color:#5B6472">Approved for 2026</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#5B6472">Allocated to categories</span><span style="font-size:24px;font-weight:800">{{allocated}}</span><span style="font-size:12px;color:#5B6472">{{allocatedPct}}</span></div>
+      <div style="background:{{unBg}};border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:{{unFg}}">{{unLabel}}</span><span style="font-size:24px;font-weight:800;color:{{unFg}}">{{unallocated}}</span><span style="font-size:12px;color:{{unFg}}">{{unLine}}</span></div>
+    </div>
+
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
+    <section aria-label="Budget grid" style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:14px 14px 10px;display:flex;flex-direction:column;gap:8px">
+      <span style="font-size:12.5px;color:#5B6472;padding:0 4px">{{hint}}</span>
+      <div style="overflow-x:auto">
+        <div style="min-width:940px;display:flex;flex-direction:column">
+          <div style="display:flex;gap:4px;padding:6px 4px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+            <span style="width:140px;flex:none">CATEGORY</span>
+            <sc-for list="{{heads}}" as="hd" hint-placeholder-count="12">
+              <span style="flex:1;min-width:0;text-align:right;padding-right:4px;color:{{hd.fg}}">{{hd.label}}</span>
+            </sc-for>
+            <span style="width:84px;flex:none;text-align:right">YEAR</span>
+          </div>
+          <sc-for list="{{grid}}" as="row" hint-placeholder-count="7">
+            <div style="display:flex;gap:4px;align-items:center;padding:4px;border-bottom:1px solid #EFEBE2">
+              <span style="width:140px;flex:none;display:flex;align-items:center;gap:8px">
+                <span style="width:28px;height:28px;border-radius:8px;background:{{row.bg}};color:{{row.fg}};font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none">{{row.ini}}</span>
+                <span style="font-size:12.5px;font-weight:700;line-height:1.2">{{row.name}}</span>
+              </span>
+              <sc-for list="{{row.cells}}" as="c" hint-placeholder-count="12">
+                <button onClick="{{c.pick}}" aria-label="{{c.aria}}" aria-pressed="{{c.on}}" style="flex:1;min-width:0;height:40px;border-radius:8px;border:{{c.border}};background:{{c.bg}};color:{{c.fg}};font-size:12px;font-weight:{{c.weight}};text-align:right;padding:0 4px;font-variant-numeric:tabular-nums;position:relative">{{c.text}}<sc-if value="{{c.edited}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="position:absolute;top:4px;left:5px;width:6px;height:6px;border-radius:3px;background:#D9902B"></span></sc-if></button>
+              </sc-for>
+              <span style="width:84px;flex:none;text-align:right;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;color:{{row.totalFg}}">{{row.total}}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:4px;align-items:center;padding:10px 4px 4px">
+            <span style="width:140px;flex:none;font-size:13px;font-weight:800">Total</span>
+            <sc-for list="{{totals}}" as="t" hint-placeholder-count="12">
+              <span style="flex:1;min-width:0;text-align:right;padding-right:4px;font-size:12px;font-weight:800;color:{{t.fg}};font-variant-numeric:tabular-nums">{{t.text}}</span>
+            </sc-for>
+            <span style="width:84px;flex:none;text-align:right;font-size:12.5px;font-weight:800;color:{{grandFg}};font-variant-numeric:tabular-nums">{{grand}}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+      <section aria-label="Edit allocation" style="background:#FFFFFF;border:2px solid #0F766E;border-radius:18px;padding:18px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end">
+        <div style="flex:1 1 240px;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">EDIT ALLOCATION</span>
+          <h2 style="margin:0;font-size:20px;font-weight:800">{{s.title}}</h2>
+          <span style="font-size:13px;color:#5B6472">{{s.line}}</span>
+        </div>
+        <sc-if value="{{s.locked}}" hint-placeholder-val="{{false}}">
+          <span style="flex:2 1 320px;font-size:13.5px;color:#5B6472;background:#F5F3EE;border-radius:12px;padding:12px 14px">{{s.lockText}}</span>
+        </sc-if>
+        <sc-if value="{{s.open}}" hint-placeholder-val="{{true}}">
+          <div style="flex:0 1 220px;display:flex;flex-direction:column;gap:6px">
+            <label for="allocInput" style="font-size:13px;font-weight:700">New allocation (AED)</label>
+            <input id="allocInput" inputmode="numeric" value="{{draft}}" onChange="{{typed}}" style="height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:16px;font-weight:700;background:#FFFFFF;color:#14213D;font-variant-numeric:tabular-nums">
+          </div>
+          <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#5B6472">
+            <span>{{s.effect}}</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onClick="{{save}}" disabled="{{saveDisabled}}" style="height:44px;padding:0 18px;border-radius:12px;border:none;background:{{saveBg}};color:#FFFFFF;font-weight:700;font-size:14px">Save allocation</button>
+              <button onClick="{{fill}}" disabled="{{saveDisabled}}" style="height:44px;padding:0 14px;border-radius:12px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px">{{fillLabel}}</button>
+              <button onClick="{{cancel}}" style="height:44px;padding:0 14px;border-radius:12px;border:none;background:transparent;color:#5B6472;font-weight:700;font-size:13px">Cancel</button>
+            </div>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'Allocated', edits: {}, sel: { c: 'travel', m: 10 }, draft: '5000', banner: '' };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state;
+    const now = FIN.today.m;
+    const allocOf = (c, m) => (st.edits[c.id + ':' + m] !== undefined ? st.edits[c.id + ':' + m] : c.alloc[m]);
+    const mode = st.mode;
+    const cellVal = (c, m) => (mode === 'Allocated' ? allocOf(c, m) : mode === 'Spent' ? (m > now ? null : spentOf(c, m)) : (m > now ? null : allocOf(c, m) - spentOf(c, m)));
+    const show = (v) => (v === null ? '—' : mode === 'Variance' ? (v === 0 ? '0' : (v > 0 ? '+' : '−') + num(v)) : num(v));
+    const colorOf = (v) => (mode !== 'Variance' || v === null || v === 0 ? '#14213D' : v > 0 ? '#0B5C55' : '#9A3412');
+
+    const grid = FIN.cats.map((c) => {
+      const cells = MON.map((label, m) => {
+        const v = cellVal(c, m), on = st.sel && st.sel.c === c.id && st.sel.m === m;
+        const edited = st.edits[c.id + ':' + m] !== undefined;
+        const tint = mode === 'Variance' && v !== null && v !== 0 ? (v > 0 ? '#EEF8F6' : '#FDF1EC') : m === now ? '#FBF6EC' : '#FFFFFF';
+        return {
+          text: show(v), on, edited, fg: colorOf(v), weight: on ? 800 : 600,
+          bg: on ? '#E6F2F0' : tint, border: on ? '2px solid #0F766E' : '1px solid transparent',
+          aria: c.name + ', ' + MONTHS[m] + ': ' + mode.toLowerCase() + ' ' + show(v),
+          pick: () => this.setState({ sel: { c: c.id, m }, draft: String(allocOf(c, m)) })
+        };
+      });
+      const vals = MON.map((_, m) => cellVal(c, m));
+      const tot = sum(vals.map((v) => v || 0));
+      return { name: c.name, ini: c.ini, bg: catColor[c.id][0], fg: catColor[c.id][1], cells, total: show(tot), totalFg: colorOf(tot) };
+    });
+    const totals = MON.map((_, m) => {
+      const vals = FIN.cats.map((c) => cellVal(c, m));
+      const v = vals[0] === null ? null : sum(vals);
+      return { text: show(v), fg: colorOf(v) };
+    });
+    const grandV = sum(FIN.cats.map((c) => sum(MON.map((_, m) => cellVal(c, m) || 0))));
+    const heads = MON.map((label, m) => ({ label: label.toUpperCase() + (m === now ? ' •' : ''), fg: m === now ? '#8A4B08' : '#5B6472' }));
+
+    const allocated = sum(FIN.cats.map((c) => sum(MON.map((_, m) => allocOf(c, m)))));
+    const un = FIN.budget - allocated;
+    const modes = ['Allocated', 'Spent', 'Variance'].map((k) => ({ label: k, on: mode === k, bg: mode === k ? '#FFFFFF' : 'transparent', weight: mode === k ? 800 : 600, pick: () => this.setState({ mode: k }) }));
+
+    const cat = st.sel && FIN.cats.find((c) => c.id === st.sel.c);
+    let s = null, saveOk = false, draftN = 0;
+    if (cat) {
+      const m = st.sel.m, cur = allocOf(cat, m);
+      draftN = Math.round(Number(String(st.draft).replace(/[^0-9.]/g, '')));
+      saveOk = String(st.draft).trim() !== '' && !isNaN(draftN) && draftN !== cur;
+      const diff = draftN - cur;
+      s = {
+        title: cat.name + ' · ' + MONTHS[m] + ' ' + FIN.year,
+        line: 'Currently ' + aed(cur) + (m <= now ? ' · spent ' + aed(spentOf(cat, m)) + (m === now ? ' so far' : '') : ''),
+        locked: m < now, open: m >= now,
+        lockText: MONTHS[m] + ' is closed, so its allocation is locked. Change October or later months instead.',
+        effect: saveOk ? (diff > 0 ? 'Adds ' : 'Frees ') + aed(Math.abs(diff)) + '. Not yet allocated would be ' + aed(un - diff) + '.' : 'Type a new amount for this month.'
+      };
+    }
+    const remaining = cat ? MON.map((_, i) => i).filter((i) => i >= Math.max(st.sel.m, now)) : [];
+    return {
+      modes, grid, totals, heads, grand: show(grandV), grandFg: colorOf(grandV),
+      hint: mode === 'Allocated' ? 'Click a month to change its allocation. Closed months (Jan–Sep) are locked; a dot marks changes made here.'
+        : mode === 'Spent' ? 'What was actually spent. October shows spending so far.'
+        : 'Allocated minus spent: green + is under budget, red − is over.',
+      budget: aed(FIN.budget), allocated: aed(allocated), allocatedPct: Math.round((allocated / FIN.budget) * 1000) / 10 + '% of the annual budget',
+      unLabel: un < 0 ? 'Over-allocated' : 'Not yet allocated', unallocated: aed(Math.abs(un)),
+      unLine: un < 0 ? 'Reduce allocations or raise the budget' : 'Available to allocate', unBg: un < 0 ? '#FDE7E1' : '#DDF1EE', unFg: un < 0 ? '#9A3412' : '#0B5C55',
+      hasSel: !!s, s, draft: st.draft, typed: (e) => this.setState({ draft: e.target.value }),
+      saveDisabled: !saveOk, saveBg: saveOk ? '#0F766E' : '#9FB8B5',
+      fillLabel: cat ? 'Use for ' + MON[remaining[0]] + '–Dec' : '',
+      save: () => {
+        if (!saveOk) return;
+        this.setState({ edits: { ...st.edits, [cat.id + ':' + st.sel.m]: draftN }, banner: cat.name + ' · ' + MONTHS[st.sel.m] + ' is now ' + aed(draftN) + '.' });
+      },
+      fill: () => {
+        if (!saveOk) return;
+        const e = { ...st.edits };
+        remaining.forEach((i) => { e[cat.id + ':' + i] = draftN; });
+        this.setState({ edits: e, banner: cat.name + ' is now ' + aed(draftN) + ' a month from ' + MONTHS[remaining[0]] + ' to December.' });
+      },
+      cancel: () => this.setState({ sel: null }),
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -181,7 +181,7 @@
     const css = document.createElement('style');
     css.textContent =
       'body.dc-phone{background:#E7E3DA!important;display:flex;justify-content:center;padding:24px 16px 80px}' +
-      '.dc-home{position:fixed;left:max(16px, env(safe-area-inset-left, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:50;' +
+      '.dc-home{position:fixed;right:max(16px, env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:50;' +
       'background:#14213D;color:#FFFFFF;font:700 13px "Plus Jakarta Sans",system-ui,sans-serif;padding:10px 14px;border-radius:20px;' +
       'text-decoration:none;box-shadow:0 6px 18px rgba(20,33,61,0.3);border:none;cursor:pointer}' +
       '.dc-home:focus-visible{outline:3px solid #0F766E;outline-offset:2px}';

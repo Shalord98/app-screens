@@ -1,6 +1,6 @@
 # App Screens
 
-A clickable prototype of the Executive Log app: 41 screens across four views (Admin phone, Individual phone, Laptop Admin, Laptop Individual), with sample data.
+A clickable prototype of the Executive Log app: 46 screens across five views (Admin phone, Individual phone, Laptop Admin, Laptop Individual, Laptop Finance), with sample data.
 
 **Live preview:** open `index.html` (on GitHub Pages: `https://shalord98.github.io/app-screens/`).
 
@@ -23,3 +23,13 @@ Screens are loaded with `fetch`, so serve the folder rather than opening the fil
 python3 -m http.server 8000
 # then open http://localhost:8000/
 ```
+
+## Finance screens
+
+The five `Finance_*.dc.html` screens (to-do, budget overview, budget plan, expenses, income) share one set of sample data, so their figures agree. They are generated from the templates in `tools/finance/`:
+
+```sh
+node tools/finance/build.js .
+```
+
+Edit a `*.tpl.html` template or the sample data in `build.js`, then rerun the command to regenerate the screens.

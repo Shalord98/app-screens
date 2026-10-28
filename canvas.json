@@ -25,6 +25,10 @@
     {
       "id": "laptop_user",
       "name": "Laptop · Individual"
+    },
+    {
+      "id": "finance",
+      "name": "Laptop · Finance"
     }
   ],
   "boards": {
@@ -435,8 +439,58 @@
       "h": 900,
       "page": "laptop",
       "is_interactive": true,
-      "title": "Laptop · 9 Bills",
+      "title": "Laptop · 9 Bills (now in Finance)",
       "expand": "fill"
+    },
+    "Finance_Today.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Finance · 1 To-do today"
+    },
+    "Finance_Overview.dc.html": {
+      "x": 1446,
+      "y": 0,
+      "w": 1366,
+      "h": 1180,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Finance · 2 Budget overview"
+    },
+    "Finance_Budget.dc.html": {
+      "x": 2892,
+      "y": 0,
+      "w": 1366,
+      "h": 900,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Finance · 3 Budget plan"
+    },
+    "Finance_Expenses.dc.html": {
+      "x": 4338,
+      "y": 0,
+      "w": 1366,
+      "h": 1000,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Finance · 4 Expenses + recurring"
+    },
+    "Finance_Income.dc.html": {
+      "x": 5784,
+      "y": 0,
+      "w": 1366,
+      "h": 1100,
+      "page": "finance",
+      "expand": "fill",
+      "is_interactive": true,
+      "title": "Finance · 5 Income"
     }
   },
   "order": [
@@ -480,7 +534,12 @@
     "Admin_Bills.dc.html",
     "Laptop_Staff.dc.html",
     "Laptop_Vehicles.dc.html",
-    "Laptop_Bills.dc.html"
+    "Laptop_Bills.dc.html",
+    "Finance_Today.dc.html",
+    "Finance_Overview.dc.html",
+    "Finance_Budget.dc.html",
+    "Finance_Expenses.dc.html",
+    "Finance_Income.dc.html"
   ],
   "notes": {
     "ta": {
@@ -514,6 +573,14 @@
       "x": 0,
       "y": -260,
       "page": "laptop_user"
+    },
+    "tf": {
+      "kind": "title1",
+      "maxW": 7150,
+      "text": "Finance (laptop): yearly budget, expenses, income and the daily to-do",
+      "x": 0,
+      "y": -260,
+      "page": "finance"
     }
   },
   "designSystems": []

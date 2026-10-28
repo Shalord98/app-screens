@@ -1,0 +1,205 @@
+<!--@HEAD Income-->
+<div style="min-height:900px;background:#F5F3EE;color:#14213D;display:flex;flex-wrap:wrap;align-items:stretch;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
+
+<!--@NAV Finance_Income.dc.html-->
+
+  <main style="flex:999 1 560px;min-width:0;box-sizing:border-box;padding:28px 32px 32px;display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:13px;color:#5B6472;font-weight:500">What we expect to get, and what actually came in</span>
+        <h1 style="margin:0;font-size:30px;font-weight:800;letter-spacing:-0.5px">Income 2026</h1>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#5B6472">Expected so far</span><span style="font-size:24px;font-weight:800">{{expSoFar}}</span><span style="font-size:12px;color:#5B6472">Due up to today</span></div>
+      <div style="background:#DDF1EE;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#0B5C55">Received</span><span style="font-size:24px;font-weight:800;color:#0B5C55">{{recSoFar}}</span><span style="font-size:12px;color:#0B5C55">{{recPct}}</span></div>
+      <div style="background:#FDE7E1;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#9A3412">Outstanding</span><span style="font-size:24px;font-weight:800;color:#9A3412">{{outstanding}}</span><span style="font-size:12px;color:#9A3412">{{outLine}}</span></div>
+      <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:12px 18px;display:flex;flex-direction:column"><span style="font-size:13px;font-weight:700;color:#5B6472">Still expected this year</span><span style="font-size:24px;font-weight:800">{{restYear}}</span><span style="font-size:12px;color:#5B6472">Due after today</span></div>
+    </div>
+
+    <sc-if value="{{hasBanner}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="background:#14213D;color:#FFFFFF;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;font-weight:600">
+        <span>{{banner}}</span>
+        <button onClick="{{closeBanner}}" aria-label="Dismiss" style="height:32px;width:32px;border-radius:8px;border:none;background:#2A3A5C;color:#FFFFFF;font-size:16px">×</button>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:stretch">
+      <section aria-label="Expected and received by month" style="flex:3 1 480px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+          <h2 style="margin:0;font-size:18px;font-weight:800">Expected vs received, by month</h2>
+          <div style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#5B6472">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#D9D5CB"></span>Expected</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#2563EB"></span>Received</span>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <div style="min-width:560px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end">
+            <sc-for list="{{months}}" as="mo" hint-placeholder-count="12">
+              <div role="img" aria-label="{{mo.aria}}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0">
+                <span style="height:150px;display:flex;align-items:flex-end;gap:3px">
+                  <span style="width:12px;height:{{mo.expH}};background:#D9D5CB;border-radius:4px 4px 0 0"></span>
+                  <span style="width:12px;height:{{mo.recH}};background:#2563EB;border-radius:4px 4px 0 0"></span>
+                </span>
+                <span style="font-size:12.5px;font-weight:800">{{mo.label}}</span>
+                <span style="font-size:11px;font-weight:700;color:{{mo.fg}};white-space:nowrap">{{mo.gap}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <section aria-label="By source" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px">
+        <h2 style="margin:0 0 4px;font-size:18px;font-weight:800">By source, so far</h2>
+        <sc-for list="{{bySource}}" as="s" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:5px;padding:8px 0;border-bottom:1px solid #EFEBE2">
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
+              <span style="font-size:13.5px;font-weight:700">{{s.name}}</span>
+              <span style="font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{s.bg}};color:{{s.fg}};white-space:nowrap">{{s.gap}}</span>
+            </div>
+            <div style="height:8px;border-radius:4px;background:#EEF0F3;overflow:hidden"><span style="display:block;height:100%;width:{{s.bar}};background:#2563EB"></span></div>
+            <span style="font-size:12px;color:#5B6472">{{s.line}}</span>
+          </div>
+        </sc-for>
+      </section>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+      <section aria-label="Receipts" style="flex:3 1 520px;min-width:0;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px;align-self:flex-start">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+            <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="height:38px;padding:0 18px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13.5px">{{t.label}}</button>
+          </sc-for>
+        </div>
+        <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
+          <div style="min-width:640px;display:flex;flex-direction:column">
+            <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
+              <span style="width:60px;flex:none">DUE</span><span style="flex:2;min-width:0">SOURCE</span><span style="width:100px;flex:none;text-align:right">EXPECTED</span><span style="width:100px;flex:none;text-align:right">RECEIVED</span><span style="width:120px;flex:none;text-align:right">STATUS</span>
+            </div>
+            <sc-for list="{{list}}" as="r" hint-placeholder-count="6">
+              <button onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{r.rowBg}};box-shadow:{{r.mark}};padding:10px 16px;display:flex;align-items:center;gap:12px;color:#14213D">
+                <span style="width:60px;flex:none;font-size:13px;font-weight:700;color:#5B6472">{{r.due}}</span>
+                <span style="flex:2;min-width:0;display:flex;flex-direction:column"><span style="font-size:14px;font-weight:700">{{r.name}}</span><span style="font-size:12px;color:#5B6472">{{r.sub}}</span></span>
+                <span style="width:100px;flex:none;text-align:right;font-size:13.5px;font-variant-numeric:tabular-nums">{{r.expText}}</span>
+                <span style="width:100px;flex:none;text-align:right;font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums">{{r.recText}}</span>
+                <span style="width:120px;flex:none;display:flex;justify-content:flex-end"><span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{r.stBg}};color:{{r.stFg}};white-space:nowrap">{{r.status}}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+        <aside aria-label="Receipt detail" style="flex:2 1 340px;min-width:0;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:18px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:#0B5C55">{{s.ref}}</span>
+            <span style="font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:{{s.stBg}};color:{{s.stFg}}">{{s.status}}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <h2 style="margin:0;font-size:21px;font-weight:800;line-height:1.25">{{s.name}}</h2>
+            <span style="font-size:13px;color:#5B6472">{{s.from}} · due {{s.dueFull}}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <span style="display:flex;flex-direction:column;background:#F5F3EE;border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:#5B6472">Expected</span><b style="font-size:18px">{{s.expText}}</b></span>
+            <span style="display:flex;flex-direction:column;background:{{s.gapBg}};border-radius:12px;padding:10px 12px"><span style="font-size:12px;font-weight:700;color:{{s.gapFg}}">Received</span><b style="font-size:18px;color:{{s.gapFg}}">{{s.recText}}</b></span>
+          </div>
+          <sc-if value="{{s.hasGap}}" hint-placeholder-val="{{false}}">
+            <span style="font-size:13px;font-weight:700;color:{{s.gapFg}}">{{s.gapLine}}</span>
+          </sc-if>
+          <sc-if value="{{s.pending}}" hint-placeholder-val="{{true}}">
+            <div style="border-top:1px solid #EFEBE2;padding-top:14px;display:flex;flex-direction:column;gap:8px">
+              <label for="rcvAmt" style="font-size:13px;font-weight:700">Amount received (AED)</label>
+              <input id="rcvAmt" inputmode="decimal" value="{{draft}}" onChange="{{typed}}" style="height:46px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:16px;font-weight:700;background:#FFFFFF;color:#14213D">
+              <span style="font-size:12.5px;color:#5B6472">{{draftNote}}</span>
+              <button onClick="{{record}}" disabled="{{recordDisabled}}" style="height:46px;border-radius:12px;border:none;background:{{recordBg}};color:#FFFFFF;font-weight:700;font-size:14px">Record as received today</button>
+            </div>
+          </sc-if>
+        </aside>
+      </sc-if>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1366,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'To collect', sel: 'rent9', got: {}, draft: '30000', banner: '' };
+  }
+  renderVals() {
+    /*@SHARED*/
+    const st = this.state;
+    const items = FIN.income.map((i) => (st.got[i.id] !== undefined ? { ...i, received: st.got[i.id], recvToday: true } : i));
+    const src = (i) => FIN.sources.find((x) => x.id === i.src);
+    const due = items.filter((i) => daysTo(i.m, i.d) <= 0);
+    const expSoFar = sum(due.map((i) => i.expected)), recSoFar = sum(items.filter((i) => i.received !== null).map((i) => i.received));
+    const recDue = sum(due.map((i) => i.received || 0));
+    const later = items.filter((i) => daysTo(i.m, i.d) > 0 && i.received === null);
+
+    const mExp = (m) => sum(items.filter((i) => i.m === m).map((i) => i.expected));
+    const mRec = (m) => sum(items.filter((i) => i.m === m).map((i) => i.received || 0));
+    const maxV = Math.max(...MON.map((_, m) => Math.max(mExp(m), mRec(m))));
+    const h = (v) => Math.round((v / maxV) * 140) + 'px';
+    const months = MON.map((label, m) => {
+      // Gap counts only what was already due, so a month in progress is not shown short for later payments.
+      const e = mExp(m), r = mRec(m), dueNow = items.filter((i) => i.m === m && daysTo(i.m, i.d) <= 0);
+      const g = sum(dueNow.map((i) => i.received || 0)) - sum(dueNow.map((i) => i.expected));
+      const future = m > FIN.today.m;
+      return { label, expH: h(e), recH: h(r), gap: future ? 'due' : g === 0 ? (e ? 'in full' : '–') : (g > 0 ? '+' : '−') + kfmt(g),
+        fg: future || (g === 0 && !e) ? '#5B6472' : g < 0 ? '#9A3412' : '#0B5C55', aria: MONTHS[m] + ': expected ' + aed(e) + ', received ' + aed(r) };
+    });
+
+    const bySource = FIN.sources.map((s) => {
+      const its = due.filter((i) => i.src === s.id);
+      const e = sum(its.map((i) => i.expected)), r = sum(its.map((i) => i.received || 0)), g = r - e;
+      const t = g < 0 ? tone.bad : tone.ok;
+      return { name: s.name, bar: e ? Math.min(100, (r / e) * 100).toFixed(0) + '%' : '0%', line: aed(r) + ' received of ' + aed(e) + ' expected',
+        gap: g === 0 ? 'In full' : g < 0 ? 'Short ' + aed(-g) : 'Extra ' + aed(g), bg: t[0], fg: t[1] };
+    });
+
+    const statusOf = (i) => {
+      const n = daysTo(i.m, i.d);
+      if (i.received !== null) {
+        const g = i.received - i.expected;
+        return g === 0 ? ['Received in full', tone.ok] : g < 0 ? ['Short ' + num(-g), tone.warn] : ['Extra ' + num(g), tone.ok];
+      }
+      return n < 0 ? ['Overdue ' + (-n) + 'd', tone.bad] : n === 0 ? ['Due today', tone.warn] : n <= 7 ? ['Due in ' + n + 'd', tone.warn] : ['Due in ' + n + 'd', tone.none];
+    };
+    const pend = items.filter((i) => i.received === null).sort((a, b) => daysTo(a.m, a.d) - daysTo(b.m, b.d));
+    const done = items.filter((i) => i.received !== null).sort((a, b) => (b.recvToday ? 1 : 0) - (a.recvToday ? 1 : 0) || daysTo(b.m, b.d) - daysTo(a.m, a.d));
+    const tabs = [['To collect', pend.length], ['Received', done.length]].map(([k, n]) => ({ label: k + ' · ' + n, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    const list = (st.tab === 'To collect' ? pend : done).map((i) => {
+      const on = i.id === st.sel, s = statusOf(i);
+      return { id: i.id, on, name: src(i).name, sub: src(i).from + ' · ' + i.ref, due: dateText(i.m, i.d), expText: num(i.expected), recText: i.received === null ? '—' : num(i.received),
+        status: s[0], stBg: s[1][0], stFg: s[1][1], rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none',
+        pick: () => this.setState({ sel: i.id, draft: String(i.expected) }) };
+    });
+
+    const it = items.find((i) => i.id === st.sel);
+    let s = null, ok = false, val = 0;
+    if (it) {
+      const so = statusOf(it), g = it.received === null ? 0 : it.received - it.expected, gt = g < 0 ? tone.warn : tone.ok;
+      s = { name: src(it).name, from: src(it).from, ref: it.ref.toUpperCase(), dueFull: it.d + ' ' + MONTHS[it.m] + ' ' + FIN.year, status: so[0], stBg: so[1][0], stFg: so[1][1],
+        expText: aed(it.expected), recText: it.received === null ? 'Not yet' : aed(it.received), pending: it.received === null,
+        gapBg: it.received === null ? '#F5F3EE' : gt[0], gapFg: it.received === null ? '#5B6472' : gt[1],
+        hasGap: it.received !== null && g !== 0, gapLine: g < 0 ? 'Short by ' + aed(-g) + '. Follow up with ' + src(it).from.replace('Tenant: ', '') + '.' : 'Received ' + aed(g) + ' more than expected.' };
+      val = Number(String(st.draft).replace(/[^0-9.]/g, ''));
+      ok = String(st.draft).trim() !== '' && val > 0;
+    }
+    return {
+      months, bySource, tabs, list, hasSel: !!s, s,
+      expSoFar: aed(expSoFar), recSoFar: aed(recSoFar), recPct: Math.round((recDue / expSoFar) * 100) + '% of what was due so far',
+      outstanding: aed(expSoFar - recDue), outLine: due.filter((i) => i.received === null).length + ' payments not received, plus short payments',
+      restYear: aed(sum(later.map((i) => i.expected))),
+      draft: st.draft, typed: (e) => this.setState({ draft: e.target.value }),
+      draftNote: it && ok && val !== it.expected ? (val < it.expected ? 'Partial payment: ' + aed(it.expected - val) + ' will show as short.' : aed(val - it.expected) + ' more than expected.') : 'Change the amount if a different amount came in.',
+      recordDisabled: !ok, recordBg: ok ? '#0F766E' : '#9FB8B5',
+      record: () => { if (!ok) return; this.setState({ got: { ...st.got, [it.id]: val }, banner: 'Recorded ' + aed(val) + ' from ' + src(it).name + '.', tab: 'Received' }); },
+      hasBanner: !!st.banner, banner: st.banner, closeBanner: () => this.setState({ banner: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>
