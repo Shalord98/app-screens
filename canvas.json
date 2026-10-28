@@ -504,17 +504,7 @@
       "radius": 28,
       "page": "finance_phone",
       "is_interactive": true,
-      "title": "Finance phone · 1 To-do today"
-    },
-    "FinPhone_Budget.dc.html": {
-      "x": 470,
-      "y": 0,
-      "w": 390,
-      "h": 844,
-      "radius": 28,
-      "page": "finance_phone",
-      "is_interactive": true,
-      "title": "Finance phone · 2 Budget"
+      "title": "Finance phone · 1 Home"
     },
     "FinPhone_Transactions.dc.html": {
       "x": 940,
@@ -524,27 +514,17 @@
       "radius": 28,
       "page": "finance_phone",
       "is_interactive": true,
-      "title": "Finance phone · 3 Spending + filters"
+      "title": "Finance phone · 3 Recent"
     },
     "FinPhone_AddExpense.dc.html": {
-      "x": 1410,
+      "x": 470,
       "y": 0,
       "w": 390,
       "h": 844,
       "radius": 28,
       "page": "finance_phone",
       "is_interactive": true,
-      "title": "Finance phone · 4 Add expense"
-    },
-    "FinPhone_Income.dc.html": {
-      "x": 1880,
-      "y": 0,
-      "w": 390,
-      "h": 844,
-      "radius": 28,
-      "page": "finance_phone",
-      "is_interactive": true,
-      "title": "Finance phone · 5 Income"
+      "title": "Finance phone · 2 Add expense"
     }
   },
   "order": [
@@ -595,10 +575,8 @@
     "Finance_Expenses.dc.html",
     "Finance_Income.dc.html",
     "FinPhone_Today.dc.html",
-    "FinPhone_Budget.dc.html",
     "FinPhone_Transactions.dc.html",
-    "FinPhone_AddExpense.dc.html",
-    "FinPhone_Income.dc.html"
+    "FinPhone_AddExpense.dc.html"
   ],
   "notes": {
     "ta": {
@@ -643,8 +621,8 @@
     },
     "tfp": {
       "kind": "title1",
-      "maxW": 2270,
-      "text": "Finance on the phone",
+      "maxW": 1330,
+      "text": "Finance on the phone: quick look and add",
       "x": 0,
       "y": -260,
       "page": "finance_phone"

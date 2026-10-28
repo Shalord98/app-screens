@@ -39,35 +39,45 @@
             <div style="position:relative;flex:0 1 260px">
               <label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search expenses</label>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B6472" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:12px;top:11px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-              <input id="q" value="{{q}}" onChange="{{search}}" placeholder="Search payee or description" style="width:100%;height:40px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 12px 0 38px;font-size:13.5px;background:#FFFFFF;color:#14213D">
+              <input id="q" value="{{q}}" onChange="{{search}}" placeholder="Search payee, person or item" style="width:100%;height:40px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 12px 0 38px;font-size:13.5px;background:#FFFFFF;color:#14213D">
             </div>
           </sc-if>
         </div>
 
         <sc-if value="{{isTxns}}" hint-placeholder-val="{{true}}">
-          <div style="display:flex;flex-wrap:wrap;gap:6px">
-            <sc-for list="{{catChips}}" as="f" hint-placeholder-count="8">
-              <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12.5px">{{f.label}}</button>
+          <div style="background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:7px">
+            <sc-for list="{{filterRows}}" as="fr" hint-placeholder-count="5">
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <span style="width:120px;flex:none;padding-top:8px;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">{{fr.title}}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;min-width:0">
+                  <sc-for list="{{fr.opts}}" as="f" hint-placeholder-count="6">
+                    <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:30px;padding:0 11px;border-radius:15px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12px">{{f.label}}</button>
+                  </sc-for>
+                </div>
+              </div>
             </sc-for>
-            <span style="width:1px;background:#D9D5CB;margin:0 4px"></span>
-            <sc-for list="{{typeChips}}" as="f" hint-placeholder-count="3">
-              <button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height:32px;padding:0 12px;border-radius:16px;border:1px solid {{f.border}};background:{{f.bg}};color:{{f.fg}};font-weight:600;font-size:12.5px">{{f.label}}</button>
-            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;background:#14213D;color:#FFFFFF;border-radius:14px;padding:10px 16px">
+            <span style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:600;color:#C9D1DE">{{resultTitle}}</span><span style="font-size:20px;font-weight:800;font-variant-numeric:tabular-nums">{{listTotal}}</span></span>
+            <span style="font-size:13px;font-weight:600;color:#C9D1DE">{{resultLine}}</span>
+            <sc-if value="{{hasFilters}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{clearFilters}}" style="height:34px;padding:0 12px;border-radius:10px;border:1px solid #2A3A5C;background:#1E2E50;color:#FFFFFF;font-weight:700;font-size:12.5px">Clear filters</button>
+            </sc-if>
           </div>
           <div style="overflow-x:auto;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:16px">
             <div style="min-width:600px;display:flex;flex-direction:column">
               <div style="display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid #E6E2D8;font-size:11px;font-weight:700;letter-spacing:0.6px;color:#5B6472">
-                <span style="width:46px;flex:none">DATE</span><span style="flex:2;min-width:0">EXPENSE</span><span style="width:118px;flex:none">CATEGORY</span><span style="width:92px;flex:none">PAID WITH</span><span style="width:76px;flex:none;text-align:right">AMOUNT</span><span style="width:64px;flex:none;text-align:right">RECEIPT</span>
+                <span style="width:52px;flex:none">DATE</span><span style="flex:2;min-width:0">EXPENSE</span><span style="width:118px;flex:none">CATEGORY</span><span style="width:110px;flex:none">FOR</span><span style="width:76px;flex:none;text-align:right">AMOUNT</span><span style="width:64px;flex:none;text-align:right">RECEIPT</span>
               </div>
               <sc-for list="{{list}}" as="t" hint-placeholder-count="8">
                 <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="width:100%;text-align:left;border:none;border-bottom:1px solid #EFEBE2;background:{{t.rowBg}};box-shadow:{{t.mark}};padding:10px 16px;display:flex;align-items:center;gap:12px;color:#14213D">
-                  <span style="width:46px;flex:none;font-size:12.5px;font-weight:700;color:#5B6472">{{t.date}}</span>
+                  <span style="width:52px;flex:none;font-size:12.5px;font-weight:700;color:#5B6472">{{t.date}}</span>
                   <span style="flex:2;min-width:0;display:flex;flex-direction:column;gap:2px">
                     <span style="font-size:14px;font-weight:700">{{t.desc}}</span>
                     <span style="font-size:12px;color:#5B6472;display:flex;gap:6px;align-items:center">{{t.payee}}<sc-if value="{{t.isRecurring}}" hint-placeholder-val="{{false}}"><span style="font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:8px;background:#E8E4F5;color:#3F2F8F">Recurring</span></sc-if></span>
                   </span>
                   <span style="width:118px;flex:none"><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:9px;background:{{t.catBg}};color:{{t.catFg}}">{{t.catName}}</span></span>
-                  <span style="width:92px;flex:none;font-size:12px;color:#3D4654">{{t.method}}</span>
+                  <span style="width:110px;flex:none;font-size:12px;color:#3D4654">{{t.forText}}</span>
                   <span style="width:76px;flex:none;text-align:right;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">{{t.amountText}}</span>
                   <span style="width:64px;flex:none;display:flex;justify-content:flex-end">
                     <span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:9px;background:{{t.rcBg}};color:{{t.rcFg}}">{{t.rcText}}</span>
@@ -76,6 +86,9 @@
               </sc-for>
               <sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
                 <div style="padding:24px;text-align:center;font-size:14px;color:#5B6472">No expenses match these filters.</div>
+              </sc-if>
+              <sc-if value="{{hasMore}}" hint-placeholder-val="{{false}}">
+                <button onClick="{{showMore}}" style="margin:10px 16px 0;height:40px;border-radius:10px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:13px">{{moreLabel}}</button>
               </sc-if>
               <div style="display:flex;justify-content:space-between;padding:12px 16px;font-size:13px;font-weight:800">
                 <span>{{listCount}}</span><span style="font-variant-numeric:tabular-nums">{{listTotal}}</span>
@@ -141,6 +154,16 @@
               </sc-for>
             </div>
           </div>
+          <sc-for list="{{f.extra}}" as="g" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:13px;font-weight:700">{{g.title}} <span style="font-weight:500;color:#5B6472">(optional)</span></span>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{g.opts}}" as="c" hint-placeholder-count="5">
+                  <button onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="height:34px;padding:0 12px;border-radius:17px;border:1px solid {{c.border}};background:{{c.bg}};color:{{c.fg}};font-weight:600;font-size:12.5px">{{c.label}}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
           <div style="display:flex;flex-direction:column;gap:6px">
             <span style="font-size:13px;font-weight:700">Paid with</span>
             <div style="display:flex;flex-wrap:wrap;gap:6px">
@@ -188,6 +211,16 @@
             <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid to</span><b>{{d.payee}}</b></span>
             <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Paid with</span><b>{{d.method}}</b></span>
             <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Entered by</span><b>{{d.by}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">For person</span><b>{{d.person}}</b></span>
+            <span style="display:flex;flex-direction:column"><span style="color:#5B6472;font-weight:600">Vehicle or property</span><b>{{d.object}}</b></span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-if value="{{d.canPerson}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{d.byPerson}}" style="height:38px;padding:0 12px;border-radius:10px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px">All for {{d.person}}</button>
+            </sc-if>
+            <sc-if value="{{d.canObject}}" hint-placeholder-val="{{false}}">
+              <button onClick="{{d.byObject}}" style="height:38px;padding:0 12px;border-radius:10px;border:1px solid #0F766E;background:#FFFFFF;color:#0B5C55;font-weight:700;font-size:13px">All for {{d.object}}</button>
+            </sc-if>
           </div>
           <div style="background:{{d.budgetBg}};border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px">
             <span style="font-size:11px;font-weight:700;letter-spacing:0.6px;color:{{d.budgetFg}}">{{d.budgetTitle}}</span>
@@ -213,8 +246,8 @@
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { tab: 'Transactions', cat: 'All', type: 'All', q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
-      form: { desc: '', amount: '', payee: '', cat: 'home', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
+    this.state = { tab: 'Transactions', cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', limit: 50, q: '', sel: 't13', adding: false, txns: null, rec: null, uploaded: {}, banner: '', n: 1,
+      form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } };
   }
   renderVals() {
     /*@SHARED*/
@@ -224,14 +257,35 @@ class Component extends DCLogic {
     const rec = st.rec || FIN.recurring;
     const hasRc = (t) => t.receipt || !!st.uploaded[t.id];
 
-    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k + ' · ' + (k === 'Transactions' ? txns.length : rec.length), on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
-    const catChips = [{ id: 'All', name: 'All' }].concat(FIN.cats).map((c) => ({ label: c.name, ...chipOf(st.cat === c.id), pick: () => this.setState({ cat: c.id }) }));
-    const typeChips = ['All', 'One-off', 'Recurring'].map((k) => ({ label: k === 'All' ? 'Any type' : k, ...chipOf(st.type === k), pick: () => this.setState({ type: k }) }));
+    const tabs = ['Transactions', 'Recurring'].map((k) => ({ label: k === 'Transactions' ? 'All transactions' : 'Recurring · ' + rec.length, on: st.tab === k, bg: st.tab === k ? '#FFFFFF' : 'transparent', weight: st.tab === k ? 800 : 600, pick: () => this.setState({ tab: k }) }));
+    // Every 2026 transaction: October (live) plus Jan–Sep history.
+    const all = txns.concat(FIN.history).slice().sort((a, b) => b.m - a.m || b.d - a.d);
+    const pName = (id) => (FIN.persons.find((x) => x.id === id) || {}).name || '';
+    const oName = (id) => (FIN.objects.find((x) => x.id === id) || {}).name || '';
     const q = st.q.trim().toLowerCase();
-    const filtered = txns.filter((t) => (st.cat === 'All' || t.cat === st.cat) && (st.type === 'All' || t.type === st.type) && (!q || (t.desc + ' ' + t.payee).toLowerCase().includes(q)));
-    const list = filtered.map((t) => {
+    const fv = { month: st.month, cat: st.cat === 'All' ? 'all' : st.cat, p: st.p, o: st.o, type: st.type === 'All' ? 'all' : st.type };
+    const field = { month: 'm', cat: 'cat', p: 'p', o: 'o', type: 'type' };
+    const match = (t, skip) => Object.keys(fv).every((k) => k === skip || fv[k] === 'all' || t[field[k]] === fv[k])
+      && (!q || (t.desc + ' ' + t.payee + ' ' + pName(t.p) + ' ' + oName(t.o)).toLowerCase().includes(q));
+    const filtered = all.filter((t) => match(t));
+    const setFilter = (k, v) => this.setState(k === 'cat' ? { cat: v === 'all' ? 'All' : v, limit: 50 } : k === 'type' ? { type: v === 'all' ? 'All' : v, limit: 50 } : { [k]: v, limit: 50 });
+    const opt = (k, v, label) => {
+      const n = v === 'all' ? null : all.filter((t) => match(t, k) && t[field[k]] === v).length;
+      return { label: n === null ? label : label + ' · ' + n, ...chipOf(fv[k] === v), pick: () => setFilter(k, v) };
+    };
+    const filterRows = [
+      { title: 'PERIOD', opts: [opt('month', 'all', 'All 2026')].concat([...Array(now.m + 1).keys()].reverse().map((m) => opt('month', m, MON[m]))) },
+      { title: 'CATEGORY', opts: [opt('cat', 'all', 'All')].concat(FIN.cats.map((c) => opt('cat', c.id, c.name))) },
+      { title: 'PERSON', opts: [opt('p', 'all', 'Anyone')].concat(FIN.persons.map((x) => opt('p', x.id, x.name))) },
+      { title: 'VEHICLE / PROPERTY', opts: [opt('o', 'all', 'Anything')].concat(FIN.objects.map((x) => opt('o', x.id, x.name))) },
+      { title: 'TYPE', opts: [opt('type', 'all', 'Any'), opt('type', 'One-off', 'One-off'), opt('type', 'Recurring', 'Recurring')] }
+    ];
+    const activeNames = [fv.month !== 'all' ? MONTHS[fv.month] : '', fv.cat !== 'all' ? catOf(fv.cat).name : '', pName(fv.p), oName(fv.o), fv.type !== 'all' ? fv.type : '', q ? '"' + st.q.trim() + '"' : ''].filter(Boolean);
+    const months = fv.month === 'all' ? now.m + 1 : 1;
+    const list = filtered.slice(0, st.limit).map((t) => {
       const on = !st.adding && t.id === st.sel, c = catOf(t.cat), rc = hasRc(t);
       return {
+        forText: [pName(t.p), oName(t.o)].filter(Boolean).join(' · ') || '—',
         ...t, on, date: dateText(t.m, t.d), catName: c.name, catBg: catColor[t.cat][0], catFg: catColor[t.cat][1], isRecurring: t.type === 'Recurring',
         amountText: num(t.amount), rcText: rc ? 'Yes' : 'Missing', rcBg: rc ? '#DDF1EE' : '#E3EAF7', rcFg: rc ? '#0B5C55' : '#1E3A8A',
         rowBg: on ? '#F0F8F6' : '#FFFFFF', mark: on ? 'inset 4px 0 0 #0F766E' : 'none',
@@ -248,14 +302,14 @@ class Component extends DCLogic {
         due: label(r), amountText: num(r.amount), status: s[0], stBg: s[1][0], stFg: s[1][1], canPay: !r.autopay && n <= 14,
         pay: () => {
           const step = r.freq === 'Yearly' ? 12 : r.freq === 'Quarterly' ? 3 : 1;
-          const t = { id: 'p' + st.n, m: now.m, d: now.d, desc: r.name, cat: r.cat, payee: r.name.split(' – ')[0], method: r.method, amount: r.amount, type: 'Recurring', receipt: false, by: 'Fatima Noor' };
+          const t = { id: 'p' + st.n, m: now.m, d: now.d, desc: r.name, cat: r.cat, p: '', o: '', payee: r.name.split(' – ')[0], method: r.method, amount: r.amount, type: 'Recurring', receipt: false, by: 'Fatima Noor' };
           this.setState({ txns: [t, ...txns], rec: rec.map((x) => (x.id === r.id ? { ...x, m: x.m + step } : x)), n: st.n + 1,
             banner: r.name + ' marked paid (' + aed(r.amount) + '). Next due ' + label({ m: r.m + step, d: r.d }) + '.' });
         }
       };
     });
 
-    const sel = txns.find((t) => t.id === st.sel);
+    const sel = all.find((t) => t.id === st.sel);
     let d = null;
     if (sel) {
       const c = catOf(sel.cat), cat = FIN.cats.find((x) => x.id === sel.cat);
@@ -267,7 +321,10 @@ class Component extends DCLogic {
         budgetTitle: c.name.toUpperCase() + ' · ' + MONTHS[sel.m].toUpperCase() + ' BUDGET', budgetBg: t[0], budgetFg: t[1], budgetBar: Math.min(100, pct * 100).toFixed(0) + '%',
         budgetLine: aed(used) + ' of ' + aed(alloc) + ' used (' + Math.round(pct * 100) + '%)',
         hasReceipt: hasRc(sel), noReceipt: !hasRc(sel), receiptName: 'Receipt_' + sel.d + MON[sel.m] + '.jpg',
-        upload: () => this.setState({ uploaded: { ...st.uploaded, [sel.id]: true }, banner: 'Receipt added to ' + sel.desc + '.' })
+        upload: () => this.setState({ uploaded: { ...st.uploaded, [sel.id]: true }, banner: 'Receipt added to ' + sel.desc + '.' }),
+        person: pName(sel.p) || '—', object: oName(sel.o) || '—', canPerson: !!sel.p, canObject: !!sel.o,
+        byPerson: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: sel.p, o: 'all', q: '', limit: 50 }),
+        byObject: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: sel.o, q: '', limit: 50 })
       };
     }
 
@@ -281,6 +338,8 @@ class Component extends DCLogic {
       ...fm,
       setDesc: (e) => setF({ desc: e.target.value }), setAmount: (e) => setF({ amount: e.target.value }), setPayee: (e) => setF({ payee: e.target.value }),
       cats: FIN.cats.map((c) => ({ label: c.name, ...choice(fm.cat === c.id), pick: pick('cat', c.id) })),
+      extra: [['p', 'For person', FIN.persons], ['o', 'Vehicle or property', FIN.objects]].map(([k, title, list]) => ({
+        title, opts: list.map((x) => ({ label: x.name, ...choice(fm[k] === x.id), pick: () => setF({ [k]: fm[k] === x.id ? '' : x.id }) })) })),
       methods: ['Card ••4417', 'Bank transfer', 'Petty cash', 'Fuel card'].map((k) => ({ label: k, ...choice(fm.method === k), pick: pick('method', k) })),
       types: ['One-off', 'Recurring'].map((k) => ({ label: k, on: fm.type === k, bg: fm.type === k ? '#FFFFFF' : 'transparent', weight: fm.type === k ? 800 : 600, pick: pick('type', k) })),
       isRecurring: fm.type === 'Recurring',
@@ -293,22 +352,26 @@ class Component extends DCLogic {
       save: () => {
         if (!ok) return;
         const id = 'n' + st.n;
-        const t = { id, m: now.m, d: now.d, desc: fm.desc.trim(), cat: fm.cat, payee: fm.payee.trim() || '—', method: fm.method, amount: amt, type: fm.type, receipt: fm.receipt, by: 'Fatima Noor' };
+        const t = { id, m: now.m, d: now.d, desc: fm.desc.trim(), cat: fm.cat, payee: fm.payee.trim() || '—', p: fm.p, o: fm.o, method: fm.method, amount: amt, type: fm.type, receipt: fm.receipt, by: 'Fatima Noor' };
         const step = fm.freq === 'Yearly' ? 12 : fm.freq === 'Quarterly' ? 3 : 1;
         const newRec = fm.type === 'Recurring' ? [...rec, { id: 'nr' + st.n, name: t.desc, cat: t.cat, freq: fm.freq, m: now.m + step, d: now.d, amount: amt, method: fm.method, autopay: false, note: '' }] : rec;
-        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, cat: 'All', type: 'All', q: '',
+        this.setState({ txns: [t, ...txns], rec: newRec, sel: id, adding: false, n: st.n + 1, cat: 'All', type: 'All', month: 'all', p: 'all', o: 'all', q: '',
           banner: 'Saved ' + t.desc + ' (' + aed(amt) + ')' + (fm.type === 'Recurring' ? ' and added it to Recurring.' : '.'),
-          form: { desc: '', amount: '', payee: '', cat: 'home', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
+          form: { desc: '', amount: '', payee: '', cat: 'home', p: '', o: 'villa', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false } });
       }
     };
 
     const oct = txns.filter((t) => t.m === now.m);
     const recOct = rec.filter((r) => r.m === now.m);
     return {
-      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', catChips, typeChips, list, isEmpty: list.length === 0,
+      tabs, isTxns: st.tab === 'Transactions', isRec: st.tab === 'Recurring', filterRows, list, isEmpty: list.length === 0,
+      resultTitle: activeNames.length ? 'Total for ' + activeNames.join(' · ') : 'Total spent in 2026 so far',
+      resultLine: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses') + (months > 1 && filtered.length ? ' · ≈ ' + aed(sum(filtered.map((t) => t.amount)) / months) + ' a month' : ''),
+      hasFilters: activeNames.length > 0, clearFilters: () => this.setState({ month: 'all', cat: 'All', type: 'All', p: 'all', o: 'all', q: '', limit: 50 }),
+      hasMore: filtered.length > st.limit, moreLabel: 'Show ' + Math.min(100, filtered.length - st.limit) + ' more (' + (filtered.length - st.limit) + ' older)', showMore: () => this.setState({ limit: st.limit + 100 }),
       listCount: filtered.length + (filtered.length === 1 ? ' expense' : ' expenses'), listTotal: aed(sum(filtered.map((t) => t.amount))),
       recList, recCount: rec.length + ' recurring payments', recMonthly: 'Monthly total ' + aed(sum(rec.filter((r) => r.freq === 'Monthly').map((r) => r.amount))),
-      q: st.q, search: (e) => this.setState({ q: e.target.value }),
+      q: st.q, search: (e) => this.setState({ q: e.target.value, limit: 50 }),
       octSpent: aed(sum(oct.map((t) => t.amount))), octCount: oct.length, recDue: aed(sum(recOct.map((r) => r.amount))),
       missing: txns.filter((t) => !hasRc(t)).length,
       showForm: st.adding, showDetail: !st.adding && !!d, d, f,

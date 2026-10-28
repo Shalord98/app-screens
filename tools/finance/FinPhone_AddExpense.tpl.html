@@ -1,13 +1,9 @@
 <!--@HEAD Add expense-->
 <div style="width:390px;height:844px;box-sizing:border-box;background:#F5F3EE;color:#14213D;display:flex;flex-direction:column;overflow:hidden;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif">
 
-  <div style="padding:20px 20px 10px;display:flex;align-items:center;gap:10px">
-    <a href="FinPhone_Transactions.dc.html" aria-label="Back to spending" style="width:44px;height:44px;border-radius:22px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;display:flex;align-items:center;justify-content:center;flex:none">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
-    <div style="display:flex;flex-direction:column">
-      <span style="font-size:12.5px;color:#5B6472;font-weight:500">Today, 20 Oct · Fatima Noor</span>
-      <h1 style="margin:0;font-size:22px;font-weight:800;letter-spacing:-0.3px">Add expense</h1>
-    </div>
+  <div style="padding:24px 20px 10px;display:flex;flex-direction:column;gap:2px">
+    <span style="font-size:13px;color:#5B6472;font-weight:500">Today, 20 Oct · Fatima Noor</span>
+    <h1 style="margin:0;font-size:26px;font-weight:800;letter-spacing:-0.5px">Add expense</h1>
   </div>
 
   <sc-if value="{{saved}}" hint-placeholder-val="{{false}}">
@@ -25,7 +21,7 @@
         </div>
       </div>
       <button onClick="{{again}}" style="height:50px;border-radius:14px;border:none;background:#0F766E;color:#FFFFFF;font-weight:700;font-size:15px">Add another expense</button>
-      <a href="FinPhone_Transactions.dc.html" style="height:50px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">View all spending</a>
+      <a href="FinPhone_Transactions.dc.html" style="height:50px;border-radius:14px;border:1px solid #D9D5CB;background:#FFFFFF;color:#14213D;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center">View recent</a>
     </div>
   </sc-if>
 
@@ -39,43 +35,49 @@
         <label for="eDesc" style="font-size:13px;font-weight:700">What was it for?</label>
         <input id="eDesc" value="{{f.desc}}" onChange="{{f.setDesc}}" placeholder="e.g. Petrol, groceries, visa fees" style="width:100%;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;background:#FFFFFF;color:#14213D">
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <label for="ePayee" style="font-size:13px;font-weight:700">Paid to</label>
-        <input id="ePayee" value="{{f.payee}}" onChange="{{f.setPayee}}" placeholder="Shop or company" style="width:100%;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;background:#FFFFFF;color:#14213D">
-      </div>
-      <sc-for list="{{f.groups}}" as="g" hint-placeholder-count="4">
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <span style="font-size:13px;font-weight:700">{{g.title}} <span style="font-weight:500;color:#5B6472">{{g.hint}}</span></span>
-          <div style="display:flex;flex-wrap:wrap;gap:6px">
-            <sc-for list="{{g.opts}}" as="o" hint-placeholder-count="5">
-              <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:38px;padding:0 13px;border-radius:19px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
-            </sc-for>
-          </div>
-        </div>
-      </sc-for>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <span style="font-size:13px;font-weight:700">Type</span>
-        <div style="display:flex;background:#E4E7EC;border-radius:12px;padding:3px">
-          <sc-for list="{{f.types}}" as="t" hint-placeholder-count="2">
-            <button onClick="{{t.pick}}" aria-pressed="{{t.on}}" style="flex:1;height:38px;border-radius:10px;border:none;background:{{t.bg}};color:#14213D;font-weight:{{t.weight}};font-size:13.5px">{{t.label}}</button>
+        <span style="font-size:13px;font-weight:700">Category</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <sc-for list="{{f.cats}}" as="o" hint-placeholder-count="7">
+            <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:38px;padding:0 13px;border-radius:19px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
           </sc-for>
         </div>
-        <sc-if value="{{f.isRecurring}}" hint-placeholder-val="{{false}}">
-          <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#FFFFFF;border:1px solid #E6E2D8;border-radius:12px;padding:10px 12px">
-            <span style="font-size:12.5px;font-weight:700;color:#5B6472">Repeats</span>
-            <sc-for list="{{f.freqs}}" as="o" hint-placeholder-count="3">
-              <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:34px;padding:0 12px;border-radius:17px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:12.5px">{{o.label}}</button>
-            </sc-for>
-          </div>
-        </sc-if>
       </div>
       <button onClick="{{f.toggleReceipt}}" style="min-height:52px;border:1px dashed {{f.rcBorder}};border-radius:12px;background:{{f.rcBg}};color:{{f.rcFg}};font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{f.rcLabel}}</button>
+      <button onClick="{{f.toggleMore}}" aria-expanded="{{f.more}}" style="min-height:44px;border:none;background:transparent;color:#0B5C55;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:space-between;padding:0 2px">
+        <span>{{f.moreLabel}}</span><span style="font-size:12.5px;color:#5B6472;font-weight:600">{{f.moreHint}}</span></button>
+      <sc-if value="{{f.more}}" hint-placeholder-val="{{false}}">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="ePayee" style="font-size:13px;font-weight:700">Paid to</label>
+          <input id="ePayee" value="{{f.payee}}" onChange="{{f.setPayee}}" placeholder="Shop or company" style="width:100%;min-width:0;height:48px;box-sizing:border-box;border:1px solid #D9D5CB;border-radius:12px;padding:0 14px;font-size:15px;background:#FFFFFF;color:#14213D">
+        </div>
+        <sc-for list="{{f.groups}}" as="g" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:13px;font-weight:700">{{g.title}}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{g.opts}}" as="o" hint-placeholder-count="5">
+                <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:36px;padding:0 12px;border-radius:18px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:700">Repeats</span>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{f.freqs}}" as="o" hint-placeholder-count="4">
+              <button onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="height:36px;padding:0 12px;border-radius:18px;border:1px solid {{o.border}};background:{{o.bg}};color:{{o.fg}};font-weight:600;font-size:13px">{{o.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
     </div>
     <div style="padding:10px 20px 18px;background:#F5F3EE;border-top:1px solid #E6E2D8">
       <button onClick="{{f.save}}" disabled="{{f.saveDisabled}}" style="width:100%;height:52px;border-radius:14px;border:none;background:{{f.saveBg}};color:#FFFFFF;font-weight:700;font-size:16px">{{f.saveLabel}}</button>
     </div>
   </sc-if>
+
+<!--@TABS FinPhone_AddExpense.dc.html-->
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
@@ -84,7 +86,7 @@ class Component extends DCLogic {
     super(props);
     this.state = { form: this.blank(), last: null };
   }
-  blank() { return { amount: '', desc: '', payee: '', cat: 'veh', p: '', o: 'lc', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false }; }
+  blank() { return { amount: '', desc: '', payee: '', cat: '', p: '', o: '', method: 'Card ••4417', type: 'One-off', freq: 'Monthly', receipt: false, more: false }; }
   renderVals() {
     /*@SHARED*/
     const st = this.state, fm = st.form;
@@ -93,23 +95,27 @@ class Component extends DCLogic {
     // Person and object are optional: tapping the selected one again clears it.
     const opts = (key, list, optional) => list.map((x) => ({ label: x.name, ...choice(fm[key] === x.id), pick: () => setF({ [key]: optional && fm[key] === x.id ? '' : x.id }) }));
     const amt = Number(String(fm.amount).replace(/[^0-9.]/g, ''));
-    const ok = fm.desc.trim().length > 0 && amt > 0;
+    const ok = fm.desc.trim().length > 0 && amt > 0 && !!fm.cat;
     const f = {
       ...fm,
       setAmount: (e) => setF({ amount: e.target.value }), setDesc: (e) => setF({ desc: e.target.value }), setPayee: (e) => setF({ payee: e.target.value }),
+      cats: opts('cat', FIN.cats, false),
+      more: fm.more, toggleMore: () => setF({ more: !fm.more }),
+      moreLabel: fm.more ? 'Hide details' : 'More details (optional)',
+      moreHint: fm.more ? '' : [(FIN.persons.find((x) => x.id === fm.p) || {}).name, (FIN.objects.find((x) => x.id === fm.o) || {}).name, fm.type === 'Recurring' ? 'repeats ' + fm.freq.toLowerCase() : ''].filter(Boolean).join(' · ') || 'person, vehicle, paid with',
       groups: [
-        { title: 'Category', hint: '', opts: opts('cat', FIN.cats, false) },
-        { title: 'For person', hint: '(optional)', opts: opts('p', FIN.persons, true) },
-        { title: 'Vehicle or property', hint: '(optional)', opts: opts('o', FIN.objects, true) },
-        { title: 'Paid with', hint: '', opts: ['Card ••4417', 'Bank transfer', 'Petty cash', 'Fuel card'].map((k) => ({ label: k, ...choice(fm.method === k), pick: () => setF({ method: k }) })) }
+        { title: 'For person', opts: opts('p', FIN.persons, true) },
+        { title: 'Vehicle or property', opts: opts('o', FIN.objects, true) },
+        { title: 'Paid with', opts: ['Card ••4417', 'Bank transfer', 'Petty cash', 'Fuel card'].map((k) => ({ label: k, ...choice(fm.method === k), pick: () => setF({ method: k }) })) }
       ],
-      types: ['One-off', 'Recurring'].map((k) => ({ label: k, on: fm.type === k, bg: fm.type === k ? '#FFFFFF' : 'transparent', weight: fm.type === k ? 800 : 600, pick: () => setF({ type: k }) })),
-      isRecurring: fm.type === 'Recurring',
-      freqs: ['Monthly', 'Quarterly', 'Yearly'].map((k) => ({ label: k, ...choice(fm.freq === k), pick: () => setF({ freq: k }) })),
+      freqs: [['One-off', 'No'], ['Monthly', 'Monthly'], ['Quarterly', 'Quarterly'], ['Yearly', 'Yearly']].map(([k, label]) => {
+        const on = k === 'One-off' ? fm.type === 'One-off' : fm.type === 'Recurring' && fm.freq === k;
+        return { label, ...choice(on), pick: () => setF(k === 'One-off' ? { type: 'One-off' } : { type: 'Recurring', freq: k }) };
+      }),
       rcLabel: fm.receipt ? 'Receipt photo added · tap to remove' : 'Take a photo of the receipt',
       rcBorder: fm.receipt ? '#0F766E' : '#9AA3AF', rcBg: fm.receipt ? '#DDF1EE' : '#FFFFFF', rcFg: fm.receipt ? '#0B5C55' : '#3D4654',
       toggleReceipt: () => setF({ receipt: !fm.receipt }),
-      saveDisabled: !ok, saveBg: ok ? '#0F766E' : '#9FB8B5', saveLabel: ok ? 'Save ' + aed(amt) : 'Enter amount and description',
+      saveDisabled: !ok, saveBg: ok ? '#0F766E' : '#9FB8B5', saveLabel: ok ? 'Save ' + aed(amt) : !(amt > 0) ? 'Enter the amount' : !fm.desc.trim() ? 'Say what it was for' : 'Pick a category',
       save: () => { if (ok) this.setState({ last: { ...fm, amount: amt }, form: this.blank() }); }
     };
     let last = {};
